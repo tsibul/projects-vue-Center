@@ -61,8 +61,9 @@ export default {
         // Обработка ошибок, если необходимо
         console.error('Ошибка при входе пользователя:', error);
         throw error;
+      } finally {
+        this.closeForm();
       }
-      this.closeForm();
     },
   }
 }
