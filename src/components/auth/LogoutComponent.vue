@@ -29,7 +29,7 @@ export default {
       this.$emit('closeForm');
     },
     logout() {
-      localStorage.removeItem('userToken');
+      localStorage.removeItem('maketUserToken');
       this.$store.commit('setUser', null);
       this.closeForm();
     },
