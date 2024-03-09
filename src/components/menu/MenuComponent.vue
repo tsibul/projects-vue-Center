@@ -8,9 +8,9 @@ import MenuRightComponent from "@/components/menu/MenuRightComponent.vue";
   <header class="header">
     <div class="container">
       <menu class="menu">
-        <MenuLeftComponent :menuItems="menuItems"/>
-<!--        <MenuRightComponent :currentUser="currentUser" />-->
-        <MenuRightComponent />
+        <MenuLeftComponent :menuItems="menuItems" @item-selected="handleItemSelected"/>
+        <!--        <MenuRightComponent :currentUser="currentUser" />-->
+        <MenuRightComponent/>
       </menu>
     </div>
   </header>
@@ -18,9 +18,20 @@ import MenuRightComponent from "@/components/menu/MenuRightComponent.vue";
 <script>
 export default {
   name: 'MenuComponent',
+  data() {
+    return {
+      selectedItem: null
+    }
+  },
   props: {
     menuItems: Object,
     // currentUser: Object
+  },
+  methods: {
+    handleItemSelected(selectedItem) {
+      this.selectedItem = selectedItem;
+      this.$emit('item-selected', this.selectedItem);
+    }
   }
 }
 </script>
