@@ -3,7 +3,12 @@ import MenuComponent from "@/components/menu/MenuComponent.vue";
 </script>
 
 <template>
-  <MenuComponent :menuItems="menuItems"/>
+  <MenuComponent :menuItems="menuItems" @item-selected="handleItemSelected"/>
+  <div class="full-content">
+    <div class="container">
+      <component :is="menuItems[selectedItem]"></component>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -11,23 +16,25 @@ import OrderComponent from "@/components/maket/OrderComponent.vue";
 import MaketComponent from "@/components/maket/MaketComponent.vue";
 import FilmComponent from "@/components/maket/FilmComponent.vue";
 import TemplateComponent from "@/components/maket/TemplateComponent.vue";
-import SettingsComponent from "@/components/Settings/SettingsComponent.vue";
+import SettingsComponent from "@/components/settings/SettingsComponent.vue";
 import FilesComponent from "@/components/maket/FilesComponent.vue";
 import ErrorsComponent from "@/components/maket/ErrorsComponent.vue";
 import {mapState, mapMutations} from 'vuex';
 import axios from "axios";
+import {markRaw} from "vue";
 
 export default {
   name: 'MaketApp',
   provide() {
     return {
       appUrl: 'http://127.0.0.1:5200/maket5_0/',
-      currentUser: null,
+      // currentUser: this.$store.getters.getUser,
     };
   },
   data() {
     return {
-      menuItems: {
+      menuItems: {'Вход не выполнен': ''},
+      defaultItems: markRaw({
         'Заказы': OrderComponent,
         'Макеты': MaketComponent,
         'Пленки': FilmComponent,
@@ -35,17 +42,25 @@ export default {
         'Настройки': SettingsComponent,
         'Файлы': FilesComponent,
         'Ошибки': ErrorsComponent
-      },
+      }),
+      selectedItem: null
+      // this.menuItems[Object.keys(this.menuItems)[0]]
     }
   },
   created() {
     (async () => {
       await this.setUser();
-      // Здесь можно продолжить синхронный код, который зависит от setUser
+      if (this.$store.getters.getUser) {
+        this.menuItems = this.defaultItems;
+      }
     })();
   },
   methods: {
     ...mapMutations(['setUser']),
+
+    handleItemSelected(selectedItem) {
+      this.selectedItem = selectedItem;
+    },
 
     async setUser() {
       const token = localStorage.getItem('maketUserToken');
@@ -56,7 +71,6 @@ export default {
             'Authorization': `Bearer ${token}`,
           },
         });
-        console.log(userResponse.data);
         this.$store.commit('setUser', userResponse.data);
       } else {
         return null
@@ -65,6 +79,12 @@ export default {
 
     handleUserChange() {
       this.currentUser = this.$store.getters.getUser;
+      if (this.currentUser) {
+        this.menuItems = this.defaultItems;
+        this.selectedItem = 'Заказы';
+      } else {
+        this.menuItems = {'Вход не выполнен': ''}
+      }
     },
   },
   computed: {
@@ -157,6 +177,7 @@ export default {
 
   &__left {
     display: flex;
+    transition: all 0.4s ease-in;
   }
 
   &__right {
@@ -174,7 +195,7 @@ export default {
     border: 1px solid transparent;
     border-radius: 10px;
     margin: 4px;
-    transition: all 0.1s ease-out;
+    transition: all 0.2s ease-out;
 
     &:hover {
       color: $colorPrimary800;
@@ -203,6 +224,11 @@ export default {
     color: $colorPrimary800;
   }
 }
+
+.checkbox-out {
+  display: none;
+}
+
 
 @media (max-width: 767px) {
   .menu {
