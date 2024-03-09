@@ -22,9 +22,10 @@ export default {
   props: {
     menuItems: Object
   },
+  emits: ['item-selected'],
   data() {
     return {
-      chosenItem: null
+      selectedItem: null
     };
   },
   methods: {
@@ -35,6 +36,8 @@ export default {
       }
       event.currentTarget.classList.add('active');
       this.selectedItem = item;
+      this.$emit('item-selected', this.selectedItem);
+
     }
   }
 }
