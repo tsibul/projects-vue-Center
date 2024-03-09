@@ -6,7 +6,7 @@ import AuthComponent from "@/components/auth/AuthComponent.vue";
 <template>
   <nav class="menu__right">
     <AuthComponent  />
-    <div class="menu__item">Макеты&nbsp;v5.0.0</div>
+    <div class="menu__item">Макеты&nbsp;v5.1.0</div>
   </nav>
 </template>
 
