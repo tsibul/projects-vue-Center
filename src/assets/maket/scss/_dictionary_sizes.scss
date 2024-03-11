@@ -2,7 +2,13 @@
   grid-template-columns: 2fr 1fr 2fr 2fr 3fr 1fr 2fr;
 }
 
-.color-block {
+.color-block,
+.good-block,
+.detailitem-block,
+.detailimage-block,
+.customergroup-block,
+.customer-block,
+{
   max-width: 1600px;
   grid-column: 1 / 5;
 }
@@ -12,7 +18,7 @@
 .printplace-row,
 .printposition-row,
 .printtype-row,
-.typegroup-row
+.typegroup-row,
 {
   grid-template-columns: 3fr 1fr;
 }
@@ -26,7 +32,7 @@
 .colorscheme-block,
 .regiontofedregion-block,
 .typegroup-block,
-.customertype-block
+.customertype-block,
 {
   max-width: 800px;
   grid-column: span 2;
@@ -34,16 +40,34 @@
 
 .detailimagesset-row,
 .colorscheme-row,
-.regiontofedregion-row
+.regiontofedregion-row,
 {
   grid-template-columns: 2fr 2fr 1fr;
 }
 
-.customertype-row
-{
+.customertype-row {
   grid-template-columns: 2fr 1fr 1fr 2fr 1fr;
 }
 
+.good-row{
+  grid-template-columns: 2fr 1fr 2fr 1fr 1fr;
+}
+
+.detailitem-row{
+  grid-template-columns: repeat(4, 2fr) repeat(4, 1fr) ;
+}
+
+.detailimage-row{
+  grid-template-columns: 2fr 2fr 1fr 1fr 2fr 1fr;
+}
+
+.customergroup-row{
+  grid-template-columns: repeat(4, 2fr) 1fr 2fr 1fr;
+}
+
+.customer-row{
+  grid-template-columns: 1fr 2fr 3fr 2fr 1fr 2fr 2fr 1fr 2fr 2fr 2fr 1fr;
+}
 
 //&__2 {
 //  max-width: 800px;
