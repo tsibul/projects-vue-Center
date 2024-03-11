@@ -6,9 +6,11 @@ import {createStore} from 'vuex';
 export default createStore({
     state: {
         user: null,
+        fieldData: null
     },
     getters: {
         getUser: (state) => state.user,
+        getFieldData: (state) => state.fieldData
     },
     mutations: {
         setUser(state, user) {
@@ -17,6 +19,12 @@ export default createStore({
         clearUser(state) {
             state.user = null;
         },
+        setFieldData(state, fieldData){
+            state.fieldData = fieldData;
+        },
+        clearFieldData(state){
+            state.fieldData = null;
+        }
 
     },
     actions: {
