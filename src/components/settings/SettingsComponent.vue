@@ -6,8 +6,8 @@ import SettingsRightComponent from "@/components/settings/SettingsRightComponent
 
 <template>
   <div class="dict-main">
-    <SettingsLeftComponent />
-    <SettingsRightComponent />
+    <SettingsLeftComponent @dictChecked="receivedCheck"/>
+    <SettingsRightComponent :checkedData="chosenDictionary"/>
   </div>
 
 </template>
@@ -17,8 +17,14 @@ export default {
   name: 'SettingsComponent',
   data (){
     return {
-      user: this.$store.getters.getUser
+      user: this.$store.getters.getUser,
+      chosenDictionary: null,
     }
+  },
+  methods: {
+    receivedCheck (data){
+      this.chosenDictionary = data;
+    },
   }
 }
 </script>
