@@ -25,7 +25,8 @@
 .detailimagesset-block,
 .colorscheme-block,
 .regiontofedregion-block,
-.typegroup-block
+.typegroup-block,
+.customertype-block
 {
   max-width: 800px;
   grid-column: span 2;
@@ -36,6 +37,11 @@
 .regiontofedregion-row
 {
   grid-template-columns: 2fr 2fr 1fr;
+}
+
+.customertype-row
+{
+  grid-template-columns: 2fr 1fr 1fr 2fr 1fr;
 }
 
 
