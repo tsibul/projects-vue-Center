@@ -6,10 +6,12 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 <template>
   <div class="dict-menu">
     <details class="dict-menu__details" v-for="clause in menuStructure" :key="clause.id">
-      <summary class="dict-menu__header">{{clause.name}}</summary>
+      <summary class="dict-menu__header">{{ clause.name }}</summary>
       <div class="dict-menu__item" v-for="dictionary in clause.contents" :key="dictionary.id">
-        <input type="checkbox" class="checkbox-out" id="{{dictionary.class}}">
-        <label for=""><font-awesome-icon :icon="['fas', clause.iconUrl]" />&nbsp;{{dictionary.name}}</label>
+        <input type="checkbox" class="checkbox-out" :id="dictionary.class"
+               @change="chooseDictionary(dictionary, $event.target, clause.iconUrl)">
+        <label :for="dictionary.class" >
+          <font-awesome-icon :icon="['fas', clause.iconUrl]" class="fa-flip"/>&nbsp;{{ dictionary.name }}</label>
       </div>
     </details>
 
@@ -49,6 +51,16 @@ export default {
         return null
       }
     },
+    chooseDictionary(dictionary, target, icon) {
+      this.$emit('dictChecked', {
+        'dictionaryName': dictionary.class,
+        'dictionaryLabel': dictionary.name,
+        'icon': icon,
+        'checked': target.checked
+      });
+      const labelElement = target.nextElementSibling;
+      labelElement.classList.toggle('active');
+    }
   }
 }
 </script>
