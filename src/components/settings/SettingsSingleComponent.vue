@@ -65,7 +65,8 @@ export default {
   flex-direction: column;
   overflow: hidden;
   box-shadow: 6px 6px 12px $colorPrimary800;
-  height: 770px;
+  //height: 770px;
+  max-height: calc(100vh - 120px);
   grid-row: span 4;
 
   &_adm {
@@ -76,7 +77,7 @@ export default {
     background-color: $colorPrimary600;
     border-radius: 10px;
     @include d-flex-center(center);
-    cursor: pointer;
+    //cursor: pointer;
     padding: 20px;
     justify-content: space-between;
   }
@@ -116,9 +117,9 @@ export default {
       background-color: $colorPrimary200;
     }
 
-    &_hidden {
-      display: none;
-    }
+    //&_hidden {
+    //  display: none;
+    //}
   }
 
   &__content {
@@ -150,9 +151,9 @@ export default {
     }
 
 
-    &[open] {
-      max-height: calc(100vh - 120px);
-    }
+    //&[open] {
+    //  max-height: calc(100vh - 120px);
+    //}
   }
 }
 
