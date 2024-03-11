@@ -1,0 +1,61 @@
+.color-row {
+  grid-template-columns: 2fr 1fr 2fr 2fr 3fr 1fr 2fr;
+}
+
+.color-block {
+  max-width: 1600px;
+  grid-column: 1 / 5;
+}
+
+.materialtype-row,
+.fedregion-row,
+.printplace-row,
+.printposition-row,
+.printtype-row,
+.typegroup-row
+{
+  grid-template-columns: 3fr 1fr;
+}
+
+.materialtype-block,
+.fedregion-block,
+.printplace-block,
+.printposition-block,
+.printtype-block,
+.detailimagesset-block,
+.colorscheme-block,
+.regiontofedregion-block,
+.typegroup-block
+{
+  max-width: 800px;
+  grid-column: span 2;
+}
+
+.detailimagesset-row,
+.colorscheme-row,
+.regiontofedregion-row
+{
+  grid-template-columns: 2fr 2fr 1fr;
+}
+
+
+//&__2 {
+//  max-width: 800px;
+//  grid-column: span 2;
+//}
+//
+//&__3 {
+//  max-width: 1200px;
+//  grid-column: 1 / 4;
+//}
+//
+//&__4 {
+//  max-width: 1600px;
+//  grid-column: 1 / 5;
+//}
+//
+//&__5 {
+//  max-width: 1600px;
+//  grid-column: 1 / 6;
+//}
+
