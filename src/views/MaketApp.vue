@@ -54,6 +54,9 @@ export default {
         this.menuItems = this.defaultItems;
       }
     })();
+    (async () => {
+      await this.setFieldsStructure();
+    })();
   },
   methods: {
     ...mapMutations(['setUser']),
@@ -72,6 +75,20 @@ export default {
           },
         });
         this.$store.commit('setUser', userResponse.data);
+      } else {
+        return null
+      }
+    },
+    async setFieldsStructure(){
+      const token = localStorage.getItem('maketUserToken');
+      if (token) {
+        const fieldsUrl =  'http://127.0.0.1:5200/maket5_0/settings/fields/';
+        const userResponse = await axios.get(fieldsUrl, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        this.$store.commit('setFieldData', userResponse.data);
       } else {
         return null
       }
@@ -229,6 +246,51 @@ export default {
   display: none;
 }
 
+.form {
+  &-row {
+    display: grid;
+    grid-column: 1/ -1;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+
+    &__double {
+      grid-column: span 2;
+    }
+  }
+
+  &-select {
+    margin-bottom: 6px;
+    @include brd-standard;
+    font-size: 16px;
+    padding: 8px 6px;
+    background-color: $colorSecondary100;
+  }
+
+  &-input {
+    @include brd-standard;
+    padding: 8px 4px;
+    background-color: $colorSecondary100;
+
+    &_stop {
+      width: 100%;
+    }
+
+    &__inactive {
+      opacity: 0.5;
+    }
+  }
+
+}
+
+.search-block {
+  @include d-flex-center('flex-end');
+  gap: 10px;
+
+  &__form-input {
+    min-width: 390px;
+  }
+}
 
 @media (max-width: 767px) {
   .menu {
