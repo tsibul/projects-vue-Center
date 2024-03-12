@@ -236,6 +236,7 @@ export default {
 
 .fa {
   padding: 0 4px;
+  height: 12px;
 
   &-arrows-to-circle {
     color: $colorPrimary800;
