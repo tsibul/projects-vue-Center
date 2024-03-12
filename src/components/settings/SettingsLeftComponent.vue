@@ -1,32 +1,30 @@
 <script setup>
 
-import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import SettingsLeftSingleComponent from "@/components/settings/SettingsLeftSingleComponent.vue";
 </script>
 
 <template>
   <div class="dict-menu">
     <details class="dict-menu__details" v-for="clause in menuStructure" :key="clause.id">
       <summary class="dict-menu__header">{{ clause.name }}</summary>
-      <div class="dict-menu__item" v-for="dictionary in clause.contents" :key="dictionary.id">
-        <input type="checkbox" class="checkbox-out" :id="dictionary.class"
-               @change="chooseDictionary(dictionary, $event.target, clause.iconUrl)">
-        <label :for="dictionary.class" >
-          <font-awesome-icon :icon="['fas', clause.iconUrl]" class="fa-flip"/>&nbsp;{{ dictionary.name }}</label>
-      </div>
+      <SettingsLeftSingleComponent v-for="dictionary in clause.contents" :key="dictionary.id"
+      :dictionary="dictionary" :icon="clause.iconUrl" @dictChecked="receivedCheck"/>
     </details>
 
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import {fetchData} from "@/components/services/fetchData.js";
 
 export default {
   name: 'SettingsLeftComponent',
   inject: ['appUrl'],
   data() {
     return {
-      menuStructure: null
+      menuStructure: null,
+      flip: false,
+      dictChecked: null
     }
   },
   created() {
@@ -37,30 +35,15 @@ export default {
   },
 
   methods: {
-    async getStructure() {
-      const token = localStorage.getItem('maketUserToken');
-      if (token) {
-        const statusUrl = this.appUrl + 'settings/structure/';
-        const userResponse = await axios.get(statusUrl, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
-        this.menuStructure = userResponse.data;
-      } else {
-        return null
-      }
+    receivedCheck (data){
+      this.dictChecked = data;
+      this.$emit('dictChecked', data);
     },
-    chooseDictionary(dictionary, target, icon) {
-      this.$emit('dictChecked', {
-        'dictionaryName': dictionary.class,
-        'dictionaryLabel': dictionary.name,
-        'icon': icon,
-        'checked': target.checked
-      });
-      const labelElement = target.nextElementSibling;
-      labelElement.classList.toggle('active');
-    }
+    async getStructure() {
+      const tokenName = 'maketUserToken';
+      const statusUrl = this.appUrl + 'settings/structure/';
+      this.menuStructure = await fetchData(statusUrl, tokenName)
+    },
   }
 }
 </script>
@@ -102,32 +85,6 @@ export default {
       background-color: $colorPrimary200;
     }
   }
-
-  &__item {
-
-    cursor: pointer;
-    border: 1px solid transparent;
-    border-radius: 10px;
-    //background-color: $colorSecondary100;
-    font-size: 16px;
-    text-align: start;
-
-    & label {
-      padding: 16px 10px 16px 20px;
-      display: flex;
-      align-items: center;
-    }
-
-    & i {
-      font-size: 10px;
-    }
-
-    &:hover {
-      font-weight: bold;
-      background-color: $colorPrimary200;
-    }
-  }
-
 }
 
 </style>
