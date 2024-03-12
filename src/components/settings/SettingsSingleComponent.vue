@@ -1,29 +1,32 @@
 <script setup>
 
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import TitleRowComponent from "@/components/settings/TitleRowComponent.vue";
+import DataRowSetComponent from "@/components/settings/DataRowSetComponent.vue";
+import SettingsFormRowComponent from "@/components/settings/SettingsFormRowComponent.vue";
 </script>
 
 <template>
   <div class="dict-block" :class="dictBlockClass">
     <div class="dict-block__header active">
       <div>
-        <font-awesome-icon :icon="['fas', icon]" class="fa-flip"/>
+        <font-awesome-icon :icon="['fas', icon]" class="fa fa-flip"/>
         {{ label }}
       </div>
       <div class="dict-block__search">
         <font-awesome-icon :icon="['fas', 'magnifying-glass']"/>
-        <input type="text" class="form-input dict-block__form-input"
+        <input v-model="searchInput" type="text" class="form-input dict-block__form-input"
                placeholder="искать...">
-        <button class="btn btn-save" type="button">поиск</button>
-        <button class="btn btn-close" type="button">очистить</button>
+        <button class="btn btn-save" type="button" @click="search">поиск</button>
+        <button class="btn btn-close" type="button" @click="clearInput">очистить</button>
       </div>
     </div>
-    <div class="dict-block__row active dict-block__row_right-margin" :class="rowClass">
-      <div v-for="fieldName in fieldsData[dictionaryName]" :key="fieldName.id">{{ fieldName.label }}</div>
-      <button class="btn btn-save">добавить</button>
-    </div>
-    <div class="dict-block__content">
-    </div>
+    <TitleRowComponent :dictionaryName="dictionaryName" :fieldsData="fieldsData" :rowClass="rowClass"
+                       @showNewRecord="handleShowNewRecord"/>
+    <SettingsFormRowComponent v-if="showNewRecord" :dictionaryName="dictionaryName" :fieldsData="fieldsData"
+                              :rowClass="rowClass"/>
+    <DataRowSetComponent :dictionaryName="dictionaryName" :fieldsData="fieldsData" :rowClass="rowClass"
+                         :searchString="searchString" :dictionaryOrder="order"/>
   </div><!-- цвета -->
 
 </template>
@@ -36,20 +39,44 @@ export default {
     label: String,
     icon: String,
   },
+  data() {
+    return {
+      showNewRecord: false,
+      searchInput: '',
+      searchString: 'default',
+      order: 'default'
+    }
+  },
+  methods: {
+    search() {
+      if (this.searchInput !== '') {
+        this.searchString = this.searchInput.replace(' ', '_');
+      } else {
+        this.searchString = 'default';
+      }
+    },
+    clearInput() {
+      this.searchInput = '';
+    },
+    handleShowNewRecord() {
+      this.showNewRecord = true;
+    }
+  },
   computed: {
     fieldsData() {
       return this.$store.getters.getFieldData;
     },
-    dictBlockClass(){
+    dictBlockClass() {
       return {
-        [this.dictionaryName.toLowerCase() + '-block'] : true
+        [this.dictionaryName.toLowerCase() + '-block']: true
       }
     },
-    rowClass(){
+    rowClass() {
       return {
-      [this.dictionaryName.toLowerCase() + '-row'] : true
-    }
-    }
+        [this.dictionaryName.toLowerCase() + '-row']: true
+      }
+    },
+    // eslint-disable-next-line vue/return-in-computed-property
   }
 }
 </script>
@@ -109,10 +136,6 @@ export default {
     cursor: pointer;
     flex-wrap: nowrap;
 
-    &_right-margin {
-      margin-right: 19px;
-    }
-
     &:not(.active):hover {
       background-color: $colorPrimary200;
     }
@@ -120,18 +143,6 @@ export default {
     //&_hidden {
     //  display: none;
     //}
-  }
-
-  &__content {
-    overflow-y: scroll;
-    height: calc(100% - 130px);
-    min-height: 160px;
-
-    &_adm {
-      //height: calc(100vh - 200px);
-      overflow-y: scroll;
-      min-height: 220px;
-    }
   }
 
   &__text {
