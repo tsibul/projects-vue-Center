@@ -11,7 +11,7 @@ import DataRowSingleComponent from "@/components/settings/DataRowSingleComponent
         :rowData="rowData"
         :rowClass="rowClass"
         :dataset-id="rowData.id"
-        v-on:mouseover="index === lastRecord ? handleMouseOver(index) : null"
+        v-on:mouseover="index + 1 === lastRecord ? handleMouseOver() : null"
     />
   </div>
 </template>
@@ -42,21 +42,22 @@ export default {
     })();
   },
   methods: {
-    handleMouseOver(index) {
+    async handleMouseOver() {
       // Обработчик события mouseover
-      console.log(`Mouseover on row with data-record=${index}`);
+      await this.fetchDictionaryData();
     },
     async fetchDictionaryData() {
       const tokenName = 'maketUserToken';
       const statusUrl = this.appUrl +
           `dictionary_data/${this.dictionaryName}/${this.lastRecord}/${this.dictionaryOrder}/${this.searchString}/${this.showDeleted}`;
       if (this.dictionaryData) {
-        this.dictionaryData.concat(await fetchData(statusUrl, tokenName));
+        const newData = await fetchData(statusUrl, tokenName);
+        this.dictionaryData = [...this.dictionaryData, ...newData];
       } else {
         this.dictionaryData = await fetchData(statusUrl, tokenName);
       }
       if (this.dictionaryData.length) {
-        this.lastRecord = this.dictionaryData.length - 1;
+        this.lastRecord = this.dictionaryData.length;
       }
     },
     async filterChange() {
