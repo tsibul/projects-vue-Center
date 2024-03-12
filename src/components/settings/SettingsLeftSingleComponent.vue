@@ -49,7 +49,6 @@ export default {
 
 .dict-menu {
   &__item {
-    cursor: pointer;
     border: 1px solid transparent;
     border-radius: 10px;
     //background-color: $colorSecondary100;
@@ -60,6 +59,7 @@ export default {
       padding: 16px 10px 16px 20px;
       display: flex;
       align-items: center;
+      cursor: pointer;
     }
 
     &:hover {
