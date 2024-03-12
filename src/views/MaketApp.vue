@@ -186,6 +186,7 @@ export default {
   width: 100%;
   background-color: $colorPrimary400;
   z-index: 20;
+  cursor: pointer;
 }
 
 .menu {
