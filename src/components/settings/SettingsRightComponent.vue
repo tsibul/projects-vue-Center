@@ -5,7 +5,7 @@ import SettingsSingleComponent from "@/components/settings/SettingsSingleCompone
 
 <template>
   <div class="dict-right">
-    <SettingsSingleComponent v-for="item in dictionariesReady" :key="item.id"
+    <SettingsSingleComponent v-for="item in dictionariesReady" :key="item['name']"
                              :style="showState[item]['checked'] ? 'display:flex' : 'display:none'"
                              :dictionaryName="item" :icon="showState[item]['icon']" :label="showState[item]['label']"
     />
@@ -32,7 +32,6 @@ export default {
   },
   created() {
     this.showDictState();
-    console.log(this.checkedData)
   },
   watch: {
     checkedData: {
@@ -53,7 +52,7 @@ export default {
       if (checked && !state) {
         this.showState[dictionaryName] = {'checked': true, 'ready': true, 'label': dictionaryLabel, 'icon': icon};
         this.dictionariesReady.push(dictionaryName);
-        this.dictionariesReady.sort()
+        // this.dictionariesReady.sort()
       } else this.showState[dictionaryName]['checked'] = !(!checked && state);
     },
   },
