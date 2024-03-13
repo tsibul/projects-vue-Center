@@ -21,12 +21,19 @@ import SettingsFormRowComponent from "@/components/settings/SettingsFormRowCompo
         <button class="btn btn-close" type="button" @click="clearInput">очистить</button>
       </div>
     </div>
-    <TitleRowComponent :dictionaryName="dictionaryName" :fieldsData="fieldsData" :rowClass="rowClass"
+    <TitleRowComponent :dictionaryName="dictionaryName"
+                       :fieldsData="fieldsData"
+                       :rowClass="rowClass"
                        @showNewRecord="handleShowNewRecord"/>
-    <SettingsFormRowComponent v-if="showNewRecord" :dictionaryName="dictionaryName" :fieldsData="fieldsData"
+    <SettingsFormRowComponent v-if="showNewRecord"
+                              :dictionaryName="dictionaryName"
+                              :dictionaryFields="fieldsData[dictionaryName]"
                               :rowClass="rowClass"/>
-    <DataRowSetComponent :dictionaryName="dictionaryName" :fieldsData="fieldsData" :rowClass="rowClass"
-                         :searchString="searchString" :dictionaryOrder="order"/>
+    <DataRowSetComponent :dictionaryName="dictionaryName"
+                         :fieldsData="fieldsData"
+                         :rowClass="rowClass"
+                         :searchString="searchString"
+                         :dictionaryOrder="order"/>
   </div><!-- цвета -->
 
 </template>
