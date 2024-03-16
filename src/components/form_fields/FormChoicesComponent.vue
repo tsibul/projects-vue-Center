@@ -4,12 +4,12 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 
 <template>
   <div class="dropdown report_dropdown dropdown_dict">
-    <input type="text" class="dropdown__hidden" :name="fieldName" :value="fieldValue">
-    <div class="dropdown__input-block">
+    <input type="text" class="dropdown__hidden" :name="field['field']" :value="fieldValue">
+    <div class="dropdown__input-block" @click.stop="toggleDropdown">
       <input type="text" class="dropdown__input dropdown__input_dict" :value="fieldValue">
       <font-awesome-icon :icon="['fas', 'angle-down']" />
     </div>
-    <ul class="dropdown__content">
+    <ul class="dropdown__content" v-show="showDropdown">
       <li v-for="number in numbers" :key="number">{{number}}</li>
     </ul>
   </div>
@@ -17,11 +17,23 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 <script>
 export default {
   name: 'FormChoicesComponent',
+  data(){
+    return {
+      showDropdown: false,
+    }
+  },
   props: {
-    fieldName: String,
+    field: Object,
     fieldValue: String,
-    foreignClass: String,
-    choices: Number
+  },
+  methods: {
+    toggleDropdown() {
+      this.showDropdown = !this.showDropdown;
+    },
+    selectOption(option) {
+      this.currentValue = option;
+      this.showDropdown = false;
+    },
   },
   computed: {
     numbers() {
@@ -37,7 +49,6 @@ export default {
 
 .dropdown {
   position: relative;
-  height: 40px;
 
   &__content {
     width: 100%;
@@ -46,7 +57,6 @@ export default {
     @include brd-standard;
     position: absolute;
     background-color: $colorSecondary100;
-    display: none;
     z-index: 7;
 
     & li {
