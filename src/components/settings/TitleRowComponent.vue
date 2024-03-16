@@ -13,16 +13,26 @@
 <script>
 export default {
   name: 'TitleRowComponent',
-  props:{
-    rowClass: Object,
-    fieldsData: Object,
-    dictionaryName: String
+  data() {
+    return {
+      param: false
+    }
   },
-  methods:{
-    newRecord(){
-      this.$emit('showNewRecord', true);
+  props: {
+    rowClass: Object,
+    dictionaryName: String,
+  },
+  emits: ['show-form'],
+  methods: {
+    newRecord() {
+      this.param = !this.param;
+      this.$emit('show-form', this.param);
     },
-
+  },
+  computed: {
+    fieldsData() {
+      return this.$store.getters.getFieldData;
+    },
   },
 }
 
