@@ -1,31 +1,87 @@
 <script setup>
 
+import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 </script>
 
 <template>
-  <form class="form-row" :class="rowClass">
-    <template v-for="(component, index) in components" :key="index">
-      <component :is="component.type" :props="component.props"></component>
+  <form class="form-row" :class="rowClass" ref="formRef">
+    <template v-for="(field, index) in dictionaryFields" :key="index">
+      <component :is="fieldTypeComponent[field['type']].component"
+                 :rowId="rowId"
+                 :fieldValue="fieldValues[field['field']]"
+                 :field=field
+                 @field-valid="validateField"
+      ></component>
     </template>
+    <div class="button-block">
+      <button class="btn btn-close i" type="button" @click="closeRow">
+        <font-awesome-icon :icon="['fas', 'xmark']" class=""/>
+      </button>
+      <button class="btn btn-save i" type="submit">
+        <font-awesome-icon :icon="['fas', 'check']" class=""/>
+      </button>
+    </div>
   </form>
 </template>
 <script>
+
+import {fieldTypeComponent} from "@/components/form_fields/fieldTypeComponents.js"
+
 export default {
   name: 'SettingsFormRowComponent',
-  data (){
-    return{
-      components: [
-        { type: 'ComponentType1', props: { prop1: 'value1' } },
-        { type: 'ComponentType2', props: { prop2: 'value2' } },
-        // Добавьте другие компоненты по мере необходимости
-      ]
+  data() {
+    return {
+      fieldTypeComponent: fieldTypeComponent,
+      fieldValidation: {}
     }
   },
   props: {
-    rowClass: String,
-    fieldsData: Object,
-    dictionaryName: String
-  }
+    rowId: Number,
+    rowClass: Object,
+    dictionaryFields: Object,
+    dictionaryName: String,
+  },
+  emits: ['close-row'],
+  methods: {
+    closeRow() {
+      document.removeEventListener('click', this.handleClickOutside);
+      this.$emit('close-row')
+    },
+    handleClickOutside(event) {
+      const formElement = this.$refs.formRef;
+      if (formElement && !formElement.contains(event.target)) {
+        this.closeRow();
+      }
+    },
+    validateField(data) {
+      this.fieldValidation[data.fieldName] = data.result;
+    },
+  },
+  created() {
+    if(this.rowId === 0){
+      this.dictionaryFields.forEach(field => {
+        this.fieldValidation[field['field']] = false;
+      });
+    }
+  },
+  computed: {
+    fieldsData() {
+      return this.$store.getters.getFieldData;
+    },
+
+    fieldValues() {
+      let res = {};
+      this.dictionaryFields.forEach(field => {
+        res[field['name']] = '';
+      });
+      return res
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      document.addEventListener('click', this.handleClickOutside);
+    }, 0);
+  },
 }
 </script>
 
@@ -33,10 +89,25 @@ export default {
 .form {
   &-row {
     display: grid;
-    grid-column: 1/ -1;
     align-items: center;
+    justify-content: center;
     gap: 10px;
+    padding: 8px 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    flex-wrap: nowrap;
+    grid-column: 1/ -1;
     width: 100%;
   }
+}
+
+.button-block {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.i {
+  width: 36px;
 }
 </style>
