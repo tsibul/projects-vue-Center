@@ -235,6 +235,10 @@ export default {
   font-weight: 600;
 }
 
+.inactive {
+  opacity: 0.5;
+}
+
 .fa {
   padding: 0 4px;
   height: 12px;
