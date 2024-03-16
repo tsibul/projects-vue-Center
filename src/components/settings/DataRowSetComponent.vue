@@ -1,18 +1,39 @@
 <script setup>
 
 import DataRowSingleComponent from "@/components/settings/DataRowSingleComponent.vue";
+import SettingsFormRowComponent from "@/components/settings/SettingsFormRowComponent.vue";
 </script>
 
 <template>
   <div class="dict-block__content">
-    <DataRowSingleComponent
-        v-for="(rowData, index) in dictionaryData"
-        :key="rowData.id"
-        :rowData="rowData"
-        :rowClass="rowClass"
-        :dataset-id="rowData.id"
-        v-on:mouseover="index + 1 === lastRecord ? handleMouseOver() : null"
+    <SettingsFormRowComponent v-if="showRecord"
+                              :dictionaryName="dictionaryName"
+                              :dictionaryFields="fieldsData[dictionaryName]"
+                              :rowClass="rowClass"
+                              :rowId="0"
+                              @close-row="hideRecord"
     />
+    <div v-for="(rowData, index) in dictionaryData"
+         :key="rowData.id">
+      <div v-if="rowEdit !== rowData.id">
+        <DataRowSingleComponent
+            :rowData="rowData"
+            :rowClass="rowClass"
+            @click="editRecord(rowData.id)"
+            v-on:mouseover="index + 1 === lastRecord ? handleMouseOver() : null"
+        />
+      </div>
+      <div v-else>
+        <SettingsFormRowComponent
+            :rowData="rowData"
+            :rowClass="rowClass"
+            :rowId="rowData.id"
+            :dictionaryName="dictionaryName"
+            :dictionaryFields="fieldsData[dictionaryName]"
+            @close-row="hideRecord"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -24,27 +45,38 @@ export default {
   inject: ['appUrl'],
   props: {
     rowClass: Object,
-    fieldsData: Object,
     dictionaryName: String,
     searchString: String,
     dictionaryOrder: String,
+    show: Boolean,
   },
   data() {
     return {
       dictionaryData: null,
       lastRecord: 0,
-      showDeleted: 0
+      showDeleted: 0,
+      showRecord: false,
+      rowEdit: null
     }
   },
   created() {
     (async () => {
       await this.fetchDictionaryData();
     })();
+    // this.rowEdit = !this.show ? 0 : null;
   },
   methods: {
     async handleMouseOver() {
-      // Обработчик события mouseover
       await this.fetchDictionaryData();
+    },
+    hideRecord() {
+      this.showRecord = false;
+      document.removeEventListener('click', this.handleClickOutside);
+      this.rowEdit = null
+    },
+    handleShowForm() {
+      this.showRecord = true;
+      document.addEventListener('click', this.handleClickOutside)
     },
     async fetchDictionaryData() {
       const tokenName = 'maketUserToken';
@@ -65,6 +97,9 @@ export default {
       this.dictionaryData = null;
       await this.fetchDictionaryData();
     },
+    editRecord(rowId) {
+      this.rowEdit = rowId;
+    }
   },
   watch: {
     searchString: {
@@ -72,6 +107,14 @@ export default {
     },
     dictionaryOrder: {
       handler: 'filterChange'
+    },
+    show: {
+      handler: 'handleShowForm'
+    }
+  },
+  computed: {
+    fieldsData() {
+      return this.$store.getters.getFieldData;
     },
   }
 }
