@@ -3,7 +3,6 @@
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import TitleRowComponent from "@/components/settings/TitleRowComponent.vue";
 import DataRowSetComponent from "@/components/settings/DataRowSetComponent.vue";
-import SettingsFormRowComponent from "@/components/settings/SettingsFormRowComponent.vue";
 </script>
 
 <template>
@@ -22,18 +21,15 @@ import SettingsFormRowComponent from "@/components/settings/SettingsFormRowCompo
       </div>
     </div>
     <TitleRowComponent :dictionaryName="dictionaryName"
-                       :fieldsData="fieldsData"
                        :rowClass="rowClass"
-                       @showNewRecord="handleShowNewRecord"/>
-    <SettingsFormRowComponent v-if="showNewRecord"
-                              :dictionaryName="dictionaryName"
-                              :dictionaryFields="fieldsData[dictionaryName]"
-                              :rowClass="rowClass"/>
+                       @show-form="showForm"
+    />
     <DataRowSetComponent :dictionaryName="dictionaryName"
-                         :fieldsData="fieldsData"
                          :rowClass="rowClass"
                          :searchString="searchString"
-                         :dictionaryOrder="order"/>
+                         :dictionaryOrder="order"
+                         :show="show"
+    />
   </div><!-- цвета -->
 
 </template>
@@ -45,13 +41,14 @@ export default {
     dictionaryName: String,
     label: String,
     icon: String,
+    showNewRecord: Event,
   },
   data() {
     return {
-      showNewRecord: false,
       searchInput: '',
       searchString: 'default',
-      order: 'default'
+      order: 'default',
+      show: false
     }
   },
   methods: {
@@ -65,8 +62,8 @@ export default {
     clearInput() {
       this.searchInput = '';
     },
-    handleShowNewRecord() {
-      this.showNewRecord = true;
+    showForm(data){
+      this.show = data;
     }
   },
   computed: {
@@ -83,7 +80,6 @@ export default {
         [this.dictionaryName.toLowerCase() + '-row']: true
       }
     },
-    // eslint-disable-next-line vue/return-in-computed-property
   }
 }
 </script>
