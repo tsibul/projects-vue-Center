@@ -4,14 +4,14 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 
 <template>
   <div class="dropdown report_dropdown dropdown_dict">
-    <input type="text" class="dropdown__hidden" :name="fieldName" :value="currentBooleanValue">
-    <div class="dropdown__input-block" @click="toggleDropdown">
-      <input type="text" class="dropdown__input dropdown__input_dict" :value="currentValue">
-      <font-awesome-icon :icon="['fas', 'angle-down']" />
+    <input type="text" class="dropdown__hidden" :name="field['field']" :value="currentBooleanValue">
+    <div class="dropdown__input-block" @click.stop="toggleDropdown">
+      <input type="text" class="dropdown__input dropdown__input_dict" :value="currentValue" readonly>
+      <font-awesome-icon :icon="['fas', 'angle-down']" />&nbsp;
     </div>
     <ul class="dropdown__content" v-show="showDropdown">
-      <li  @click="selectOption('Да')">Да</li>
-      <li  @click="selectOption('Нет')">Нет</li>
+      <li  @click="selectOption('да')">да</li>
+      <li  @click="selectOption('нет')">нет</li>
     </ul>
   </div>
 </template>
@@ -19,15 +19,14 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 export default {
   name: 'FormBooleanComponent',
   props: {
-    fieldName: String,
+    field: Object,
     fieldValue: String,
-    foreignClass: String
   },
   data(){
     return{
-      currentValue: this.fieldValue,
+      currentValue: 'да',
       showDropdown: false,
-      currentBooleanValue: null
+      currentBooleanValue: 1
     }
   },
   created() {
@@ -42,7 +41,7 @@ export default {
       this.showDropdown = false;
     },
     booleanFromOption(option){
-      if(option === 'Да'){
+      if(option === 'да'){
         this.currentBooleanValue = 1;
       } else {
         this.currentBooleanValue = 0;
@@ -58,7 +57,7 @@ export default {
 
 .dropdown {
   position: relative;
-  height: 40px;
+  //height: 40px;
 
   &__content {
     width: 100%;
@@ -67,7 +66,7 @@ export default {
     @include brd-standard;
     position: absolute;
     background-color: $colorSecondary100;
-    display: none;
+    //display: none;
     z-index: 7;
 
     & li {
@@ -100,6 +99,8 @@ export default {
     font-size: 16px;
     padding: 7px 10px;
     border: 1px solid transparent;
+    height: 36px;
+
 
     &:focus {
       outline: none;
