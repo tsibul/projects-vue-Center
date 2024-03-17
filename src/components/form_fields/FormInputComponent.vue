@@ -5,10 +5,9 @@
 <template>
   <input class="form-input" type="text"
          :name="field['field']"
-         :value="currentValue"
+         v-model="currentValue"
          :class="field['readonly'] ? 'inactive' : null"
          :readonly="field['readonly']"
-         @change="validateField"
   >
 </template>
 <script>
@@ -16,13 +15,15 @@ export default {
   name: 'FormInputComponent',
   data(){
     return {
-      currentValue: this.fieldValue
+      currentValue: this.fieldValue,
+      fieldName: this.field['field']
     }
   },
   props: {
     field: Object,
     fieldValue: String
   },
+  emits: ['field-valid'],
   methods:{
     validateField() {
       let inputResult = false;
@@ -40,6 +41,11 @@ export default {
         'fieldName': this.fieldName,
         'result': inputResult
       });
+    }
+  },
+  watch:{
+    currentValue(){
+      this.validateField();
     }
   }
 }
