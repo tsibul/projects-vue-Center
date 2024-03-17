@@ -4,24 +4,32 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 
 <template>
   <div class="dropdown report_dropdown dropdown_dict">
-    <input type="text" class="dropdown__hidden" :name="field['field']" :value="fieldValue">
+    <input type="text" class="dropdown__hidden" :name="field['field']" :value="currentValue">
     <div class="dropdown__input-block" @click.stop="toggleDropdown">
-      <input type="text" class="dropdown__input dropdown__input_dict" :value="fieldValue">
-      <font-awesome-icon :icon="['fas', 'angle-down']" />
+      <input type="text" class="dropdown__input dropdown__input_dict"
+             :value="currentValue" readonly>
+      <font-awesome-icon :icon="['fas', 'angle-down']"/>&nbsp;
     </div>
     <ul class="dropdown__content" v-show="showDropdown">
-      <li v-for="number in numbers" :key="number">{{number}}</li>
+      <li v-for="number in numbers"
+          :key="number"
+          @click="selectOption(number)"
+      >{{ number }}
+      </li>
     </ul>
   </div>
 </template>
 <script>
 export default {
   name: 'FormChoicesComponent',
-  data(){
+  data() {
     return {
       showDropdown: false,
+      currentValue: this.fieldValue,
+      fieldName: this.field['field']
     }
   },
+  emits: ['field-valid'],
   props: {
     field: Object,
     fieldValue: String,
@@ -38,9 +46,20 @@ export default {
   },
   computed: {
     numbers() {
-      return Array.from({ length: this.choices }, (_, index) => index + 1);
+      return Array.from({length: this.choices}, (_, index) => index + 1);
     }
-  }
+  },
+  watch: {
+    choices() {
+      if (this.fieldValue === undefined) {
+        this.currentValue = this.numbers[0]
+      }
+      this.$emit('field-valid', {
+        'fieldName': this.fieldName,
+        'result': true
+      });
+    }
+  },
 }
 </script>
 
