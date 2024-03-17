@@ -10,7 +10,9 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
                  :rowId="rowId"
                  :fieldValue="fieldValues[field['field']]"
                  :field=field
+                 :choices="choicesNo"
                  @field-valid="validateField"
+                 @choices-no="receiveChoicesNo"
       ></component>
     </template>
     <div class="button-block">
@@ -32,7 +34,8 @@ export default {
   data() {
     return {
       fieldTypeComponent: fieldTypeComponent,
-      fieldValidation: {}
+      fieldValidation: {},
+      choicesNo: null
     }
   },
   props: {
@@ -52,6 +55,9 @@ export default {
       if (formElement && !formElement.contains(event.target)) {
         this.closeRow();
       }
+    },
+    receiveChoicesNo(data){
+      this.choicesNo = data;
     },
     validateField(data) {
       this.fieldValidation[data.fieldName] = data.result;

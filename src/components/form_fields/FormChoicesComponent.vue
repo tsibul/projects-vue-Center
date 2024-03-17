@@ -25,6 +25,7 @@ export default {
   props: {
     field: Object,
     fieldValue: String,
+    choices: Number,
   },
   methods: {
     toggleDropdown() {
