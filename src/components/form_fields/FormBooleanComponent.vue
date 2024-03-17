@@ -18,19 +18,28 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 <script>
 export default {
   name: 'FormBooleanComponent',
+  emits: ['field-valid'],
   props: {
     field: Object,
     fieldValue: String,
   },
   data(){
     return{
-      currentValue: 'да',
+      currentValue: this.fieldValue === '1' ? 'да' : 'нет',
       showDropdown: false,
-      currentBooleanValue: 1
+      currentBooleanValue: this.fieldValue,
+      fieldName: this.field['field']
     }
   },
   created() {
+    if(this.fieldValue === undefined){
+      this.currentValue = 'да';
+    }
     this.booleanFromOption(this.currentValue);
+    this.$emit('field-valid', {
+      'fieldName': this.fieldName,
+      'result': true
+    });
   },
   methods: {
     toggleDropdown() {
