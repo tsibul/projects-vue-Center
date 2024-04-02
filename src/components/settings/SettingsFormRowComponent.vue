@@ -68,12 +68,13 @@ export default {
     },
     validateField(data) {
       this.fieldValidation[data.fieldName] = data.result;
+      this.fieldInput();
     },
     fieldInput() {
       let formValid = true;
       let fieldKey;
       this.dictionaryFields.forEach(field => {
-        fieldKey = Object.keys(field)[0];
+        fieldKey = field['field'];
         if (!this.fieldValidation[fieldKey]) {
           formValid = false;
         }
@@ -113,11 +114,11 @@ export default {
   //     return this.$store.getters.getFieldData;
   //   },
   // },
-  watch: {
-    dictionaryFields: {
-      handler: 'fieldInput'
-    },
-  },
+  // watch: {
+  //   validateField: {
+  //     handler: 'fieldInput'
+  //   },
+  // },
   mounted() {
     setTimeout(() => {
       document.addEventListener('click', this.handleClickOutside);
