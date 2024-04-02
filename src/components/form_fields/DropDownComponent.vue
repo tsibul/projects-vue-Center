@@ -32,7 +32,7 @@ import {fetchData} from "@/components/services/fetchData.js";
 
 export default {
   name: 'DropDownComponent',
-  inject: ['appUrl'],
+  inject: ['appUrl', 'tokenName'],
   emits: ['field-valid', 'choices-no'],
   data() {
     return {
@@ -69,9 +69,8 @@ export default {
       });
     },
     async createOptionList() {
-      const tokenName = 'maketUserToken';
       const optionUrl = this.appUrl + `dictionary_filter/${this.foreignClass}/default/0`;
-      this.optionList = await fetchData(optionUrl, tokenName)
+      this.optionList = await fetchData(optionUrl, this.tokenName)
     },
     validateField() {
       let inputResult = false;

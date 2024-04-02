@@ -19,7 +19,7 @@ import {fetchData} from "@/components/services/fetchData.js";
 
 export default {
   name: 'SettingsLeftComponent',
-  inject: ['appUrl'],
+  inject: ['appUrl', 'tokenName'],
   data() {
     return {
       menuStructure: null,
@@ -40,9 +40,8 @@ export default {
       this.$emit('dictChecked', data);
     },
     async getStructure() {
-      const tokenName = 'maketUserToken';
       const statusUrl = this.appUrl + 'settings/structure/';
-      this.menuStructure = await fetchData(statusUrl, tokenName)
+      this.menuStructure = await fetchData(statusUrl, this.tokenName)
     },
   }
 }

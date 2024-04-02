@@ -42,7 +42,7 @@ import {fetchData} from "@/components/services/fetchData.js";
 
 export default {
   name: 'DataRowSetComponent',
-  inject: ['appUrl'],
+  inject: ['appUrl', 'tokenName'],
   props: {
     rowClass: Object,
     dictionaryName: String,
@@ -79,14 +79,13 @@ export default {
       document.addEventListener('click', this.handleClickOutside)
     },
     async fetchDictionaryData() {
-      const tokenName = 'maketUserToken';
       const statusUrl = this.appUrl +
           `dictionary_data/${this.dictionaryName}/${this.lastRecord}/${this.dictionaryOrder}/${this.searchString}/${this.showDeleted}`;
       if (this.dictionaryData) {
-        const newData = await fetchData(statusUrl, tokenName);
+        const newData = await fetchData(statusUrl, this.tokenName);
         this.dictionaryData = [...this.dictionaryData, ...newData];
       } else {
-        this.dictionaryData = await fetchData(statusUrl, tokenName);
+        this.dictionaryData = await fetchData(statusUrl, this.tokenName);
       }
       if (this.dictionaryData.length) {
         this.lastRecord = this.dictionaryData.length;
