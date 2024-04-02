@@ -84,8 +84,7 @@ export default {
     async getFieldValues() {
       const tokenName = 'maketUserToken';
       const rowUrl =  `${this.appUrl}dictionary_record/${this.dictionaryName}/${this.rowId}`;
-      const data = await fetchData(rowUrl, tokenName);
-      this.fieldValues = data;
+      this.fieldValues = await fetchData(rowUrl, tokenName);
     },
     emptyFieldValues() {
       this.dictionaryFields.forEach(field => {
