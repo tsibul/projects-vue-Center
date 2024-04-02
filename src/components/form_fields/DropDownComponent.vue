@@ -104,6 +104,7 @@ export default {
     fieldValue() {
       this.searchString = this.fieldValue;
       this.currentId = this.fieldId;
+      this.validateField();
     },
   },
   computed: {
