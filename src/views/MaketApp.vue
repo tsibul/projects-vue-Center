@@ -28,7 +28,7 @@ export default {
   provide() {
     return {
       appUrl: 'http://127.0.0.1:5200/maket5_0/',
-      // currentUser: this.$store.getters.getUser,
+      tokenName: 'maketUserToken'
     };
   },
   data() {
@@ -44,7 +44,6 @@ export default {
         'Ошибки': ErrorsComponent
       }),
       selectedItem: null
-      // this.menuItems[Object.keys(this.menuItems)[0]]
     }
   },
   created() {
