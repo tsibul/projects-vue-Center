@@ -21,11 +21,11 @@ export default {
   emits: ['field-valid'],
   props: {
     field: Object,
-    fieldValue: String,
+    fieldValue: Boolean,
   },
   data(){
     return{
-      currentValue: this.fieldValue === '1' ? 'да' : 'нет',
+      currentValue: this.fieldValue ? 'да' : 'нет',
       showDropdown: false,
       currentBooleanValue: this.fieldValue,
       fieldName: this.field['field']
@@ -55,6 +55,11 @@ export default {
       } else {
         this.currentBooleanValue = 0;
       }
+    }
+  },
+  watch: {
+    currentValue(newValue){
+      this.booleanFromOption(newValue);
     }
   }
 }

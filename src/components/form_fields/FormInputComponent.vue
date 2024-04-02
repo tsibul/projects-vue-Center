@@ -46,7 +46,10 @@ export default {
   watch:{
     currentValue(){
       this.validateField();
-    }
+    },
+    fieldValue(newValue){
+      this.currentValue = newValue;
+    },
   }
 }
 </script>
