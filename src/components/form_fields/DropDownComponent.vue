@@ -38,43 +38,35 @@ export default {
     return {
       showDropdown: false,
       optionList: [],
-      currentValue: null,
-      currentId: null,
+      currentValue: this.fieldValue,
+      currentId: this.fieldId,
       searchString: this.currentValue,
       selectLine: false,
       fieldName: this.field['field'],
     }
   },
-  watch: {
-    searchString(newValue) {
-      if (newValue) {
-        if (!this.selectLine) {
-          this.showDropdown = true;
-          this.selectLine = false;
-        }
-      }
-    }
-  },
+
   props: {
     fieldValue: String,
+    fieldId: Number,
     field: Object
   },
   methods: {
     toggleDropdown() {
-        this.showDropdown = !this.showDropdown;
+      this.showDropdown = !this.showDropdown;
     },
     selectOption(option) {
-        this.currentId = Object.keys(option)[0]
-        this.searchString = '';
-        this.searchString = option[this.currentId];
-        this.showDropdown = false;
-        this.selectLine = true;
-        if(option['choices'])
-          this.$emit('choices-no', option['choices'])
-        this.$emit('field-valid', {
-          'fieldName': this.fieldName,
-          'result': true
-        });
+      this.currentId = Object.keys(option)[0]
+      this.searchString = '';
+      this.searchString = option[this.currentId];
+      this.showDropdown = false;
+      this.selectLine = true;
+      if (option['choices'])
+        this.$emit('choices-no', option['choices'])
+      this.$emit('field-valid', {
+        'fieldName': this.fieldName,
+        'result': true
+      });
     },
     async createOptionList() {
       const tokenName = 'maketUserToken';
@@ -98,8 +90,21 @@ export default {
       await this.createOptionList();
     })();
     this.currentValue = this.fieldValue;
-    // this.fieldName = this.field['field'];
 
+  },
+  watch: {
+    searchString(newValue) {
+      if (newValue && newValue !== this.fieldValue) {
+        if (!this.selectLine) {
+          this.showDropdown = true;
+          this.selectLine = false;
+        }
+      }
+    },
+    fieldValue() {
+      this.searchString = this.fieldValue;
+      this.currentId = this.fieldId;
+    },
   },
   computed: {
     foreignClass() {
