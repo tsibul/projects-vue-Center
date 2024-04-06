@@ -12,6 +12,7 @@ import SettingsFormRowComponent from "@/components/settings/SettingsFormRowCompo
                               :rowClass="rowClass"
                               :rowId="0"
                               @close-row="hideRecord"
+                              @row-edited="newRecord"
     />
     <div v-for="(rowData, index) in dictionaryData"
          :key="rowData.id">
@@ -20,6 +21,7 @@ import SettingsFormRowComponent from "@/components/settings/SettingsFormRowCompo
             :rowData="rowData"
             :rowClass="rowClass"
             @click="editRecord(rowData.id)"
+            @row-deleted="deleteRow(rowData.id)"
             v-on:mouseover="index + 1 === lastRecord ? handleMouseOver() : null"
         />
       </div>
@@ -31,6 +33,7 @@ import SettingsFormRowComponent from "@/components/settings/SettingsFormRowCompo
             :dictionaryName="dictionaryName"
             :dictionaryFields="fieldsData[dictionaryName]"
             @close-row="hideRecord"
+            @row-edited="editedRecord(rowData.id)"
         />
       </div>
     </div>
@@ -56,7 +59,7 @@ export default {
       lastRecord: 0,
       showDeleted: 0,
       showRecord: false,
-      rowEdit: null
+      rowEdit: null,
     }
   },
   created() {
@@ -73,6 +76,41 @@ export default {
       this.showRecord = false;
       document.removeEventListener('click', this.handleClickOutside);
       this.rowEdit = null
+    },
+    editedRecord(rowId) {
+      this.hideRecord();
+      const dictionaryDataElement = this.dictionaryData.find(el => el.id === rowId);
+      this.updateFields(dictionaryDataElement, rowId)
+    },
+    newRecord(postResult) {
+      this.hideRecord();
+      this.dictionaryData.unshift({'id': postResult, 'fields': []});
+      const dictionaryDataElement = this.dictionaryData[0];
+      this.updateFields(dictionaryDataElement, postResult)
+    },
+    updateFields(dictionaryDataElement, rowId){
+      this.singleRecordData(rowId).then(data => {
+        const fields= [];
+        const dictionaryFields = this.fieldsData[this.dictionaryName];
+        dictionaryFields.forEach(field => {
+          const fieldData = field['field'];
+          if(field['type'] === 'boolean'){
+            fields.push(data[fieldData]? 'да' : 'нет');
+          } else {
+            fields.push(data[fieldData]);
+          }
+        });
+        dictionaryDataElement['fields'] = fields;
+      }).catch(error => {
+        console.error('Error while fetching data:', error);
+      });
+    },
+    deleteRow(rowId){
+      const deleteUrl = `${this.appUrl}dictionary_delete/${this.dictionaryName}/${rowId}`;
+      fetchData(deleteUrl, this.tokenName).then(() => {
+        const dictionaryDataElementIndex = this.dictionaryData.findIndex(el => el.id === rowId);
+        this.dictionaryData.splice(dictionaryDataElementIndex, 1);
+      });
     },
     handleShowForm() {
       this.showRecord = true;
@@ -98,7 +136,11 @@ export default {
     },
     editRecord(rowId) {
       this.rowEdit = rowId;
-    }
+    },
+    async singleRecordData(rowId) {
+      const rowUrl = `${this.appUrl}dictionary_record/${this.dictionaryName}/${rowId}`;
+      return await fetchData(rowUrl, this.tokenName);
+    },
   },
   watch: {
     searchString: {
@@ -109,7 +151,7 @@ export default {
     },
     show: {
       handler: 'handleShowForm'
-    }
+    },
   },
   computed: {
     fieldsData() {
