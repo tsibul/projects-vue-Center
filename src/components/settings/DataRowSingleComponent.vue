@@ -2,17 +2,30 @@
 
 </script>
 <template>
-  <div class="dict-block__row" :class="rowClass" v-if="rowData">
-    <div class="dict-block__text" v-for="(field, index) in rowData.fields" :key="index" >{{ field }}</div>
-    <button class="btn btn-close btn_delete" type="button">удалить</button>
+  <div class="dict-block__row"
+       :class="rowClass" v-if="rowData">
+    <div class="dict-block__text"
+         v-for="(field, index) in rowData.fields"
+         :key="index">{{ field }}
+    </div>
+    <button class="btn btn-close btn_delete" type="button"
+            @click="deleteRecord"
+    >удалить
+    </button>
   </div>
 </template>
 <script>
 export default {
   name: 'DataRowSingleComponent',
-  props:{
+  emits: ['row-deleted'],
+  props: {
     rowData: Object,
     rowClass: Object
+  },
+  methods:{
+    deleteRecord(){
+      this.$emit('row-deleted');
+    }
   }
 }
 
