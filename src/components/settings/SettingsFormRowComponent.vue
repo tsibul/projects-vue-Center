@@ -22,7 +22,8 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
               @click="closeRow">
         <font-awesome-icon :icon="['fas', 'xmark']"/>
       </button>
-      <button class="btn btn-save i" type="submit">
+      <button class="btn btn-save i" type="button"
+              @click="saveDictionary">
         <font-awesome-icon :icon="['fas', 'check']"/>
       </button>
     </div>
@@ -32,6 +33,7 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 
 import {fieldTypeComponent} from "@/components/form_fields/fieldTypeComponents.js"
 import {fetchData} from "@/components/services/fetchData.js";
+import {submitForm} from "@/components/services/submitForm.js";
 
 export default {
   name: 'SettingsFormRowComponent',
@@ -51,7 +53,7 @@ export default {
     dictionaryFields: Object,
     dictionaryName: String,
   },
-  emits: ['close-row'],
+  emits: ['close-row', 'row-edited'],
   methods: {
     closeRow() {
       document.removeEventListener('click', this.handleClickOutside);
@@ -82,14 +84,30 @@ export default {
       this.formValid = formValid;
     },
     async getFieldValues() {
-      const rowUrl =  `${this.appUrl}dictionary_record/${this.dictionaryName}/${this.rowId}`;
+      const rowUrl = `${this.appUrl}dictionary_record/${this.dictionaryName}/${this.rowId}`;
       this.fieldValues = await fetchData(rowUrl, this.tokenName);
     },
     emptyFieldValues() {
       this.dictionaryFields.forEach(field => {
         this.fieldValues[field['name']] = '';
       });
-    }
+    },
+    async saveDictionary() {
+      if (this.formValid) {
+        const formData = {};
+        const formElements = this.$refs.formRef.elements;
+
+        for (let i = 0; i < formElements.length; i++) {
+          const element = formElements[i];
+          formData[element.name] = element.value;
+        }
+        const postUrl = `${this.appUrl}dictionary_update/${this.dictionaryName}`;
+        const postResult = await submitForm(postUrl, this.tokenName, formData);
+        if (postResult) {
+          this.$emit('row-edited', postResult)
+        }
+      }
+    },
 
   },
   created() {
@@ -107,16 +125,6 @@ export default {
       this.emptyFieldValues();
     }
   },
-  // computed: {
-  //   fieldsData() {
-  //     return this.$store.getters.getFieldData;
-  //   },
-  // },
-  // watch: {
-  //   validateField: {
-  //     handler: 'fieldInput'
-  //   },
-  // },
   mounted() {
     setTimeout(() => {
       document.addEventListener('click', this.handleClickOutside);
