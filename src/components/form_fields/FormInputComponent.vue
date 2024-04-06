@@ -32,9 +32,9 @@ export default {
       } else if (this.field['null'] === undefined || this.field['null']){
         inputResult = true;
       }
-      if(this.field['number'] && typeof this.currentValue === 'number'){
+      if(this.field['number'] && !isNaN(this.currentValue)){
         inputResult = true;
-      } else if (this.field['number'] && typeof this.currentValue !== 'number'){
+      } else if (this.field['number'] && isNaN(this.currentValue)){
         inputResult = false;
       }
       this.$emit('field-valid', {
