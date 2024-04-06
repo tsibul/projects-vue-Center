@@ -3,7 +3,7 @@
 </script>
 <template>
   <div class="dict-block__row" :class="rowClass" v-if="rowData">
-    <div class="dict-block__text" v-for="field in rowData.fields" :key="field.id" >{{ field }}</div>
+    <div class="dict-block__text" v-for="(field, index) in rowData.fields" :key="index" >{{ field }}</div>
     <button class="btn btn-close btn_delete" type="button">удалить</button>
   </div>
 </template>
