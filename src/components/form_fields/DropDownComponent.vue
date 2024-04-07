@@ -33,7 +33,10 @@ import {fetchData} from "@/components/services/fetchData.js";
 export default {
   name: 'DropDownComponent',
   inject: ['appUrl', 'tokenName'],
-  emits: ['field-valid', 'choices-no'],
+  emits: [
+    'field-valid',
+    'choices-out'
+  ],
   data() {
     return {
       showDropdown: false,
@@ -61,8 +64,11 @@ export default {
       this.searchString = option[this.currentId];
       this.showDropdown = false;
       this.selectLine = true;
-      if (option['choices'])
-        this.$emit('choices-no', option['choices'])
+      if (option['choices']) {
+        const choicesOut = {};
+        choicesOut[this.fieldName] = option['choices'];
+        this.$emit('choices-out', choicesOut);
+      }
       this.$emit('field-valid', {
         'fieldName': this.fieldName,
         'result': true
