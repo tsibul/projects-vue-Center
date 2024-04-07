@@ -5,9 +5,11 @@ import SettingsSingleComponent from "@/components/settings/SettingsSingleCompone
 
 <template>
   <div class="dict-right">
-    <SettingsSingleComponent v-for="item in dictionariesReady" :key="item['name']"
+    <SettingsSingleComponent v-for="item in dictionariesReady"
+                             :key="item['name']"
                              :style="showState[item]['checked'] ? 'display:flex' : 'display:none'"
-                             :dictionaryName="item" :icon="showState[item]['icon']" :label="showState[item]['label']"
+                             :dictionaryName="item" :icon="showState[item]['icon']"
+                             :label="showState[item]['label']"
     />
   </div>
 </template>
