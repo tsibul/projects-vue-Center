@@ -19,6 +19,7 @@
 .printposition-row,
 .printtype-row,
 .typegroup-row,
+.detaitype-row,
 {
   grid-template-columns: 3fr 1fr;
 }
@@ -33,6 +34,7 @@
 .regiontofedregion-block,
 .typegroup-block,
 .customertype-block,
+.detailtype-block,
 {
   max-width: 800px;
   grid-column: span 2;
@@ -54,7 +56,7 @@
 }
 
 .detailitem-row{
-  grid-template-columns: repeat(4, 2fr) repeat(4, 1fr) ;
+  grid-template-columns: repeat(4, 2fr) repeat(5, 1fr) ;
 }
 
 .detailimage-row{
