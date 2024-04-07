@@ -12,7 +12,7 @@ import MenuComponent from "@/components/menu/MenuComponent.vue";
 </template>
 
 <script>
-import OrderComponent from "@/components/maket/OrderComponent.vue";
+import OrderComponent from "@/components/maket/order/OrderComponent.vue";
 import MaketComponent from "@/components/maket/MaketComponent.vue";
 import FilmComponent from "@/components/maket/FilmComponent.vue";
 import TemplateComponent from "@/components/maket/TemplateComponent.vue";
@@ -140,7 +140,7 @@ export default {
 .full-content {
   background-color: $colorSecondary200;
   min-height: calc(100vh);
-  padding-top: 90px;
+  padding-top: 80px;
 }
 
 .btn {
