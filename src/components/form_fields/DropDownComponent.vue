@@ -64,11 +64,7 @@ export default {
       this.searchString = option[this.currentId];
       this.showDropdown = false;
       this.selectLine = true;
-      if (option['choices']) {
-        const choicesOut = {};
-        choicesOut[this.fieldName] = option['choices'];
-        this.$emit('choices-out', choicesOut);
-      }
+      this.emitChoices(option);
       this.$emit('field-valid', {
         'fieldName': this.fieldName,
         'result': true
@@ -76,7 +72,9 @@ export default {
     },
     async createOptionList() {
       const optionUrl = this.appUrl + `dictionary_filter/${this.foreignClass}/default/0`;
-      this.optionList = await fetchData(optionUrl, this.tokenName)
+      this.optionList = await fetchData(optionUrl, this.tokenName);
+      const option = this.optionList.find(el => Object.values(el).includes(this.fieldValue));
+      this.emitChoices(option);
     },
     validateField() {
       let inputResult = false;
@@ -88,6 +86,17 @@ export default {
         'fieldName': this.fieldName,
         'result': inputResult
       });
+    },
+    emitChoices(option) {
+      setTimeout(() => {
+        try {
+          const choicesNo = option['choices'];
+          const choicesOut = {};
+          choicesOut[this.fieldName] = choicesNo;
+          this.$emit('choices-out', choicesOut);
+        } catch { /* empty */
+        }
+      }, 0)
     }
   },
   created() {
@@ -95,7 +104,6 @@ export default {
       await this.createOptionList();
     })();
     this.currentValue = this.fieldValue;
-
   },
   watch: {
     searchString(newValue) {
@@ -111,6 +119,17 @@ export default {
       this.currentId = this.fieldId;
       this.validateField();
     },
+    // optionList: {
+    //   handler() {
+    //     const option = this.optionList.find(el => Object.values(el).includes(this.fieldValue));
+    //     if (option['choices']) {
+    //       const choicesOut = {};
+    //       choicesOut[this.fieldName] = option['choices'];
+    //       this.$emit('choices-out', choicesOut);
+    //     }
+    //   },
+    //   deep: true
+    // },
   },
   computed: {
     foreignClass() {
