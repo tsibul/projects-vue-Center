@@ -1,12 +1,13 @@
 <script setup>
 
 import AuthComponent from "@/components/auth/AuthComponent.vue";
+import AppVersionComponent from "@/components/maket/AppVersionComponent.vue";
 </script>
 
 <template>
   <nav class="menu__right">
-    <AuthComponent  />
-    <div class="menu__item">Макеты&nbsp;v5.2.1</div>
+    <AuthComponent/>
+    <AppVersionComponent/>
   </nav>
 </template>
 
