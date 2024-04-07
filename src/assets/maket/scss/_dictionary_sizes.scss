@@ -8,6 +8,7 @@
 .detailimage-block,
 .customergroup-block,
 .customer-block,
+.manager-block,
 {
   max-width: 1600px;
   grid-column: 1 / 5;
@@ -51,7 +52,9 @@
   grid-template-columns: 2fr 1fr 1fr 2fr 1fr;
 }
 
-.good-row{
+.good-row,
+.manager-row,
+{
   grid-template-columns: 1fr 2fr 2fr 1fr 1fr;
 }
 
