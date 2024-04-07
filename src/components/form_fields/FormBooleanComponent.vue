@@ -31,16 +31,6 @@ export default {
       fieldName: this.field['field']
     }
   },
-  created() {
-    if(this.fieldValue === undefined){
-      this.currentValue = 'да';
-    }
-    this.booleanFromOption(this.currentValue);
-    this.$emit('field-valid', {
-      'fieldName': this.fieldName,
-      'result': true
-    });
-  },
   methods: {
     toggleDropdown() {
       this.showDropdown = !this.showDropdown;
@@ -55,13 +45,31 @@ export default {
       } else {
         this.currentBooleanValue = 0;
       }
+    },
+    booleanValidation(newValue){
+      this.booleanFromOption(newValue);
+      this.$emit('field-valid', {
+        'fieldName': this.fieldName,
+        'result': true
+      });
+
     }
   },
   watch: {
     currentValue(newValue){
       this.booleanFromOption(newValue);
+    },
+    fieldValue(newValue){
+      this.currentValue =  newValue ? 'да' : 'нет';
+      this.booleanValidation(newValue);
     }
-  }
+  },
+  created() {
+    if(this.fieldValue === undefined){
+      this.currentValue = 'да';
+    }
+    this.booleanValidation(this.currentValue);
+  },
 }
 </script>
 
