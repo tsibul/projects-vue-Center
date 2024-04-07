@@ -4,14 +4,17 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 
 <template>
   <div class="dropdown report_dropdown dropdown_dict">
-    <input type="text" class="dropdown__hidden" :name="field['field']" :value="currentValue">
-    <div class="dropdown__input-block" @click.stop="toggleDropdown">
+    <input type="text" class="dropdown__hidden"
+           :name="field['field']"
+           :value="currentValue">
+    <div class="dropdown__input-block"
+         @click.stop="toggleDropdown">
       <input type="text" class="dropdown__input dropdown__input_dict"
              :value="currentValue" readonly>
       <font-awesome-icon :icon="['fas', 'angle-down']"/>&nbsp;
     </div>
     <ul class="dropdown__content" v-show="showDropdown">
-      <li v-for="number in numbers"
+      <li v-for="number in numberList"
           :key="number"
           @click="selectOption(number)"
       >{{ number }}
@@ -26,14 +29,15 @@ export default {
     return {
       showDropdown: false,
       currentValue: this.fieldValue,
-      fieldName: this.field['field']
+      fieldName: this.field['field'],
+      numberList: null
     }
   },
   emits: ['field-valid'],
   props: {
     field: Object,
-    fieldValue: String,
-    choices: Number,
+    fieldValue: Number,
+    choices: Object,
   },
   methods: {
     toggleDropdown() {
@@ -43,24 +47,40 @@ export default {
       this.currentValue = option;
       this.showDropdown = false;
     },
-  },
-  computed: {
     numbers() {
-      return Array.from({length: this.choices}, (_, index) => index + 1);
-    }
-  },
-  watch: {
-    choices() {
-      if (this.fieldValue === undefined) {
-        this.currentValue = this.numbers[0]
+      if (this.choices) {
+        return Array.from({length: this.choices[this.field['choices']]}, (_, index) => index + 1);
+      } else {
+        return [null]
       }
-      this.$emit('field-valid', {
-        'fieldName': this.fieldName,
-        'result': true
-      });
     }
   },
+  // created: {
+  //   numbers() {
+  //     if (this.choices) {
+  //       return Array.from({length: this.choices[this.field['choices']]}, (_, index) => index + 1);
+  //     } else {
+  //       return [null]
+  //     }
+  //   }
+  // },
+  watch: {
+    choices: {
+      handler() {
+        this.numberList = this.numbers();
+        if (this.fieldValue === undefined) {
+          this.currentValue = this.numberList[0]
+        }
+        this.$emit('field-valid', {
+          'fieldName': this.fieldName,
+          'result': true
+        });
+      },
+      deep: true
+    }
+  }
 }
+
 </script>
 
 <style scoped lang="scss">
