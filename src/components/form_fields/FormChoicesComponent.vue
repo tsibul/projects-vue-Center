@@ -77,6 +77,13 @@ export default {
         });
       },
       deep: true
+    },
+    fieldValue(newValue){
+      this.currentValue = newValue;
+      this.$emit('field-valid', {
+        'fieldName': this.fieldName,
+        'result': true
+      });
     }
   }
 }
