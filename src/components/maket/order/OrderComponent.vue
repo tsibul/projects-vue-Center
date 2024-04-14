@@ -1,7 +1,17 @@
 <script setup>
-
+import {markRaw, ref} from "vue";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import OrderSingleComponent from "@/components/maket/order/OrderSingleComponent.vue";
+import FileImportComponent from "@/components/file_import/FileImportComponent.vue";
+
+const currentComponent = ref(markRaw(null));
+const showImportForm = () => {
+  currentComponent.value = markRaw(FileImportComponent);
+};
+const hideImportForm = () => {
+  currentComponent.value = markRaw(null);
+};
+
 </script>
 
 <template>
@@ -28,12 +38,18 @@ import OrderSingleComponent from "@/components/maket/order/OrderSingleComponent.
       <div>клиент</div>
       <div>менеджер</div>
       <div>E-mail</div>
-      <button class="btn btn-save">загрузить заказ</button>
+      <button class="btn btn-save" @click="showImportForm">загрузить заказ</button>
     </div>
     <div class="order__content">
       <OrderSingleComponent/>
     </div>
   </div>
+  <component
+      :is="currentComponent"
+      :fileType="'.html'"
+      @closeForm="hideImportForm"
+      @file-loaded="orderImported"
+  />
 </template>
 
 <script>
@@ -59,6 +75,11 @@ export default {
     clearInput() {
       this.searchInput = '';
     },
+    orderImported(success){
+      if (success) {
+        console.log()
+      }
+    }
   },
 }
 </script>
