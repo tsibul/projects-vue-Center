@@ -53,6 +53,8 @@ const hideImportForm = () => {
 </template>
 
 <script>
+import {fetchData} from "@/components/services/fetchData.js";
+
 export default {
   name: 'OrderComponent',
   inject: ['appUrl', 'tokenName'],
@@ -61,7 +63,8 @@ export default {
       searchInput: '',
       searchString: 'default',
       show: false,
-      orders: null
+      orders: null,
+      orderData: null
     }
   },
   methods: {
@@ -75,9 +78,10 @@ export default {
     clearInput() {
       this.searchInput = '';
     },
-    orderImported(success){
+    async orderImported(success){
       if (success) {
-        console.log()
+        const orderUrl = `${this.appUrl}import_order`;
+        this.orderData = await fetchData(orderUrl, this.tokenName);
       }
     }
   },
