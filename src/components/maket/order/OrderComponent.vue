@@ -30,8 +30,7 @@ const hideImportForm = () => {
       </div>
     </div>
     <div class="order__row active ">
-      <div>статус</div>
-      <div></div>
+      <div class="double">статус</div>
       <div>номер</div>
       <div>дата</div>
       <div>продавец</div>
@@ -41,7 +40,11 @@ const hideImportForm = () => {
       <button class="btn btn-save" @click="showImportForm">загрузить заказ</button>
     </div>
     <div class="order__content">
-      <OrderSingleComponent/>
+      <OrderSingleComponent
+          v-for="order in orderList"
+          :key="order.id"
+          :order="order"
+      />
     </div>
   </div>
   <component
@@ -60,12 +63,22 @@ export default {
   inject: ['appUrl', 'tokenName'],
   data() {
     return {
+      orderOrder: 'default',
       searchInput: '',
       searchString: 'default',
       show: false,
       orders: null,
-      orderData: null
+      orderData: null,
+      idLast: 0,
+      showDeleted: 0,
+      orderList: []
     }
+  },
+  created() {
+    (async () => {
+      await this.allOrders();
+    })();
+    // this.rowEdit = !this.show ? 0 : null;
   },
   methods: {
     search() {
@@ -78,12 +91,16 @@ export default {
     clearInput() {
       this.searchInput = '';
     },
-    async orderImported(success){
+    async orderImported(success) {
       if (success) {
         const orderUrl = `${this.appUrl}import_order`;
         this.orderData = await fetchData(orderUrl, this.tokenName);
       }
-    }
+    },
+    async allOrders() {
+      const ordersUrl = `${this.appUrl}order/${this.idLast}/${this.orderOrder}/${this.searchString}/${this.showDeleted}`;
+      this.orderList = await fetchData(ordersUrl, this.tokenName);
+    },
   },
 }
 </script>
@@ -94,6 +111,8 @@ export default {
 
 .order {
   @include brd-standard;
+  max-height: calc(100vh - 90px);
+  overflow: auto;
 
   &__header {
     background-color: $colorPrimary600;
@@ -120,14 +139,18 @@ export default {
     padding: 8px 8px;
     border-radius: 10px;
     flex-wrap: nowrap;
-    margin-right: 19px;
-    grid-template-columns: repeat(2, 1fr) 2fr repeat(2, 1fr) repeat(3, 2fr) 1.5fr;
+    grid-template-columns: repeat(2, 0.3fr) 2fr repeat(2, 1fr) repeat(2, 3fr) repeat(2, 2.1fr);
   }
 
-  &__content{
+  &__content {
     overflow: auto;
     height: 100%;
+    font-size: 15px;
   }
+}
+
+.double {
+  grid-column: 1/3;
 }
 
 </style>
