@@ -36,6 +36,7 @@
 .typegroup-block,
 .customertype-block,
 .detailtype-block,
+.ourcompany-block,
 {
   max-width: 800px;
   grid-column: span 2;
@@ -73,6 +74,13 @@
 .customer-row{
   grid-template-columns: 1fr 2fr 3fr 2fr 1fr 2fr 2fr 1fr 2fr 2fr 2fr 1fr;
 }
+
+.ourcompany-row,
+{
+  grid-template-columns: 1fr 4fr 1fr;
+}
+
+
 
 //&__2 {
 //  max-width: 800px;
