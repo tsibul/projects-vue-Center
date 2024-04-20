@@ -95,6 +95,12 @@ export default {
       if (success) {
         const orderUrl = `${this.appUrl}import_order`;
         this.orderData = await fetchData(orderUrl, this.tokenName);
+        const index = this.orderList.findIndex((el) => el.order_number === this.orderData.order_number)
+        if(index !== -1){
+          this.orderList[index] = this.orderData;
+        } else {
+        this.orderList.unshift(this.orderData);
+        }
       }
     },
     async allOrders() {
@@ -111,8 +117,6 @@ export default {
 
 .order {
   @include brd-standard;
-  max-height: calc(100vh - 90px);
-  overflow: auto;
 
   &__header {
     background-color: $colorPrimary600;
@@ -140,11 +144,12 @@ export default {
     border-radius: 10px;
     flex-wrap: nowrap;
     grid-template-columns: repeat(2, 0.3fr) 2fr repeat(2, 1fr) repeat(2, 3fr) repeat(2, 2.1fr);
+    margin-right: 19px;
   }
 
   &__content {
+    max-height: calc(100vh - 210px);
     overflow: auto;
-    height: 100%;
     font-size: 15px;
   }
 }
