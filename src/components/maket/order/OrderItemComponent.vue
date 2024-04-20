@@ -73,6 +73,11 @@ export default {
     (async () => {
       await this.itemsList();
     })();
+  },
+  watch: {
+    async orderId() {
+      await this.itemsList();
+    }
   }
 }
 </script>
