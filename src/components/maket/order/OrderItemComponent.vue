@@ -8,6 +8,7 @@
       <div>цена</div>
       <div>кол-во</div>
       <div>сумма</div>
+      <button class="btn btn-save">макет</button>
     </div>
     <div
         v-for="item in items"
@@ -21,7 +22,7 @@
         <div>{{ item.item_price }}</div>
         <div>{{ item.quantity }}</div>
         <div>{{ Math.round(item.item_price * item.quantity)}}</div>
-        <button class="btn btn-save">btn</button>
+<!--        <button class="btn btn-save">btn</button>-->
       </div>
       <div class="row row__print active">
         <div></div>
@@ -102,7 +103,7 @@ export default {
   align-items: center;
 
   & .btn {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   &:hover {

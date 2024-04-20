@@ -78,7 +78,6 @@ export default {
     (async () => {
       await this.allOrders();
     })();
-    // this.rowEdit = !this.show ? 0 : null;
   },
   methods: {
     async search() {
@@ -150,7 +149,7 @@ export default {
 
   &__content {
     max-height: calc(100vh - 210px);
-    overflow: auto;
+    overflow-y: scroll;
     font-size: 15px;
   }
 }
