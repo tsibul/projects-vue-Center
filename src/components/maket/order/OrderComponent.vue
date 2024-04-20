@@ -71,7 +71,7 @@ export default {
       orderData: null,
       idLast: 0,
       showDeleted: 0,
-      orderList: []
+      orderList: [],
     }
   },
   created() {
@@ -81,12 +81,13 @@ export default {
     // this.rowEdit = !this.show ? 0 : null;
   },
   methods: {
-    search() {
+    async search() {
       if (this.searchInput !== '') {
-        this.searchString = this.searchInput.replace(' ', '_');
+        this.searchString = this.searchInput;//.replace(' ', '_');
       } else {
         this.searchString = 'default';
       }
+      await this.allOrders()
     },
     clearInput() {
       this.searchInput = '';
