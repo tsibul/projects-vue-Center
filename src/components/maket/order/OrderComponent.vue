@@ -33,7 +33,7 @@ const hideImportForm = () => {
       <div class="double">статус</div>
       <div>номер</div>
       <div>дата</div>
-      <div>продавец</div>
+      <div>#</div>
       <div>клиент</div>
       <div>менеджер</div>
       <div>E-mail</div>
@@ -139,11 +139,11 @@ export default {
   &__row {
     display: grid;
     align-items: center;
-    gap: 10px;
+    gap: 4px;
     padding: 8px 8px;
     border-radius: 10px;
     flex-wrap: nowrap;
-    grid-template-columns: repeat(2, 0.3fr) 2fr repeat(2, 1fr) repeat(2, 3fr) repeat(2, 2.1fr);
+    grid-template-columns: repeat(2, 0.3fr) 2fr 0.8fr 0.4fr 3fr 1.5fr 2fr 2.1fr;
     margin-right: 19px;
   }
 
