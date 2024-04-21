@@ -36,7 +36,7 @@ const hideImportForm = () => {
       <div>#</div>
       <div>клиент</div>
       <div>менеджер</div>
-      <div>E-mail</div>
+      <div>E-mail / телефон</div>
       <button class="btn btn-save" @click="showImportForm">загрузить заказ</button>
     </div>
     <div class="order__content">

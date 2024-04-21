@@ -10,7 +10,7 @@
       <div>{{ order.our_company__code }}</div>
       <div class="customer_name">{{ order.customer__name }}</div>
       <div>{{ order.manager__name }}</div>
-      <div class="mail">{{ order.manager__mail }}</div>
+      <div class="mail">{{ order.manager__phone }}&nbsp;{{order.manager__mail}}</div>
       <button class="btn btn-neutral">макет</button>
       <button class="btn btn-save">
         <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" class="fa"/>&nbsp;0&nbsp;/&nbsp;0</button>
