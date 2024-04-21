@@ -5,12 +5,13 @@
              :data-id="order.pk">
       <div class="to-check">{{ order.to_check ? '?' : '' }}</div>
       <div class="active">{{ order.maket_status }}</div>
-      <div>{{ order.order_number }}</div>
+      <div class="mail">{{ order.order_number }}</div>
       <div>{{ orderDateLocal }}</div>
       <div>{{ order.our_company__code }}</div>
-      <div>{{ order.customer__name }}</div>
+      <div class="customer_name">{{ order.customer__name }}</div>
       <div>{{ order.manager__name }}</div>
-      <div>{{ order.manager__mail }}</div>
+      <div class="mail">{{ order.manager__mail }}</div>
+      <button class="btn btn-neutral">макет</button>
       <button class="btn btn-save">
         <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" class="fa"/>&nbsp;0&nbsp;/&nbsp;0</button>
       <button class="btn btn-close">удалить</button>
@@ -55,11 +56,11 @@ export default {
 .order-summary {
   display: grid;
   align-items: center;
-  gap: 10px;
+  gap: 4px;
   padding: 8px 8px;
   border-radius: 10px;
   flex-wrap: nowrap;
-  grid-template-columns: repeat(2, 0.3fr) 2fr repeat(2, 1fr) repeat(2, 3fr) 2fr repeat(2, 1fr);
+  grid-template-columns: repeat(2, 0.3fr) 2fr 0.8fr 0.4fr 3fr 1.5fr 2fr repeat(3, 0.7fr);
 
   &:hover {
     background-color: $colorPrimary200;
@@ -84,6 +85,14 @@ export default {
 
 .R {
   color: $colorNeutral600;
+}
+
+.mail{
+  word-break: break-all;
+}
+
+.customer_name{
+  text-wrap: normal;
 }
 
 </style>
