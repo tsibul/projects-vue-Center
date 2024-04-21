@@ -308,6 +308,16 @@ export default {
   }
 }
 
+.hide-deleted{
+  font-size: 15px;
+  font-weight: normal;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  accent-color: $colorPrimary800;
+}
+
 @media (max-width: 767px) {
   .menu {
     padding: 0 10px;
