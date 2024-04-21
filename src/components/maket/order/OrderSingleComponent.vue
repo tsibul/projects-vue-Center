@@ -24,7 +24,6 @@
 
 <script>
 import OrderItemComponent from "@/components/maket/order/OrderItemComponent.vue";
-// import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 
 export default {
   name: "OrderSingleComponent",
@@ -52,6 +51,10 @@ export default {
 <style scoped lang="scss">
 @import "@/assets/maket/scss/vars";
 @import "@/assets/maket/scss/mixins";
+
+details[open]{
+  background-color: $colorPrimary200;
+}
 
 .order-summary {
   display: grid;
