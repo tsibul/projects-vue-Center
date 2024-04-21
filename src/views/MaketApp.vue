@@ -179,11 +179,11 @@ export default {
   }
 
   &-neutral {
-    background-color: $colorNeutral600;
-    border-color: $colorNeutral600;
+    background-color: $colorNeutral700;
+    border-color: $colorNeutral700;
 
     &:hover {
-      color: $colorNeutral600;
+      color: $colorNeutral700;
       background-color: transparent;
     }
 
