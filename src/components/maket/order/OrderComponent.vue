@@ -3,6 +3,7 @@ import {markRaw, ref} from "vue";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import OrderSingleComponent from "@/components/maket/order/OrderSingleComponent.vue";
 import FileImportComponent from "@/components/file_import/FileImportComponent.vue";
+import DeleteAlertComponent from "@/components/delete_alert/DeleteAlertComponent.vue";
 
 const currentComponent = ref(markRaw(null));
 const showImportForm = () => {
@@ -22,6 +23,11 @@ const hideImportForm = () => {
         Заказы
       </div>
       <div class="order__search">
+        <div class="hide-deleted">
+          <input type="checkbox" id="hideDeleted" checked
+                 @change="hideDeletedChecked">
+          <label for="hideDeleted">скрыть удаленные</label>
+        </div>
         <font-awesome-icon :icon="['fas', 'magnifying-glass']"/>
         <input v-model="searchInput" type="text" class="form-input order__search-input"
                placeholder="искать...">
@@ -41,9 +47,11 @@ const hideImportForm = () => {
     </div>
     <div class="order__content">
       <OrderSingleComponent
-          v-for="order in orderList"
+          v-for="(order, index) in orderList"
           :key="order.id"
           :order="order"
+          @mouseover="index + 1 === idLast && idLast >= 20 ? addNextRecords() : null"
+          @delete-alert="handleDeleteAlert"
       />
     </div>
   </div>
@@ -53,6 +61,11 @@ const hideImportForm = () => {
       @closeForm="hideImportForm"
       @file-loaded="orderImported"
   />
+  <DeleteAlertComponent
+      v-if="showDeleteAlert"
+      @closeForm="showDeleteAlert=false"
+      @deleted="handleDeleted"
+      :deleteUrl="deleteUrl"/>
 </template>
 
 <script>
@@ -72,21 +85,25 @@ export default {
       idLast: 0,
       showDeleted: 0,
       orderList: [],
+      showDeleteAlert: false,
+      deleteUrl: null,
     }
   },
   created() {
     (async () => {
-      await this.allOrders();
+      await this.addNextRecords();
     })();
   },
   methods: {
     async search() {
+      this.idLast = 0;
+      this.orderList = [];
       if (this.searchInput !== '') {
         this.searchString = this.searchInput;//.replace(' ', '_');
       } else {
         this.searchString = 'default';
       }
-      await this.allOrders()
+      await this.addNextRecords()
     },
     clearInput() {
       this.searchInput = '';
@@ -96,16 +113,46 @@ export default {
         const orderUrl = `${this.appUrl}import_order`;
         this.orderData = await fetchData(orderUrl, this.tokenName);
         const index = this.orderList.findIndex((el) => el.order_number === this.orderData.order_number)
-        if(index !== -1){
+        if (index !== -1) {
           this.orderList[index] = this.orderData;
         } else {
-        this.orderList.unshift(this.orderData);
+          this.orderList.unshift(this.orderData);
         }
       }
     },
     async allOrders() {
       const ordersUrl = `${this.appUrl}order/${this.idLast}/${this.orderOrder}/${this.searchString}/${this.showDeleted}`;
-      this.orderList = await fetchData(ordersUrl, this.tokenName);
+      return await fetchData(ordersUrl, this.tokenName);
+    },
+    async addNextRecords() {
+      const newData = await this.allOrders();
+      if (this.orderList) {
+        this.orderList = [...this.orderList, ...newData];
+      } else {
+        this.orderList = newData;
+      }
+      if (this.orderList.length) {
+        this.idLast = this.orderList.length;
+      }
+    },
+    async hideDeletedChecked() {
+      this.idLast = 0;
+      this.orderList = []
+      if (this.showDeleted) {
+        this.showDeleted = 0;
+      } else {
+        this.showDeleted = 1;
+      }
+      await this.addNextRecords();
+    },
+    handleDeleteAlert(url) {
+      this.deleteUrl = url;
+      this.showDeleteAlert = true
+    },
+    handleDeleted(orderId) {
+      const order = this.orderList.find((order) => order.pk === orderId);
+      order.deleted = true;
+      this.showDeleteAlert = false;
     },
   },
 }
