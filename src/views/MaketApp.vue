@@ -78,10 +78,10 @@ export default {
         return null
       }
     },
-    async setFieldsStructure(){
+    async setFieldsStructure() {
       const token = localStorage.getItem('maketUserToken');
       if (token) {
-        const fieldsUrl =  'http://127.0.0.1:5200/maket5_0/settings/fields/';
+        const fieldsUrl = 'http://127.0.0.1:5200/maket5_0/settings/fields/';
         const userResponse = await axios.get(fieldsUrl, {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -176,6 +176,17 @@ export default {
       color: $colorSecondary600;
       background-color: transparent;
     }
+  }
+
+  &-neutral {
+    background-color: $colorNeutral600;
+    border-color: $colorNeutral600;
+
+    &:hover {
+      color: $colorNeutral600;
+      background-color: transparent;
+    }
+
   }
 }
 
