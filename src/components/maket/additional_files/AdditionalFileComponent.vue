@@ -1,12 +1,17 @@
 <template>
-  <div class="file-list">
+  <div class="file-list" ref="fileList"
+       @mousedown="startDrag"
+       @mouseup="stopDrag"
+       @mousemove="drag"
+  >
     <div class="file-list__header">
       <p class="active">Связанные файлы</p>
       <span class="file-list__close"
             @click="closeFiles"
       >&times;</span>
     </div>
-    <div class="file-list__content">
+    <div class="file-list__content"
+         v-if="fileList && fileList.main !== undefined">
       <div class="file-list__item"
            v-for="file in fileList.main"
            :key="file.id">
@@ -15,7 +20,8 @@
         <button class="btn btn-close">удалить</button>
       </div>
     </div>
-    <div class="file-list__content">
+    <div class="file-list__content"
+         v-if="fileList && fileList.deleted !== undefined">
       <div class="file-list__item"
            v-for="file in fileList.deleted"
            :key="file.id">
@@ -52,6 +58,9 @@ export default {
   data() {
     return {
       fileList: null,
+      dragging: false,
+      diffX: 0,
+      diffY: 0,
     }
   },
   props: {
@@ -69,7 +78,26 @@ export default {
     },
     closeFiles() {
       this.$emit('close-files')
-    }
+    },
+    startDrag(event) {
+      this.dragging = true;
+      const fileList = this.$refs.fileList;
+      const rect = fileList.getBoundingClientRect();
+      this.diffX = event.clientX - rect.left;
+      this.diffY = event.clientY - rect.top;
+    },
+    stopDrag() {
+      this.dragging = false;
+    },
+    drag(event) {
+      if (this.dragging) {
+        const fileList = this.$refs.fileList;
+        const x = event.clientX - this.diffX;
+        const y = event.clientY - this.diffY;
+        fileList.style.left = `${x}px`;
+        fileList.style.top = `${y}px`;
+      }
+    },
   },
 }
 </script>
@@ -79,6 +107,7 @@ export default {
 @import "@/assets/maket/scss/mixins";
 
 .file-list {
+  z-index: 10;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -86,6 +115,7 @@ export default {
   border: 1px solid $colorPrimary800;
   border-radius: 10px;
   position: absolute;
+  cursor: move !important;
   top: 25vh;
   left: 30vw;
   box-shadow: 6px 6px 12px $colorPrimary800;
