@@ -37,12 +37,6 @@
       </div>
       <button type="button" class="btn btn-save">загрузить</button>
     </div>
-    <!--    <div class="file-list__buttons">-->
-    <!--      <button type="button" class="btn btn-close"-->
-    <!--              @click="closeFiles"-->
-    <!--      >закрыть-->
-    <!--      </button>-->
-    <!--    </div>-->
   </div>
 </template>
 
