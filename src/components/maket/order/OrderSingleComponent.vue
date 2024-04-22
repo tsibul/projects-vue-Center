@@ -15,7 +15,8 @@
                 v-if="!order.deleted"
         >макет
         </button>
-      <button class="btn btn-save">
+      <button class="btn btn-save"
+              @click="handleOpenFiles">
         <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" class="fa"/>&nbsp;0&nbsp;/&nbsp;0
       </button>
       <button class="btn btn-close"
@@ -36,7 +37,7 @@ import OrderItemComponent from "@/components/maket/order/OrderItemComponent.vue"
 export default {
   name: "OrderSingleComponent",
   components: {OrderItemComponent},
-  emits: ['delete-alert'],
+  emits: ['delete-alert', 'open-files'],
   data() {
     return {
       orderDateLocal: null,
@@ -59,6 +60,9 @@ export default {
     deleteAlert() {
       this.$emit('delete-alert', this.deleteUrl);
     },
+    handleOpenFiles() {
+      this.$emit('open-files', this.order.pk);
+    }
   },
 }
 </script>

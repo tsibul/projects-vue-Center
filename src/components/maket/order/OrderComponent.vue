@@ -4,6 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import OrderSingleComponent from "@/components/maket/order/OrderSingleComponent.vue";
 import FileImportComponent from "@/components/file_import/FileImportComponent.vue";
 import DeleteAlertComponent from "@/components/delete_alert/DeleteAlertComponent.vue";
+import AdditionalFileComponent from "@/components/maket/additional_files/AdditionalFileComponent.vue";
 
 const currentComponent = ref(markRaw(null));
 const showImportForm = () => {
@@ -52,6 +53,7 @@ const hideImportForm = () => {
           :order="order"
           @mouseover="index + 1 === idLast && idLast >= 20 ? addNextRecords() : null"
           @delete-alert="handleDeleteAlert"
+          @open-files="handleOpenFiles"
       />
     </div>
   </div>
@@ -66,6 +68,12 @@ const hideImportForm = () => {
       @closeForm="showDeleteAlert=false"
       @deleted="handleDeleted"
       :deleteUrl="deleteUrl"/>
+  <AdditionalFileComponent
+      v-if="openFiles"
+      @close-files="handleCloseFiles"
+      :orderId="filesId"
+  />
+
 </template>
 
 <script>
@@ -87,6 +95,8 @@ export default {
       orderList: [],
       showDeleteAlert: false,
       deleteUrl: null,
+      openFiles: false,
+      filesId: null
     }
   },
   created() {
@@ -154,6 +164,15 @@ export default {
       order.deleted = true;
       this.showDeleteAlert = false;
     },
+    handleCloseFiles() {
+      this.openFiles = false;
+      this.filesId = null;
+    },
+    handleOpenFiles(orderId) {
+      this.openFiles = true;
+      this.filesId = orderId;
+    }
+
   },
 }
 </script>
