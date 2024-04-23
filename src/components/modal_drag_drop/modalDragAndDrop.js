@@ -26,6 +26,5 @@ export const modalDragAndDrop = {
                 modal.style.top = `${y}px`;
             }
         },
-
     }
 }
