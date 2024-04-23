@@ -21,10 +21,11 @@
 <script>
 import axios from "axios";
 import {authMixin} from "@/components/auth/authMixin.js";
+import {modalDragAndDrop} from "@/components/modal_drag_drop/modalDragAndDrop.js";
 
 export default {
   name: "FileImportComponent",
-  mixins: [authMixin],
+  mixins: [authMixin, modalDragAndDrop],
   inject: ['appUrl', 'tokenName'],
   emits: ['closeForm', 'file-loaded'],
   props: {
