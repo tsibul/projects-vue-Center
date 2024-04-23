@@ -1,5 +1,5 @@
 <template>
-  <div class="file-list" ref="fileList"
+  <div class="file-list" ref="modalDraggable"
        @mousedown="startDrag"
        @mouseup="stopDrag"
        @mousemove="drag"
@@ -49,18 +49,16 @@
 <script>
 import {authMixin} from "@/components/auth/authMixin.js";
 import {fetchData} from "@/components/services/fetchData.js";
+import {modalDragAndDrop} from "@/components/modal_drag_drop/modalDragAndDrop.js";
 
 export default {
   name: "AdditionalFileComponent",
-  mixins: [authMixin],
+  mixins: [authMixin, modalDragAndDrop],
   inject: ['appUrl', 'tokenName'],
   emits: ['close-files', 'file-loaded'],
   data() {
     return {
       fileList: null,
-      dragging: false,
-      diffX: 0,
-      diffY: 0,
     }
   },
   props: {
@@ -78,25 +76,6 @@ export default {
     },
     closeFiles() {
       this.$emit('close-files')
-    },
-    startDrag(event) {
-      this.dragging = true;
-      const fileList = this.$refs.fileList;
-      const rect = fileList.getBoundingClientRect();
-      this.diffX = event.clientX - rect.left;
-      this.diffY = event.clientY - rect.top;
-    },
-    stopDrag() {
-      this.dragging = false;
-    },
-    drag(event) {
-      if (this.dragging) {
-        const fileList = this.$refs.fileList;
-        const x = event.clientX - this.diffX;
-        const y = event.clientY - this.diffY;
-        fileList.style.left = `${x}px`;
-        fileList.style.top = `${y}px`;
-      }
     },
   },
 }
