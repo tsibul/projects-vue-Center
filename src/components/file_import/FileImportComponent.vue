@@ -1,5 +1,9 @@
 <template>
-  <div class="import__content">
+  <div class="import__content" ref="modalDraggable"
+       @mousedown="startDrag"
+       @mouseup="stopDrag"
+       @mousemove="drag"
+  >
     <form method="post" id="import-form" action="#" @submit.prevent="importFile">
       <div class="import__header">
         <p class="active">Выбрать файл</p>
