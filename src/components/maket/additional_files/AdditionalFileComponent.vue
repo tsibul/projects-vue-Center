@@ -94,7 +94,7 @@ export default {
   border: 1px solid $colorPrimary800;
   border-radius: 10px;
   position: absolute;
-  cursor: move !important;
+  cursor: move;
   top: 25vh;
   left: 30vw;
   box-shadow: 6px 6px 12px $colorPrimary800;
