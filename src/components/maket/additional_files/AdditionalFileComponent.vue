@@ -10,25 +10,13 @@
             @click="closeFiles"
       >&times;</span>
     </div>
-    <div class="file-list__content"
-         v-if="fileList && fileList.main !== undefined">
-      <div class="file-list__item"
-           v-for="file in fileList.main"
-           :key="file.id">
-        <div>{{ file.name }}</div>
-        <div>{{ file.additional_file_name }}</div>
-        <button class="btn btn-close">удалить</button>
-      </div>
-    </div>
-    <div class="file-list__content"
-         v-if="fileList && fileList.deleted !== undefined">
-      <div class="file-list__item"
-           v-for="file in fileList.deleted"
-           :key="file.id">
-        <div>{{ file.name }}</div>
-        <div>{{ file.additional_file_name }}</div>
-        <button class="btn btn-close">удалить</button>
-      </div>
+    <div v-if="fileList">
+      <FileListContentComponent
+          v-for="fileType in Object.keys(fileList)"
+          :key="fileType"
+          :content="fileList[fileType]"
+          :contentType="fileType"
+      />
     </div>
     <div class="file-list__item">
       <div>
@@ -50,9 +38,11 @@
 import {authMixin} from "@/components/auth/authMixin.js";
 import {fetchData} from "@/components/services/fetchData.js";
 import {modalDragAndDrop} from "@/components/modal_drag_drop/modalDragAndDrop.js";
+import FileListContentComponent from "@/components/file_import/FileListContentComponent.vue";
 
 export default {
   name: "AdditionalFileComponent",
+  components: {FileListContentComponent},
   mixins: [authMixin, modalDragAndDrop],
   inject: ['appUrl', 'tokenName'],
   emits: ['close-files', 'file-loaded'],
@@ -86,7 +76,6 @@ export default {
 @import "@/assets/maket/scss/mixins";
 
 .file-list {
-  z-index: 10;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -94,9 +83,8 @@ export default {
   border: 1px solid $colorPrimary800;
   border-radius: 10px;
   position: absolute;
-  cursor: move;
   top: 25vh;
-  left: 30vw;
+  left: 20vw;
   box-shadow: 6px 6px 12px $colorPrimary800;
   background-color: $colorSecondary200;
 
@@ -109,12 +97,6 @@ export default {
     display: flex;
     color: $colorPrimary800;
     align-items: center;
-  }
-
-  &__content {
-    padding: 16px;
-    border: 1px solid $colorPrimary800;
-    border-radius: 10px;
   }
 
   &__input-frame {
@@ -163,7 +145,7 @@ export default {
 }
 
 .name-input {
-  width: 400px;
+  width: 300px;
 }
 
 </style>
