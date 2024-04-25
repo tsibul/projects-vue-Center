@@ -184,7 +184,7 @@ export default {
 
   &__item {
     display: grid;
-    grid-template-columns: 4fr 4fr 1fr;
+    grid-template-columns: 1fr 1fr 103px;
     padding: 0 14px;
     width: 100%;
     align-items: center;

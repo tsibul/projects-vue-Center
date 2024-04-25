@@ -89,7 +89,7 @@ export default {
   &__item {
     padding: 4px 0;
     display: grid;
-    grid-template-columns: 4fr 4fr 1fr;
+    grid-template-columns: 1fr 1fr 103px;
     width: 100%;
     align-items: center;
     gap: 14px;
