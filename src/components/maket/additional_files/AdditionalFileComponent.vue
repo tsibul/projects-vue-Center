@@ -16,6 +16,7 @@
           :key="fileType"
           :content="fileList[fileType]"
           :contentType="fileType"
+          @delete-file="fileDeleted(fileType)"
       />
     </div>
     <div class="file-list__item">
@@ -110,6 +111,10 @@ export default {
         console.log(error);
       }
     },
+    fileDeleted(fileType, id) {
+      const index = this.fileList[fileType].findIndex(file => file.id === id);
+      this.fileList[fileType].splice(index, 1)
+    }
   },
 }
 </script>

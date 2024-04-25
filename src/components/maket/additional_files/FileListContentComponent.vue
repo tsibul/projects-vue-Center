@@ -13,7 +13,7 @@
       </div>
       <button class="btn"
               :class="buttonList[contentType]['class']"
-              @click="buttonList[contentType]['function']"
+              @click="buttonList[contentType]['function'](file.id)"
       >
         {{ buttonList[contentType]['title'] }}
       </button>
@@ -28,6 +28,7 @@ import {fetchData} from "@/components/services/fetchData.js";
 export default {
   name: "FileListContentComponent",
   inject: ['appUrl', 'tokenName'],
+  emits: ['delete-file'],
   props: {
     content: Array,
     contentType: String
@@ -39,17 +40,23 @@ export default {
     }
   },
   methods: {
-    async deleteFile() {
-
+    deleteFile(fileId) {
+      const fileUrl = `${this.appUrl}delete_additional_file/${fileId}`;
+      fetchData(fileUrl, this.tokenName)
+          .then(response => {
+            if (response) {
+              this.$emit('delete-file', fileId);
+            }
+          })
     },
-    async reconnectFile() {
+    reconnectFile() {
 
     },
     async fileShow(fileId, fileType, additionalFileName) {
       const fileUrl = `${this.appUrl}additional_file_show/${fileId}/${additionalFileName}`;
       const response = await fetchData(fileUrl, this.tokenName);
-      if(response) {
-        if(fileType === '.pdf'){
+      if (response) {
+        if (fileType === '.pdf') {
           window.open(fileUrl, '_blank', 'noopener');
         } else {
           window.location.href = fileUrl;
@@ -69,17 +76,17 @@ export default {
       'maket': {
         'title': 'удалить',
         'class': 'btn-close',
-        'function': this.deleteFile()
+        'function': this.deleteFile
       },
       'main': {
         'title': 'удалить',
         'class': 'btn-close',
-        'function': this.deleteFile()
+        'function': this.deleteFile
       },
       'deleted': {
         'title': 'привязать',
         'class': 'btn-save',
-        'function': this.reconnectFile()
+        'function': this.reconnectFile
       },
     }
   },
