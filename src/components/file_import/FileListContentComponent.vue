@@ -5,7 +5,7 @@
          v-for="file in content"
          :key="file.id">
       <div>{{ file.name }}</div>
-      <div>{{ file.additional_file_name }}</div>
+      <div class="file-name">{{ file.additional_file_name }}</div>
       <button class="btn"
               :class="buttonList[contentType]['class']"
               @click="buttonList[contentType]['function']"
@@ -93,6 +93,16 @@ export default {
     width: 100%;
     align-items: center;
     gap: 14px;
+  }
+}
+
+.file-name {
+  cursor: pointer;
+  font-weight: 600;
+  transition: color 0.1s ease-in-out;
+  &:hover{
+    color: $colorPrimary600;
+    text-decoration: underline;
   }
 }
 
