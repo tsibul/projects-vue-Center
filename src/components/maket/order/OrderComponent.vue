@@ -72,6 +72,8 @@ const hideImportForm = () => {
       v-if="openFiles"
       @close-files="handleCloseFiles"
       :orderId="filesId"
+      @one-file-deleted="handleFileDeleted(filesId)"
+      @one-file-imported="handleFileImported(filesId)"
   />
 
 </template>
@@ -96,7 +98,7 @@ export default {
       showDeleteAlert: false,
       deleteUrl: null,
       openFiles: false,
-      filesId: null
+      filesId: null,
     }
   },
   created() {
@@ -171,8 +173,15 @@ export default {
     handleOpenFiles(orderId) {
       this.openFiles = true;
       this.filesId = orderId;
-    }
-
+    },
+    handleFileDeleted(orderId){
+      const order = this.orderList.find((order) => order.pk === orderId);
+      order.files -= 1;
+    },
+    handleFileImported(orderId){
+      const order = this.orderList.find((order) => order.pk === orderId);
+      order.files += 1;
+    },
   },
 }
 </script>

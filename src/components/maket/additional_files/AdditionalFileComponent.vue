@@ -57,7 +57,7 @@ export default {
   components: {FileListContentComponent},
   mixins: [authMixin, modalDragAndDrop],
   inject: ['appUrl', 'tokenName'],
-  emits: ['close-files'],
+  emits: ['close-files', 'one-file-deleted', 'one-file-imported'],
   data() {
     return {
       fileList: null,
@@ -106,6 +106,7 @@ export default {
             'additional_file_name': importResult.additional_file_name,
             'file_type': importResult.file_type,
           });
+          this.$emit('one-file-imported')
         }
       } catch (error) {
         console.log(error);
@@ -114,6 +115,7 @@ export default {
     fileDeleted(fileType, id) {
       const index = this.fileList[fileType].findIndex(file => file.id === id);
       this.fileList[fileType].splice(index, 1)
+      this.$emit('one-file-deleted')
     }
   },
 }
