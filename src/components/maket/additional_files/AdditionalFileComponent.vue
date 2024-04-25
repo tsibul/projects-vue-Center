@@ -5,10 +5,10 @@
        @mousemove="drag"
   >
     <div class="file-list__header">
-      <p class="active">Связанные файлы</p>
-      <span class="file-list__close"
+      <div class="active">Связанные файлы</div>
+      <div class="file-list__close"
             @click="closeFiles"
-      >&times;</span>
+      >&times;</div>
     </div>
     <div v-if="fileList">
       <FileListContentComponent
@@ -19,17 +19,27 @@
       />
     </div>
     <div class="file-list__item">
-      <div>
+      <div class="file-type">
         <label for="fileDesc">описание&nbsp;</label>
-        <input type="text" name="name" class="form-input name-input" id="fileDesc">
+        <input type="text"
+               name="name"
+               class="form-input name-input"
+               id="fileDesc"
+               ref="fileType">
       </div>
       <div class="file-list__input-frame">
-        <input type="file" name="additional_file_name" placeholder="имя файла" required id="fileName"
+        <input type="file"
+               name="additional_file_name"
+               placeholder="имя файла"
+               required
+               id="fileName"
                ref="fileInput"
                class="file-list__input"
         >
       </div>
-      <button type="button" class="btn btn-save">загрузить</button>
+      <button type="button" class="btn btn-save"
+              @click="downloadFile">загрузить
+      </button>
     </div>
   </div>
 </template>
@@ -39,13 +49,14 @@ import {authMixin} from "@/components/auth/authMixin.js";
 import {fetchData} from "@/components/services/fetchData.js";
 import {modalDragAndDrop} from "@/components/modal_drag_drop/modalDragAndDrop.js";
 import FileListContentComponent from "@/components/file_import/FileListContentComponent.vue";
+import axios from "axios";
 
 export default {
   name: "AdditionalFileComponent",
   components: {FileListContentComponent},
   mixins: [authMixin, modalDragAndDrop],
   inject: ['appUrl', 'tokenName'],
-  emits: ['close-files', 'file-loaded'],
+  emits: ['close-files'],
   data() {
     return {
       fileList: null,
@@ -67,6 +78,38 @@ export default {
     closeFiles() {
       this.$emit('close-files')
     },
+    async downloadFile() {
+      try {
+        const inputElement = this.$refs.fileInput;
+        const fileType = this.$refs.fileType.value;
+        const formData = new FormData();
+        formData.append('file', inputElement.files[0]);
+        formData.append('file_name', inputElement.files[0].name);
+        formData.append('file_type', fileType);
+        const token = localStorage.getItem(this.tokenName);
+        const response = await axios.post(
+            `${this.appUrl}import_additional_file/${this.orderId}`,
+            formData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${token}`
+              },
+            }
+        );
+        const importResult = response.data;
+        if (importResult) {
+          this.fileList['main'].push({
+            'id': importResult.id,
+            'name': importResult.name,
+            'additional_file_name': importResult.additional_file_name,
+            'file_type': importResult.file_type,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 }
 </script>
@@ -84,7 +127,8 @@ export default {
   border-radius: 10px;
   position: absolute;
   top: 25vh;
-  left: 20vw;
+  left: 16vw;
+  //max-width: 740px;
   box-shadow: 6px 6px 12px $colorPrimary800;
   background-color: $colorSecondary200;
 
@@ -131,21 +175,29 @@ export default {
   }
 
   &__close {
+    padding-left: 12px;
+    z-index: 10;
     float: right;
-    font-size: 16px;
+    font-size: 18px;
     cursor: pointer;
   }
 
   &__item {
+    display: grid;
+    grid-template-columns: 4fr 4fr 1fr;
+    padding: 0 14px;
     width: 100%;
-    display: flex;
     align-items: center;
     gap: 14px;
   }
 }
 
 .name-input {
-  width: 300px;
+  width: 100%;
 }
 
+.file-type {
+  display: flex;
+  align-items: center;
+}
 </style>
