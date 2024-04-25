@@ -56,7 +56,7 @@ export default {
         'function': this.deleteFile()
       },
       'deleted': {
-        'title': 'перепривязать',
+        'title': 'привязать',
         'class': 'btn-save',
         'function': this.reconnectFile()
       },
@@ -87,8 +87,10 @@ export default {
   }
 
   &__item {
+    padding: 4px 0;
+    display: grid;
+    grid-template-columns: 4fr 4fr 1fr;
     width: 100%;
-    display: flex;
     align-items: center;
     gap: 14px;
   }
