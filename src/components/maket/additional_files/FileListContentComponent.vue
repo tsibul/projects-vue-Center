@@ -5,7 +5,12 @@
          v-for="file in content"
          :key="file.id">
       <div>{{ file.name }}</div>
-      <div class="file-name">{{ file.additional_file_name }}</div>
+      <div
+          class="file-name"
+          @click="fileShow(file.id, file.file_type, file.additional_file_name)"
+      >
+        {{ file.additional_file_name }}
+      </div>
       <button class="btn"
               :class="buttonList[contentType]['class']"
               @click="buttonList[contentType]['function']"
@@ -18,8 +23,11 @@
 </template>
 
 <script>
+import {fetchData} from "@/components/services/fetchData.js";
+
 export default {
   name: "FileListContentComponent",
+  inject: ['appUrl', 'tokenName'],
   props: {
     content: Array,
     contentType: String
@@ -36,6 +44,19 @@ export default {
     },
     async reconnectFile() {
 
+    },
+    async fileShow(fileId, fileType, additionalFileName) {
+      const fileUrl = `${this.appUrl}additional_file_show/${fileId}/${additionalFileName}`;
+      const response = await fetchData(fileUrl, this.tokenName);
+      if(response) {
+        if(fileType === '.pdf'){
+          window.open(fileUrl, '_blank', 'noopener');
+        } else {
+          window.location.href = fileUrl;
+        }
+      } else {
+        alert('ошибка загрузки')
+      }
     },
   },
   created() {
@@ -100,7 +121,8 @@ export default {
   cursor: pointer;
   font-weight: 600;
   transition: color 0.1s ease-in-out;
-  &:hover{
+
+  &:hover {
     color: $colorPrimary600;
     text-decoration: underline;
   }

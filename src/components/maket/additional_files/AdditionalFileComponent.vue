@@ -48,7 +48,7 @@
 import {authMixin} from "@/components/auth/authMixin.js";
 import {fetchData} from "@/components/services/fetchData.js";
 import {modalDragAndDrop} from "@/components/modal_drag_drop/modalDragAndDrop.js";
-import FileListContentComponent from "@/components/file_import/FileListContentComponent.vue";
+import FileListContentComponent from "@/components/maket/additional_files/FileListContentComponent.vue";
 import axios from "axios";
 
 export default {
