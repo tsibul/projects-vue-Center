@@ -17,7 +17,7 @@
         </button>
       <button class="btn btn-save"
               @click="handleOpenFiles">
-        <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" class="fa"/>&nbsp;0&nbsp;/&nbsp;0
+        <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" class="fa"/>&nbsp;0&nbsp;/&nbsp;{{order.files}}
       </button>
       <button class="btn btn-close"
               @click="deleteAlert"
