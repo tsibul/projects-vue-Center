@@ -74,6 +74,7 @@ const hideImportForm = () => {
       :orderId="filesId"
       @one-file-deleted="handleFileDeleted(filesId)"
       @one-file-imported="handleFileImported(filesId)"
+      @file-reconnected="handleFileReconnected(filesId)"
   />
 
 </template>
@@ -182,6 +183,12 @@ export default {
       const order = this.orderList.find((order) => order.pk === orderId);
       order.files += 1;
     },
+    handleFileReconnected(orderId, reconnectData){
+      const orderNew = this.orderList.find((order) => order.pk === orderId);
+      orderNew.files += 1;
+      const orderOld = this.orderList.find((order) => order.pk === reconnectData['orderId']);
+      orderOld.files -= 1;
+    }
   },
 }
 </script>
