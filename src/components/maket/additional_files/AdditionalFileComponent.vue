@@ -7,8 +7,9 @@
     <div class="file-list__header">
       <div class="active">Связанные файлы</div>
       <div class="file-list__close"
-            @click="closeFiles"
-      >&times;</div>
+           @click="closeFiles"
+      >&times;
+      </div>
     </div>
     <div v-if="fileList">
       <FileListContentComponent
@@ -17,6 +18,7 @@
           :content="fileList[fileType]"
           :contentType="fileType"
           @delete-file="fileDeleted(fileType)"
+          @reconnect-file="reconnectFile"
       />
     </div>
     <div class="file-list__item">
@@ -57,7 +59,7 @@ export default {
   components: {FileListContentComponent},
   mixins: [authMixin, modalDragAndDrop],
   inject: ['appUrl', 'tokenName'],
-  emits: ['close-files', 'one-file-deleted', 'one-file-imported'],
+  emits: ['close-files', 'one-file-deleted', 'one-file-imported', 'file-reconnected'],
   data() {
     return {
       fileList: null,
@@ -105,6 +107,7 @@ export default {
             'name': importResult.name,
             'additional_file_name': importResult.additional_file_name,
             'file_type': importResult.file_type,
+            'order__id': importResult.order__id,
           });
           this.$emit('one-file-imported')
         }
@@ -114,8 +117,21 @@ export default {
     },
     fileDeleted(fileType, id) {
       const index = this.fileList[fileType].findIndex(file => file.id === id);
-      this.fileList[fileType].splice(index, 1)
-      this.$emit('one-file-deleted')
+      this.fileList[fileType].splice(index, 1);
+      this.$emit('one-file-deleted');
+    },
+    async reconnectFile(id) {
+      const reconnectUrl = `${this.appUrl}reconnect_additional_file/${id}/${this.orderId}`;
+      const response = await fetchData(reconnectUrl, this.tokenName);
+      if (response) {
+        const reconnectedFileData = this.fileList['deleted'].find(file => file.id === id);
+        const deletedIndex = this.fileList['deleted'].findIndex(file => file.id === id);
+        const oldOrderId = reconnectedFileData['order__id'];
+        reconnectedFileData['order__id'] = response['orderId'];
+        this.fileList['deleted'].splice(deletedIndex, 1);
+        this.fileList['main'].push(reconnectedFileData);
+        this.$emit('file-reconnected', oldOrderId)
+      }
     }
   },
 }
