@@ -28,7 +28,7 @@ import {fetchData} from "@/components/services/fetchData.js";
 export default {
   name: "FileListContentComponent",
   inject: ['appUrl', 'tokenName'],
-  emits: ['delete-file'],
+  emits: ['delete-file', 'reconnect-file'],
   props: {
     content: Array,
     contentType: String
@@ -49,8 +49,8 @@ export default {
             }
           })
     },
-    reconnectFile() {
-
+    reconnectFile(fileId) {
+      this.$emit('reconnect-file', fileId);
     },
     async fileShow(fileId, fileType, additionalFileName) {
       const fileUrl = `${this.appUrl}additional_file_show/${fileId}/${additionalFileName}`;
