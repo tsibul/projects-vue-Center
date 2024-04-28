@@ -56,10 +56,10 @@ export default {
     searchString: String,
     dictionaryOrder: String,
     show: Boolean,
+    dictionaryName: String,
   },
   data() {
     return {
-      dictionaryName: 'Pattern',
       dictionaryData: null,
       lastRecord: 0,
       showDeleted: 0,
