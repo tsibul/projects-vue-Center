@@ -2,10 +2,10 @@
 
 </script>
 <template>
-  <div class="dict-block__row" v-if="rowData">
-    <div class="dict-block__text">{{ rowData.fields[0] }}</div>
-    <div class="dict-block__text">{{ rowData.fields[1] }}</div>
-    <div class="dict-block__text file"
+  <div class="pattern__row" v-if="rowData">
+    <div class="pattern__text">{{ rowData.fields[0] }}</div>
+    <div class="pattern__text">{{ rowData.fields[1] }}</div>
+    <div class="pattern__text pattern__file"
          @click="fileShow(rowData.id)"
     >{{ rowData.fields[2] }}
     </div>
@@ -67,7 +67,7 @@ export default {
 @import "@/assets/maket/scss/vars";
 @import "@/assets/maket/scss/dictionary_sizes";
 
-.dict-block {
+.pattern {
   &__row {
     display: grid;
     align-items: center;
@@ -78,7 +78,11 @@ export default {
 
   }
 
-  .file {
+  &__text {
+    width: 100%;
+    font-weight: inherit;
+  }
+  &__file {
     cursor: pointer;
     color: blue;
     text-decoration: underline;
@@ -88,10 +92,7 @@ export default {
       text-decoration: underline;
     }
   }
-
-  &__text {
-    width: 100%;
-    font-weight: inherit;
-  }
 }
+
+
 </style>
