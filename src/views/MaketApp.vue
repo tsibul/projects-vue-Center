@@ -296,7 +296,18 @@ export default {
       opacity: 0.5;
     }
   }
+}
 
+.font {
+  &__normal {
+    font-size: 16px;
+  }
+  &__15{
+    font-size: 15px;
+  }
+  &__14{
+    font-size: 14px;
+  }
 }
 
 .search-block {
@@ -308,7 +319,7 @@ export default {
   }
 }
 
-.hide-deleted{
+.hide-deleted {
   font-size: 15px;
   font-weight: normal;
   display: flex;
