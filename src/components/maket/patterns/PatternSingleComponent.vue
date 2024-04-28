@@ -74,7 +74,7 @@ export default {
     gap: 10px;
     padding: 8px 8px;
     border-radius: 10px;
-    grid-template-columns: 4fr 5fr 7fr 2fr 2fr;
+    grid-template-columns: 4fr 4fr 8fr 2fr 2fr;
 
   }
 

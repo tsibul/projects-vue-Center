@@ -43,7 +43,7 @@ export default {
 <style scoped lang="scss">
 .title-row {
   display: grid;
-  grid-template-columns: 4fr 5fr 7fr 4fr;
+  grid-template-columns: 4fr 4fr 8fr 4fr;
   margin-right: 19px;
   align-items: center;
   gap: 10px;
