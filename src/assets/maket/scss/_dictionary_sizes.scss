@@ -9,6 +9,7 @@
 .customergroup-block,
 .customer-block,
 .manager-block,
+.pattern-block,
 {
   max-width: 1600px;
   grid-column: 1 / 5;
@@ -37,7 +38,6 @@
 .customertype-block,
 .detailtype-block,
 .ourcompany-block,
-.pattern-block,
 {
   max-width: 800px;
   grid-column: span 2;
@@ -82,7 +82,7 @@
 }
 
 .pattern-row{
-  grid-template-columns: 2fr  2fr 2.5fr 1fr; ;
+  grid-template-columns: 4fr 5fr 7fr 2fr 2fr;
 }
 
 
