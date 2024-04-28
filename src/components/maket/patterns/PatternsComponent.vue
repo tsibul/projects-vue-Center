@@ -2,7 +2,7 @@
   <div class="dict-block">
     <div class="dict-block__header active">
       <div>
-        <font-awesome-icon :icon="['fas', 'compass-drafting']"/>
+        <font-awesome-icon :icon="['fas', 'compass-drafting']"/>&nbsp;
         Шаблоны
       </div>
       <div class="dict-block__search">

@@ -2,6 +2,7 @@
 
 import SettingsFormRowComponent from "@/components/settings/SettingsFormRowComponent.vue";
 import PatternSingleComponent from "@/components/maket/patterns/PatternSingleComponent.vue";
+import DeleteAlertComponent from "@/components/delete_alert/DeleteAlertComponent.vue";
 </script>
 
 <template>
@@ -37,6 +38,12 @@ import PatternSingleComponent from "@/components/maket/patterns/PatternSingleCom
       </div>
     </div>
   </div>
+  <DeleteAlertComponent
+      v-if="showDeleteAlert"
+      @closeForm="showDeleteAlert=false"
+      @deleted="handleDeleted"
+      :deleteUrl="deleteUrl"/>
+
 </template>
 
 <script>
@@ -58,7 +65,9 @@ export default {
       showDeleted: 0,
       showRecord: false,
       rowEdit: null,
-      rowClass: {'pattern-row': true}
+      rowClass: {'pattern-row': true},
+      showDeleteAlert: false,
+      deleteUrl: null,
     }
   },
   created() {
@@ -103,12 +112,14 @@ export default {
         console.error('Error while fetching data:', error);
       });
     },
-    deleteRow(rowId){
-      const deleteUrl = `${this.appUrl}dictionary_delete/${this.dictionaryName}/${rowId}`;
-      fetchData(deleteUrl, this.tokenName).then(() => {
-        const dictionaryDataElementIndex = this.dictionaryData.findIndex(el => el.id === rowId);
-        this.dictionaryData.splice(dictionaryDataElementIndex, 1);
-      });
+    deleteRow(rowId) {
+      this.showDeleteAlert = true;
+      this.deleteUrl = `dictionary_delete/${this.dictionaryName}/${rowId}`;
+    },
+    handleDeleted(rowId) {
+      const dictionaryDataElementIndex = this.dictionaryData.findIndex(el => el.id === rowId);
+      this.dictionaryData.splice(dictionaryDataElementIndex, 1);
+      this.showDeleteAlert = false
     },
     handleShowForm() {
       this.showRecord = true;

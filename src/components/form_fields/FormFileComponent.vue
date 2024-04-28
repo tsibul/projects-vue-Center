@@ -29,7 +29,7 @@ export default {
   },
   props: {
     field: Object,
-    fieldValue: File,
+    fieldValue: String,
   },
   created() {
     this.$emit('field-valid', {
