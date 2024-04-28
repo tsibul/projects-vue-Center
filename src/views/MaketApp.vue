@@ -15,9 +15,9 @@ import MenuComponent from "@/components/menu/MenuComponent.vue";
 import OrderComponent from "@/components/maket/order/OrderComponent.vue";
 import MaketComponent from "@/components/maket/MaketComponent.vue";
 import FilmComponent from "@/components/maket/FilmComponent.vue";
-import TemplateComponent from "@/components/maket/TemplateComponent.vue";
+import PatternsComponent from "@/components/maket/patterns/PatternsComponent.vue";
 import SettingsComponent from "@/components/settings/SettingsComponent.vue";
-import FilesComponent from "@/components/maket/FilesComponent.vue";
+import FilesComponent from "@/components/maket/files/FilesComponent.vue";
 import ErrorsComponent from "@/components/maket/ErrorsComponent.vue";
 import {mapState, mapMutations} from 'vuex';
 import axios from "axios";
@@ -38,7 +38,7 @@ export default {
         'Заказы': OrderComponent,
         'Макеты': MaketComponent,
         'Пленки': FilmComponent,
-        'Шаблоны': TemplateComponent,
+        'Шаблоны': PatternsComponent,
         'Настройки': SettingsComponent,
         'Файлы': FilesComponent,
         'Ошибки': ErrorsComponent
