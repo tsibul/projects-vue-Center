@@ -26,5 +26,9 @@ export const fieldTypeComponent = {
     'svgFile': {
         component: FormFileComponent,
         props: ['value', 'readonly']
+    },
+    'file': {
+        component: FormFileComponent,
+        props: ['value', 'readonly']
     }
 }
