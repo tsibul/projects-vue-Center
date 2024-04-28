@@ -37,6 +37,7 @@
 .customertype-block,
 .detailtype-block,
 .ourcompany-block,
+.pattern-block,
 {
   max-width: 800px;
   grid-column: span 2;
@@ -80,6 +81,9 @@
   grid-template-columns: 1fr 4fr 1fr;
 }
 
+.pattern-row{
+  grid-template-columns: 2fr  2fr 2.5fr 1fr; ;
+}
 
 
 //&__2 {
