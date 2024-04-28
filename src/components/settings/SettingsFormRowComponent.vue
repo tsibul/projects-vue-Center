@@ -4,7 +4,11 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 </script>
 
 <template>
-  <form class="form-row" :class="rowClass" ref="formRef">
+  <form class="form-row"
+        :class="rowClass"
+        ref="formRef"
+        enctype="multipart/form-data"
+  >
     <input type="number" :value="rowId" hidden name="id">
     <template v-for="(field, index) in dictionaryFields" :key="index">
       <component :is="fieldTypeComponent[field['type']].component"
@@ -95,12 +99,16 @@ export default {
     },
     async saveDictionary() {
       if (this.formValid) {
-        const formData = {};
+        const formData = new FormData();
         const formElements = this.$refs.formRef.elements;
 
         for (let i = 0; i < formElements.length; i++) {
           const element = formElements[i];
-          formData[element.name] = element.value;
+          if (!element.files) {
+            formData.append(element.name, element.value); // Для элементов без файла
+          } else {
+            formData.append('file', element.files[0]); // Для элементов с файлом
+          }
         }
         const postUrl = `${this.appUrl}dictionary_update/${this.dictionaryName}`;
         const postResult = await submitForm(postUrl, this.tokenName, formData);
