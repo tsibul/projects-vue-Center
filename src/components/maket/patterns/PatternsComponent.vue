@@ -4,7 +4,9 @@
         :title="'Шаблоны'"
         :icon="'compass-drafting'"
         :font-class="{'font__normal': true}"
-        @search-string="search" />
+        :check-box-deleted="false"
+        @search-string="search"
+    />
     <TitlePatternComponent
         @show-form="showForm"
     />
@@ -17,14 +19,13 @@
 </template>
 
 <script>
-import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import TitlePatternComponent from "@/components/maket/patterns/TitlePatternomponent.vue";
 import PatternSetComponent from "@/components/maket/patterns/PatternSetComponent.vue";
 import ClauseHeadingComponent from "@/components/maket/ClauseHeadingComponent.vue";
 
 export default {
   name: "PatternsComponent",
-  components: {ClauseHeadingComponent, PatternSetComponent, TitlePatternComponent, FontAwesomeIcon},
+  components: {ClauseHeadingComponent, PatternSetComponent, TitlePatternComponent},
   data() {
     return {
       dictionaryName: 'Pattern',
@@ -41,9 +42,6 @@ export default {
       } else {
         this.searchString = 'default';
       }
-    },
-    clearInput() {
-      this.searchInput = '';
     },
     showForm(data) {
       this.show = data;

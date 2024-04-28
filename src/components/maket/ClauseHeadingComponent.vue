@@ -5,6 +5,11 @@
       {{ title }}
     </div>
     <div class="dict-block__search">
+      <div class="hide-deleted" v-if="checkBoxDeleted">
+        <input type="checkbox" id="hideDeleted" checked
+               @change="hideDeletedChecked">
+        <label for="hideDeleted">{{ checkBoxDeletedText }}</label>
+      </div>
       <font-awesome-icon :icon="['fas', 'magnifying-glass']"/>
       <input v-model="searchInput" type="text" class="form-input dict-block__form-input"
              placeholder="искать...">
@@ -18,15 +23,18 @@
 <script>
 export default {
   name: "ClauseHeadingComponent",
-  emits: ['search-string'],
+  emits: ['search-string', 'hide-deleted-change'],
   props: {
     title: String,
     icon: String,
-    fontClass: Object
+    fontClass: Object,
+    checkBoxDeleted: Boolean,
+    checkBoxDeletedText: String,
   },
   data() {
     return {
       searchInput: '',
+      checked: true,
     }
   },
   methods: {
@@ -35,6 +43,10 @@ export default {
     },
     search(){
       this.$emit('search-string', this.searchInput);
+    },
+    hideDeletedChecked() {
+      this.checked = !this.checked;
+      this.$emit('hide-deleted-change', this.checked);
     }
   },
 
