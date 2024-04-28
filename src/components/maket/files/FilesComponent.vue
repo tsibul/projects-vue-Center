@@ -44,9 +44,6 @@ export default {
     hideDeletedChange(checked) {
       this.showUnDeleted = checked;
     },
-    clearInput() {
-      this.searchInput = '';
-    },
   },
 }
 </script>
