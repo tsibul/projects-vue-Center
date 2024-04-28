@@ -24,7 +24,6 @@
   </div>
 </template>
 <script>
-import {fetchData} from "@/components/services/fetchData.js";
 import axios from "axios";
 
 export default {
