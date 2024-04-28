@@ -119,7 +119,8 @@ export default {
     handleDeleted(rowId) {
       const dictionaryDataElementIndex = this.dictionaryData.findIndex(el => el.id === rowId);
       this.dictionaryData.splice(dictionaryDataElementIndex, 1);
-      this.showDeleteAlert = false
+      this.showDeleteAlert = false;
+      this.deleteUrl = null;
     },
     handleShowForm() {
       this.showRecord = true;
