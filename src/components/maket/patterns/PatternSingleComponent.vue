@@ -38,7 +38,7 @@ export default {
       this.$emit('row-deleted');
     },
     async fileShow(patternId) {
-      const fileUrl = `${this.appUrl}pattern_show/${patternId}`;
+      const fileUrl = `${this.appUrl}pattern_show/${patternId}/${this.rowData.fields[1]}`;
       const token = localStorage.getItem(this.tokenName);
       if (token) {
         const response = await axios.get(fileUrl, {
