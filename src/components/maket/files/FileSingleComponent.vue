@@ -4,7 +4,11 @@
 
 <script>
 export default {
-  name: "FileSingleComponent"
+  name: "FileSingleComponent",
+  props:{
+    fieldList: Object,
+    dataList: Array,
+  }
 }
 </script>
 

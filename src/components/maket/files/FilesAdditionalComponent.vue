@@ -13,6 +13,10 @@
         :searchString="searchString"
         :order="order"
         :showUndeleted="showUndeleted"
+        :fieldList="fieldList"
+        :fileUrl="fileUrl"
+        :for-delete-url="deleteUrl"
+        :rowClass="rowClass"
     />
   </div>
 </template>
@@ -30,7 +34,17 @@ export default {
       searchInput: '',
       searchString: 'default',
       order: 'default',
-      showUndeleted: false
+      showUndeleted: false,
+      fieldList: {
+        'id': '',
+        'name': 'название',
+        'additional_file_name': 'имя файла',
+        'order__order_number': 'номер заказа',
+        'order__customer_name': 'клиент',
+      },
+      fileUrl: `${this.appUrl}files_additional_file`,
+      deleteUrl: `${this.appUrl}files_additional_file_delete`,
+      rowClass: {'additional-files': true}
     }
   },
   methods: {
