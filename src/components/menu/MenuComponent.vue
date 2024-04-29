@@ -25,7 +25,6 @@ export default {
   },
   props: {
     menuItems: Object,
-    // currentUser: Object
   },
   methods: {
     handleItemSelected(selectedItem) {
