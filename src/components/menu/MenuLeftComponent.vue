@@ -2,16 +2,30 @@
 
 import {RouterLink} from "vue-router";
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import SubMenuComponent from "@/components/menu/SubMenuComponent.vue";
 </script>
 
 <template>
-  <div class="menu__item mobile__show"><font-awesome-icon :icon="['fas', 'bars']" /></div>
+  <div class="menu__item mobile__show">
+    <font-awesome-icon :icon="['fas', 'bars']"/>
+  </div>
   <div class="menu__left">
     <RouterLink to="/" class="menu__item">
       <font-awesome-icon :icon="['fas', 'arrows-to-circle']"/>
     </RouterLink>
-    <div :class="{ 'menu__item': true, 'active': index === 0 }" v-for="(menuItem, index) in Object.keys(menuItems)"
-         :key="index" @click="selectItem($event, menuItem)">{{ menuItem }}
+    <div
+        v-for="(menuItem, index) in Object.keys(menuItems)"
+        :key="index">
+      <div v-if="menuItems[menuItem].length === 1"
+          :class="{ 'menu__item': true, 'active': index === 0 }"
+          @click="selectItem($event, menuItem)">{{ menuItem }}
+      </div>
+      <SubMenuComponent
+          v-else
+          @select-subitem="selectSubItem($event, menuItem)"
+          :menuItem="menuItem"
+          :menuItems="menuItems"
+      />
     </div>
   </div>
 
@@ -25,7 +39,8 @@ export default {
   emits: ['item-selected'],
   data() {
     return {
-      selectedItem: null
+      selectedItem: null,
+      submenuSelectedItem: null
     };
   },
   methods: {
@@ -36,9 +51,18 @@ export default {
       }
       event.currentTarget.classList.add('active');
       this.selectedItem = item;
-      this.$emit('item-selected', this.selectedItem);
-
-    }
+      this.$emit('item-selected', [this.selectedItem]);
+    },
+    selectSubItem(subItem, menuItem) {
+      const prevSelectedItem = document.querySelector('.menu__item.active');
+      if (prevSelectedItem) {
+        prevSelectedItem.classList.remove('active');
+      }
+      this.selectedItem = menuItem;
+      this.submenuSelectedItem = subItem;
+      this.$emit('item-selected', [this.selectedItem, this.submenuSelectedItem]);
+      // this.$refs(menuItem).classList.add('active');
+    },
   }
 }
 </script>
