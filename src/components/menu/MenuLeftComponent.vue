@@ -40,12 +40,12 @@ export default {
   data() {
     return {
       selectedItem: null,
-      submenuSelectedItem: null
+      submenuSelectedItem: null,
     };
   },
   methods: {
     selectItem(event, item) {
-      const prevSelectedItem = document.querySelector('.menu__item.active');
+      const prevSelectedItem = document.querySelector('.menu__left').querySelector('.menu__item.active');
       if (prevSelectedItem) {
         prevSelectedItem.classList.remove('active');
       }
@@ -54,14 +54,13 @@ export default {
       this.$emit('item-selected', [this.selectedItem]);
     },
     selectSubItem(subItem, menuItem) {
-      const prevSelectedItem = document.querySelector('.menu__item.active');
+      const prevSelectedItem = document.querySelector('.menu__left').querySelector('.menu__item.active');
       if (prevSelectedItem) {
         prevSelectedItem.classList.remove('active');
       }
       this.selectedItem = menuItem;
       this.submenuSelectedItem = subItem;
       this.$emit('item-selected', [this.selectedItem, this.submenuSelectedItem]);
-      // this.$refs(menuItem).classList.add('active');
     },
   }
 }
