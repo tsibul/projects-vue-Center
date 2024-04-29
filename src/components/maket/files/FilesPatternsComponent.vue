@@ -1,7 +1,7 @@
 <template>
   <div class="files">
     <ClauseHeadingComponent
-        :title="'Файлы'"
+        :title="'Файлы шаблонов'"
         :icon="'file'"
         :font-class="{'font__normal': true}"
         :check-box-deleted="true"
@@ -22,7 +22,7 @@ import ClauseHeadingComponent from "@/components/maket/ClauseHeadingComponent.vu
 import FileSetComponent from "@/components/maket/files/FileSetComponent.vue";
 
 export default {
-  name: "FilesComponent",
+  name: "FilesPatternsComponent",
   components: {FileSetComponent, ClauseHeadingComponent},
   inject: ['appUrl', 'tokenName'],
   data() {
