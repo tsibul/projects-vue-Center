@@ -22,7 +22,6 @@ import {authMixin} from "@/components/auth/authMixin.js";
 
 export default {
   name: 'LogoutComponent',
-  inject: ['currentUser'],
   mixins: [authMixin],
   methods: {
     closeForm() {
