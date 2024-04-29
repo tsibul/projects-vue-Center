@@ -3,10 +3,14 @@ import MenuComponent from "@/components/menu/MenuComponent.vue";
 </script>
 
 <template>
-  <MenuComponent :menuItems="menuItems" @item-selected="handleItemSelected"/>
+  <MenuComponent :menuItems="menuItems"
+                 @item-selected="handleItemSelected"/>
   <div class="full-content">
     <div class="container">
-      <component :is="menuItems[selectedItem]"></component>
+      <component
+          v-if="selectedComponent"
+          :is="selectedComponent" />
+      <div v-else></div>
     </div>
   </div>
 </template>
@@ -17,11 +21,12 @@ import MaketComponent from "@/components/maket/MaketComponent.vue";
 import FilmComponent from "@/components/maket/FilmComponent.vue";
 import PatternsComponent from "@/components/maket/patterns/PatternsComponent.vue";
 import SettingsComponent from "@/components/settings/SettingsComponent.vue";
-import FilesComponent from "@/components/maket/files/FilesComponent.vue";
+import FilesPatternsComponent from "@/components/maket/files/FilesPatternsComponent.vue";
 import ErrorsComponent from "@/components/maket/ErrorsComponent.vue";
 import {mapState, mapMutations} from 'vuex';
 import axios from "axios";
 import {markRaw} from "vue";
+import FilesAdditionalComponent from "@/components/maket/files/FilesAdditionalComponent.vue";
 
 export default {
   name: 'MaketApp',
@@ -33,17 +38,22 @@ export default {
   },
   data() {
     return {
-      menuItems: {'Вход не выполнен': ''},
-      defaultItems: markRaw({
-        'Заказы': OrderComponent,
-        'Макеты': MaketComponent,
-        'Пленки': FilmComponent,
-        'Шаблоны': PatternsComponent,
-        'Настройки': SettingsComponent,
-        'Файлы': FilesComponent,
-        'Ошибки': ErrorsComponent
-      }),
-      selectedItem: null
+      menuItems: {'Вход не выполнен': ['']},
+      defaultItems:{
+        'Заказы': [markRaw(OrderComponent)],
+        'Макеты': [markRaw(MaketComponent)],
+        'Пленки': [markRaw(FilmComponent)],
+        'Шаблоны': [markRaw(PatternsComponent)],
+        'Настройки': [markRaw(SettingsComponent)],
+        'Файлы': [
+          {'Файлы шаблонов': markRaw(FilesPatternsComponent)},
+          {'Дополнительные файлы': markRaw(FilesAdditionalComponent)}
+        ],
+        'Ошибки': [markRaw(ErrorsComponent)]
+      },
+      selectedItem: 'Вход не выполнен',
+      subItem: null,
+      selectedComponent: null
     }
   },
   created() {
@@ -61,7 +71,15 @@ export default {
     ...mapMutations(['setUser']),
 
     handleItemSelected(selectedItem) {
-      this.selectedItem = selectedItem;
+      this.selectedComponent = null;
+      if (!selectedItem[1]) {
+        this.selectedItem = selectedItem[0];
+        this.selectedComponent = this.menuItems[this.selectedItem][0]
+      } else {
+        const componentArr = this.menuItems[selectedItem[0]];
+        this.selectedComponent = componentArr.find((item) => Object.keys(item)[0] === selectedItem[1])[selectedItem[1]];
+      }
+      console.log()
     },
 
     async setUser() {
@@ -99,7 +117,7 @@ export default {
         this.menuItems = this.defaultItems;
         this.selectedItem = 'Заказы';
       } else {
-        this.menuItems = {'Вход не выполнен': ''}
+        this.menuItems = {'Вход не выполнен': ['']};
       }
     },
   },
@@ -302,10 +320,12 @@ export default {
   &__normal {
     font-size: 16px;
   }
-  &__15{
+
+  &__15 {
     font-size: 15px;
   }
-  &__14{
+
+  &__14 {
     font-size: 14px;
   }
 }
