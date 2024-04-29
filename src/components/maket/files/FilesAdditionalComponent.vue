@@ -12,7 +12,7 @@
     <FileSetComponent
         :searchString="searchString"
         :order="order"
-        :showUndeleted="showUndeleted"
+        :showUnDeleted="showUnDeleted"
         :fieldList="fieldList"
         :fileUrl="fileUrl"
         :for-delete-url="deleteUrl"
@@ -34,7 +34,7 @@ export default {
       searchInput: '',
       searchString: 'default',
       order: 'default',
-      showUndeleted: false,
+      showUnDeleted: false,
       fieldList: {
         'id': '',
         'name': 'название',
