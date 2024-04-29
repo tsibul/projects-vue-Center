@@ -1,11 +1,14 @@
 <template>
-  <div :class="{ 'menu__item': true, 'submenu': true, 'active': isActive }">
+  <div class="menu__item submenu"
+       @mouseenter="subMenuOpen"
+       @mouseleave="subMenuClose"
+  >
     {{ menuItem }}
-    <div class="submenu__list">
+    <div class="submenu__list" v-show="isOpen">
       <div class="submenu__item"
            v-for="item in subMenuItems"
            :key="item.id"
-           @click="subMenuItemSelect(item)"
+           @click="subMenuItemSelect($event, item)"
       >
         {{ Object.keys(item)[0] }}
       </div>
@@ -19,21 +22,28 @@ export default {
   emits: ['select-subitem'],
   props: {
     menuItem: String,
-    menuItems: Object
+    menuItems: Object,
   },
   data() {
     return {
       subMenuItems: [],
-      isActive: false
+      isOpen: false,
     }
   },
   created() {
     this.subMenuItems = this.menuItems[this.menuItem];
   },
   methods: {
-    subMenuItemSelect(item) {
+    subMenuItemSelect(event, item) {
       this.$emit("select-subitem", Object.keys(item)[0]);
-      this.isActive = true
+      event.target.closest(".submenu").classList.add('active');
+      this.subMenuClose();
+    },
+    subMenuOpen() {
+      this.isOpen = true;
+    },
+    subMenuClose() {
+      this.isOpen = false;
     }
   },
 }
@@ -46,17 +56,13 @@ export default {
 .submenu {
   position: relative;
 
-  &:hover &__list {
-    display: block;
-  }
-
   &__list {
     @include brd-standard;
     position: absolute;
-    display: none;
     left: -6px;
     top: 56px;
     background-color: $colorPrimary100;
+    box-shadow: 4px 4px 8px $colorPrimary800;
   }
 
   &__item {
@@ -64,11 +70,11 @@ export default {
     border-radius: 10px;
     padding: 16px 8px;
     text-wrap: nowrap;
+    font-weight: normal;
 
     &:hover {
       background-color: $colorPrimary200;
     }
-
   }
 }
 
