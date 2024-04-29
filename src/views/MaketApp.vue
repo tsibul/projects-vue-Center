@@ -17,12 +17,12 @@ import MenuComponent from "@/components/menu/MenuComponent.vue";
 
 <script>
 import OrderComponent from "@/components/maket/order/OrderComponent.vue";
-import MaketComponent from "@/components/maket/MaketComponent.vue";
-import FilmComponent from "@/components/maket/FilmComponent.vue";
+import MaketComponent from "@/components/maket/maket/MaketComponent.vue";
+import FilmComponent from "@/components/maket/film/FilmComponent.vue";
 import PatternsComponent from "@/components/maket/patterns/PatternsComponent.vue";
 import SettingsComponent from "@/components/settings/SettingsComponent.vue";
 import FilesPatternsComponent from "@/components/maket/files/FilesPatternsComponent.vue";
-import ErrorsComponent from "@/components/maket/ErrorsComponent.vue";
+import ErrorsComponent from "@/components/maket/error/ErrorsComponent.vue";
 import {mapState, mapMutations} from 'vuex';
 import axios from "axios";
 import {markRaw} from "vue";
