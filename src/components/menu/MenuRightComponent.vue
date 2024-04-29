@@ -14,9 +14,6 @@ import AppVersionComponent from "@/components/maket/AppVersionComponent.vue";
 <script>
 export default {
   name: 'MenuComponent',
-  // props: {
-  //   currentUser: Object,
-  // }
 }
 </script>
 
