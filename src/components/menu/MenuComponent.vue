@@ -8,7 +8,9 @@ import MenuRightComponent from "@/components/menu/MenuRightComponent.vue";
   <header class="header">
     <div class="container">
       <menu class="menu">
-        <MenuLeftComponent :menuItems="menuItems" @item-selected="handleItemSelected"/>
+        <MenuLeftComponent
+            :menuItems="menuItems"
+            @item-selected="handleItemSelected"/>
         <!--        <MenuRightComponent :currentUser="currentUser" />-->
         <MenuRightComponent/>
       </menu>
