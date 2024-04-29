@@ -20,7 +20,7 @@ export default {
   name: 'MenuComponent',
   data() {
     return {
-      selectedItem: null
+      selectedItem: 'Вход не выполнен'
     }
   },
   props: {
