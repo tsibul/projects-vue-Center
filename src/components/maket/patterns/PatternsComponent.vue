@@ -2,7 +2,7 @@
   <div class="dict-block">
     <ClauseHeadingComponent
         :title="'Шаблоны'"
-        :icon="'compass-drafting'"
+        :icon="'compass'"
         :font-class="{'font__normal': true}"
         :check-box-deleted="false"
         @search-string="search"

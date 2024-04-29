@@ -1,7 +1,7 @@
 <template>
   <div class="dict-block__header active" :class="fontClass">
     <div>
-      <font-awesome-icon :icon="['fas', icon]"/>&nbsp;
+      <font-awesome-icon :icon="['far', icon]"/>&nbsp;
       {{ title }}
     </div>
     <div class="dict-block__search">

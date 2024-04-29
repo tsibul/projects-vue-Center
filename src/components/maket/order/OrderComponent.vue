@@ -20,7 +20,7 @@ const hideImportForm = () => {
   <div class="order">
     <div class="order__header active">
       <div>
-        <font-awesome-icon :icon="['fas', 'handshake']" class="fa"/>
+        <font-awesome-icon :icon="['far', 'handshake']" class="fa"/>
         Заказы
       </div>
       <div class="order__search">
