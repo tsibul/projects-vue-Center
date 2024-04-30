@@ -9,7 +9,7 @@
          :key="index">
       {{ field }}
       <div class="hex"
-           v-if="field[0] === '#'"
+           v-if="field !== '' && field !== null && field[0] === '#'"
            :style="{ 'background-color': field }"></div>
     </div>
     <button class="btn btn-close btn_delete" type="button"
