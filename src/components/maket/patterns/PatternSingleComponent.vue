@@ -24,7 +24,7 @@
   </div>
 </template>
 <script>
-import axios from "axios";
+import {showDownloadFile} from "@/components/services/showDownloadFile.js";
 
 export default {
   name: 'PatternSingleComponent',
@@ -40,23 +40,7 @@ export default {
     async fileShow(patternId) {
       const fileUrl = `${this.appUrl}pattern_show/${patternId}/${this.rowData.fields[1]}`;
       const token = localStorage.getItem(this.tokenName);
-      if (token) {
-        const response = await axios.get(fileUrl, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
-        if (response) {
-          const fileType = response.headers.get('content-type');
-          if (fileType === 'application/pdf') {
-            window.open(fileUrl, '_blank');
-          } else {
-            window.location.href = fileUrl;
-          }
-        } else {
-          alert('ошибка загрузки')
-        }
-      }
+      await showDownloadFile(fileUrl, token)
     },
   }
 }
