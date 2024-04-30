@@ -6,7 +6,11 @@
        :class="rowClass" v-if="rowData">
     <div class="dict-block__text"
          v-for="(field, index) in rowData.fields"
-         :key="index">{{ field }}
+         :key="index">
+      {{ field }}
+      <div class="hex"
+           v-if="field[0] === '#'"
+           :style="{ 'background-color': field }"></div>
     </div>
     <button class="btn btn-close btn_delete" type="button"
             @click="deleteRecord"
@@ -22,8 +26,8 @@ export default {
     rowData: Object,
     rowClass: Object
   },
-  methods:{
-    deleteRecord(){
+  methods: {
+    deleteRecord() {
       this.$emit('row-deleted');
     }
   }
@@ -51,8 +55,20 @@ export default {
   }
 
   &__text {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
     font-weight: inherit;
   }
 }
+
+.hex {
+  font-size: 1.8rem;
+  border: 0.2px solid $colorPrimary800;
+  border-radius: 6px;
+  height: 28px;
+  width: 28px;
+}
+
 </style>
