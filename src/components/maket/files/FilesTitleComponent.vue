@@ -26,10 +26,12 @@ export default {
   name: "FilesTitleComponent",
   components: {DeleteAlertComponent},
   inject: ['tokenName', 'appUrl'],
+  emits:['all-deleted'],
   props: {
     fieldList: Object,
     fileUrl: String,
-    rowClass: Object
+    rowClass: Object,
+    deleteAllUrl: String
   },
   data() {
     return {
@@ -38,9 +40,16 @@ export default {
     }
   },
   methods: {
-    handleDeleted() {
+    handleDeleted(allDeleted) {
+      if (allDeleted.deleted) {
+        this.$emit('all-deleted')
+      }
+      this.showDeleteAlert = false;
+      this.deleteUrl = null;
     },
     deleteAll() {
+      this.deleteUrl = `${this.deleteAllUrl}`;
+      this.showDeleteAlert = true;
     }
   }
 }

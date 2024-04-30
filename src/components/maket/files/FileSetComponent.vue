@@ -3,6 +3,8 @@
       :field-list="fieldList"
       :file-url="fileUrl"
       :row-class="rowClass"
+      :delete-all-url="deleteAllUrl"
+      @all-deleted="handleDeleteAll"
   />
   <FileSingleComponent v-for="file in dataList" :key="file.id"
                        :file="file"
@@ -27,6 +29,7 @@ import FileSingleComponent from "@/components/maket/files/FileSingleComponent.vu
 export default {
   name: "FileSetComponent",
   components: {FileSingleComponent, FilesTitleComponent, DeleteAlertComponent},
+  emits: ['check-to-null'],
   inject: ['tokenName', 'appUrl'],
   props: {
     searchString: String,
@@ -35,6 +38,7 @@ export default {
     fieldList: Object,
     fileUrl: String,
     forDeleteUrl: String,
+    deleteAllUrl: String,
     rowClass: Object,
     filePosition: String,
     fileShow: String
@@ -50,9 +54,14 @@ export default {
   },
   methods: {
     handleDeleted(deletedId) {
-      const indexDeleted = this.dataList.indexOf((elem) => elem.id === deletedId);
+      const indexDeleted = this.dataList.indexOf((elem) => elem.id === deletedId.id);
       this.dataList.splice(indexDeleted, 1);
       this.showDeleteAlert = false;
+    },
+    handleDeleteAll(){
+      this.numberForUndeleted = 0;
+      this.$emit('check-to-null');
+      this.dataList = null;
     },
     async createDataList() {
       const dataUrl = `${this.fileUrl}/${this.lastRecord}/${this.searchString}/${this.numberForUndeleted}`;

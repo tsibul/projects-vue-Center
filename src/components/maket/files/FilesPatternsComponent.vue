@@ -20,6 +20,8 @@
         :rowClass="rowClass"
         :filePosition="filePosition"
         :fileShow="fileShow"
+        :delete-all-url="deleteAllUrl"
+        @check-to-null="handleCheckToNull"
     />
   </div>
 </template>
@@ -47,6 +49,7 @@ export default {
       },
       fileUrl: `${this.appUrl}files_pattern`,
       deleteUrl: `files_pattern_delete`,
+      deleteAllUrl: `files_pattern_delete_all`,
       rowClass: {'pattern-files': true},
       filePosition: 'file',
       fileShow: 'pattern_show',
@@ -62,6 +65,9 @@ export default {
     },
     hideDeletedChange(checked) {
       this.showUnDeleted = checked;
+    },
+    handleCheckToNull() {
+      this.showUnDeleted = false;
     },
   },
 }
