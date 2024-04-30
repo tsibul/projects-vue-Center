@@ -65,7 +65,7 @@ export default {
     async filterChange() {
       this.lastRecord = 0;
       this.dataList = null;
-      this.numberForUndeleted = this.showUnDeleted ? 0 : 1;
+      this.numberForUndeleted = this.showUnDeleted ? 1 : 0;
       await this.createDataList();
     },
   },

@@ -5,7 +5,8 @@
         :icon="'file'"
         :font-class="{'font__normal': true}"
         :check-box-deleted="true"
-        :check-box-deleted-text="'скрыть не удаленные'"
+        :check-box-deleted-text="'показать все'"
+        :check-box-status="showUnDeleted"
         @search-string="search"
         @hide-deleted-change="hideDeletedChange"
     />

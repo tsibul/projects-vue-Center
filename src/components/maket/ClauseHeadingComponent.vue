@@ -6,7 +6,8 @@
     </div>
     <div class="dict-block__search">
       <div class="hide-deleted" v-if="checkBoxDeleted">
-        <input type="checkbox" id="hideDeleted" checked
+        <input type="checkbox" id="hideDeleted"
+               :checked="checkBoxStatus"
                @change="hideDeletedChecked">
         <label for="hideDeleted">{{ checkBoxDeletedText }}</label>
       </div>
@@ -30,11 +31,12 @@ export default {
     fontClass: Object,
     checkBoxDeleted: Boolean,
     checkBoxDeletedText: String,
+    checkBoxStatus: Boolean,
   },
   data() {
     return {
       searchInput: '',
-      checked: true,
+      checked: this.checkBoxStatus,
     }
   },
   methods: {
