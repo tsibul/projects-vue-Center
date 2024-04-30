@@ -38,6 +38,7 @@
 .customertype-block,
 .detailtype-block,
 .ourcompany-block,
+.pantonetohex-block,
 {
   max-width: 800px;
   grid-column: span 2;
@@ -46,6 +47,7 @@
 .detailimagesset-row,
 .colorscheme-row,
 .regiontofedregion-row,
+.pantonetohex-row,
 {
   grid-template-columns: 2fr 2fr 1fr;
 }
