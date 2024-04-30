@@ -7,11 +7,13 @@
   <FileSingleComponent v-for="file in dataList" :key="file.id"
                        :file="file"
                        :rowClass="rowClass"
+                       :filePosition="filePosition"
+                       :fileShow="fileShow"
                        @delete-file="deleteFile($event, file['id'])"/>
   <DeleteAlertComponent
       v-if="showDeleteAlert"
       @closeForm="showDeleteAlert=false"
-      @deleted="handleDeleted"
+      @deleted="handleDeleted($event)"
       :deleteUrl="deleteUrl"
   />
 </template>
@@ -33,7 +35,9 @@ export default {
     fieldList: Object,
     fileUrl: String,
     forDeleteUrl: String,
-    rowClass: Object
+    rowClass: Object,
+    filePosition: String,
+    fileShow: String
   },
   data() {
     return {
@@ -45,7 +49,10 @@ export default {
     }
   },
   methods: {
-    handleDeleted() {
+    handleDeleted(deletedId) {
+      const indexDeleted = this.dataList.indexOf((elem) => elem.id === deletedId);
+      this.dataList.splice(indexDeleted, 1);
+      this.showDeleteAlert = false;
     },
     async createDataList() {
       const dataUrl = `${this.fileUrl}/${this.lastRecord}/${this.searchString}/${this.numberForUndeleted}`;
@@ -60,7 +67,8 @@ export default {
       }
     },
     deleteFile(event, fileId) {
-      this.handleDeleted(`${this.forDeleteUrl}/${fileId}`);
+      this.deleteUrl =`${this.forDeleteUrl}/${fileId}`;
+      this.showDeleteAlert = true;
     },
     async filterChange() {
       this.lastRecord = 0;

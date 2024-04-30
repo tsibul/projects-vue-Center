@@ -18,6 +18,8 @@
         :fileUrl="fileUrl"
         :for-delete-url="deleteUrl"
         :rowClass="rowClass"
+        :filePosition="filePosition"
+        :fileShow="fileShow"
     />
   </div>
 </template>
@@ -44,8 +46,10 @@ export default {
         'good__name': 'продукция',
       },
       fileUrl: `${this.appUrl}files_pattern`,
-      deleteUrl: `${this.appUrl}files_pattern_delete`,
-      rowClass: {'pattern-files': true}
+      deleteUrl: `files_pattern_delete`,
+      rowClass: {'pattern-files': true},
+      filePosition: 'file',
+      fileShow: 'pattern_show',
     }
   },
   methods: {

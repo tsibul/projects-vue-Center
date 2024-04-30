@@ -18,6 +18,8 @@
         :fileUrl="fileUrl"
         :for-delete-url="deleteUrl"
         :rowClass="rowClass"
+        :filePosition="filePosition"
+        :fileShow="fileShow"
     />
   </div>
 </template>
@@ -44,8 +46,10 @@ export default {
         'order__customer_name': 'клиент',
       },
       fileUrl: `${this.appUrl}files_additional_file`,
-      deleteUrl: `${this.appUrl}files_additional_file_delete`,
-      rowClass: {'additional-files': true}
+      deleteUrl: `files_additional_file_delete`,
+      rowClass: {'additional-files': true},
+      filePosition: 'additional_file_name',
+      fileShow: 'additional_file_show',
     }
   },
   methods: {
