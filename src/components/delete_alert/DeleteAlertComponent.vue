@@ -28,7 +28,7 @@ export default {
     },
     async deleteRecord() {
       const deletedId = await fetchData(`${this.appUrl}${this.deleteUrl}`, this.tokenName);
-      this.$emit('deleted', deletedId.deletedId);
+      this.$emit('deleted', deletedId);
     },
   }
 

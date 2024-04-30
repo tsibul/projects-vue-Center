@@ -116,8 +116,8 @@ export default {
       this.showDeleteAlert = true;
       this.deleteUrl = `dictionary_delete/${this.dictionaryName}/${rowId}`;
     },
-    handleDeleted(rowId) {
-      const dictionaryDataElementIndex = this.dictionaryData.findIndex(el => el.id === rowId);
+    handleDeleted(rowDeleted) {
+      const dictionaryDataElementIndex = this.dictionaryData.findIndex(el => el.id === rowDeleted.id);
       this.dictionaryData.splice(dictionaryDataElementIndex, 1);
       this.showDeleteAlert = false;
       this.deleteUrl = null;

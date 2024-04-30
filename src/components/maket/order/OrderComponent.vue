@@ -162,8 +162,8 @@ export default {
       this.deleteUrl = url;
       this.showDeleteAlert = true
     },
-    handleDeleted(orderId) {
-      const order = this.orderList.find((order) => order.pk === orderId);
+    handleDeleted(orderDeleted) {
+      const order = this.orderList.find((order) => order.pk === orderDeleted.id);
       order.deleted = true;
       this.showDeleteAlert = false;
     },
