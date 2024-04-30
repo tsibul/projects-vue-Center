@@ -45,7 +45,7 @@ export default {
         'Пленки': [markRaw(FilmComponent)],
         'Шаблоны': [markRaw(PatternsComponent)],
         'Настройки': [markRaw(SettingsComponent)],
-        'Файлы': [
+        'Очистка': [
           {'Файлы шаблонов': markRaw(FilesPatternsComponent)},
           {'Дополнительные файлы': markRaw(FilesAdditionalComponent)}
         ],
