@@ -3,13 +3,15 @@ import MenuComponent from "@/components/menu/MenuComponent.vue";
 </script>
 
 <template>
+  <router-view></router-view>
   <MenuComponent :menuItems="menuItems"
-                 @item-selected="handleItemSelected"/>
+                 @item-selected="handleItemSelected"
+  />
   <div class="full-content">
     <div class="container">
       <component
           v-if="selectedComponent"
-          :is="selectedComponent" />
+          :is="selectedComponent"/>
       <div v-else></div>
     </div>
   </div>
@@ -39,7 +41,7 @@ export default {
   data() {
     return {
       menuItems: {'Вход не выполнен': ['']},
-      defaultItems:{
+      defaultItems: {
         'Заказы': [markRaw(OrderComponent)],
         'Макеты': [markRaw(MaketComponent)],
         'Пленки': [markRaw(FilmComponent)],
@@ -53,7 +55,7 @@ export default {
       },
       selectedItem: 'Вход не выполнен',
       subItem: null,
-      selectedComponent: null
+      selectedComponent: null,
     }
   },
   created() {
@@ -389,6 +391,13 @@ export default {
   }
 }
 
+@media print
+{
+  .no-print, .no-print *
+  {
+    display: none !important;
+  }
+}
 
 </style>
 
