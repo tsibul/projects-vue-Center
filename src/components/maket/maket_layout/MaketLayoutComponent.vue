@@ -13,6 +13,9 @@
         :header-info="maketData['headerInfo']"
 
     />
+    <MaketContentTableComponent
+        :table-content="maketData['tableContent']"
+    />
     <MaketFooterComponent
         v-if="maketData"
         :footer-info="maketData['footerInfo']"/>
@@ -25,10 +28,13 @@ import TechDataComponent from "@/components/maket/maket_layout/TechDataComponent
 import MaketHeaderComponent from "@/components/maket/maket_layout/MaketHeaderComponent.vue";
 import A4MarkingComponent from "@/components/maket/maket_layout/A4MarkingComponent.vue";
 import MaketFooterComponent from "@/components/maket/maket_layout/MaketFooterComponent.vue";
+import MaketContentTableComponent from "@/components/maket/maket_layout/MaketContentTableComponent.vue";
 
 export default {
   name: "MaketLayoutComponent",
-  components: {MaketFooterComponent, A4MarkingComponent, MaketHeaderComponent, TechDataComponent},
+  components: {
+    MaketContentTableComponent,
+    MaketFooterComponent, A4MarkingComponent, MaketHeaderComponent, TechDataComponent},
   inject: ["appUrl", "tokenName"],
   data() {
     return {
