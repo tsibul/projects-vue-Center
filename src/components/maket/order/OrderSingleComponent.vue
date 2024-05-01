@@ -13,6 +13,7 @@
       <div class="mail">{{ order.manager__phone }}&nbsp;{{ order.manager__mail }}</div>
         <button class="btn btn-neutral"
                 v-if="!order.deleted"
+                @click="toMaket(order.pk, order.order_number, order.customer__name)"
         >макет
         </button>
       <button class="btn btn-save"
@@ -37,7 +38,7 @@ import OrderItemComponent from "@/components/maket/order/OrderItemComponent.vue"
 export default {
   name: "OrderSingleComponent",
   components: {OrderItemComponent},
-  emits: ['delete-alert', 'open-files'],
+  emits: ['delete-alert', 'open-files', 'to-maket'],
   data() {
     return {
       orderDateLocal: null,
@@ -62,7 +63,10 @@ export default {
     },
     handleOpenFiles() {
       this.$emit('open-files', this.order.pk);
-    }
+    },
+    toMaket(orderId, orderNumber, customerName){
+      this.$emit('to-maket', [orderId, `${orderNumber} ${customerName}`])
+    },
   },
 }
 </script>
