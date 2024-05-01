@@ -5,6 +5,7 @@ import OrderSingleComponent from "@/components/maket/order/OrderSingleComponent.
 import FileImportComponent from "@/components/file_import/FileImportComponent.vue";
 import DeleteAlertComponent from "@/components/delete_alert/DeleteAlertComponent.vue";
 import AdditionalFileComponent from "@/components/maket/additional_files/AdditionalFileComponent.vue";
+import ChooseMaketComponent from "@/components/maket/maket_layout/ChooseMaketComponent.vue";
 
 const currentComponent = ref(markRaw(null));
 const showImportForm = () => {
@@ -54,6 +55,7 @@ const hideImportForm = () => {
           @mouseover="index + 1 === idLast && idLast >= 20 ? addNextRecords() : null"
           @delete-alert="handleDeleteAlert"
           @open-files="handleOpenFiles"
+          @to-maket="handleToMaket($event)"
       />
     </div>
   </div>
@@ -75,6 +77,12 @@ const hideImportForm = () => {
       @one-file-deleted="handleFileDeleted(filesId)"
       @one-file-imported="handleFileImported(filesId)"
       @file-reconnected="handleFileReconnected($event, filesId)"
+  />
+  <ChooseMaketComponent
+      v-if="openMaket"
+      @close-maket="openMaket=false"
+      :order-id="orderId"
+      :order-name="orderName"
   />
 
 </template>
@@ -100,6 +108,9 @@ export default {
       deleteUrl: null,
       openFiles: false,
       filesId: null,
+      openMaket: false,
+      orderId: null,
+      orderName: null
     }
   },
   created() {
@@ -188,7 +199,12 @@ export default {
       orderNew.files += 1;
       const orderOld = this.orderList.find((order) => order.pk === reconnectData);
       orderOld.files -= 1;
-    }
+    },
+    handleToMaket(order){
+      this.openMaket = true;
+      this.orderId = order[0];
+      this.orderName = order[1]
+    },
   },
 }
 </script>
