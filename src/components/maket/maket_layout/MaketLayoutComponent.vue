@@ -57,7 +57,7 @@ export default {
 
 .maket-layout{
   height: 100vh;
-  width: 100vw;
+  width: calc(100vw - 19px);
 }
 
 </style>
