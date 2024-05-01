@@ -5,12 +5,17 @@
         @show-pictures="this.showPictures=!this.showPictures"
         @show-frame='frameShow'
     />
-    <A4MarkingComponent v-if="showFrame" />
+  </div>
+  <div class="maket-layout__print">
+    <A4MarkingComponent v-if="showFrame"/>
     <MaketHeaderComponent
         v-if="maketData"
-        :order-data="maketData['order']"
+        :header-info="maketData['headerInfo']"
 
     />
+    <MaketFooterComponent
+        v-if="maketData"
+        :footer-info="maketData['footerInfo']"/>
   </div>
 </template>
 
@@ -19,10 +24,11 @@ import {fetchData} from "@/components/services/fetchData.js";
 import TechDataComponent from "@/components/maket/maket_layout/TechDataComponent.vue";
 import MaketHeaderComponent from "@/components/maket/maket_layout/MaketHeaderComponent.vue";
 import A4MarkingComponent from "@/components/maket/maket_layout/A4MarkingComponent.vue";
+import MaketFooterComponent from "@/components/maket/maket_layout/MaketFooterComponent.vue";
 
 export default {
   name: "MaketLayoutComponent",
-  components: {A4MarkingComponent, MaketHeaderComponent, TechDataComponent},
+  components: {MaketFooterComponent, A4MarkingComponent, MaketHeaderComponent, TechDataComponent},
   inject: ["appUrl", "tokenName"],
   data() {
     return {
@@ -30,7 +36,7 @@ export default {
       maketId: null,
       maketData: null,
       showPictures: false,
-      showFrame:true
+      showFrame: true
     }
   },
   methods: {
@@ -38,7 +44,7 @@ export default {
       const maketUrl = `${this.appUrl}maket_info/${this.maketId}/${this.orderId}`;
       this.maketData = await fetchData(maketUrl, this.tokenName);
     },
-    frameShow(data){
+    frameShow(data) {
       this.showFrame = data;
     },
   },
@@ -55,9 +61,12 @@ export default {
 
 <style scoped lang="scss">
 
-.maket-layout{
-  height: 100vh;
+.maket-layout {
   width: calc(100vw - 19px);
+  &__print{
+    height: 100vh;
+    position: relative;
+  }
 }
 
 </style>
