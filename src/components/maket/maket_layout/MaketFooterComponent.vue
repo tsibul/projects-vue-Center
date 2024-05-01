@@ -53,7 +53,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin: 5mm;
+  margin: 0 0 5mm 5mm;
   position: absolute;
 
   &__heading {
