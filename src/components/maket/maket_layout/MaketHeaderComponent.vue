@@ -23,9 +23,7 @@ export default {
   props: {
     headerInfo: Object
   },
-  methods: {
-
-  }
+  methods: {}
 }
 </script>
 
@@ -37,11 +35,11 @@ export default {
   padding: 12px;
   width: 200mm;
   border: 1px solid $colorPrimary800;
-  border-radius: 8px;
+  border-radius: 6px 6px 0 0;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin: 5mm;
+  margin: 5mm 5mm 0 5mm;
 
 }
 
