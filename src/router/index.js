@@ -11,15 +11,15 @@ const router = createRouter({
         },
         {
             path: '/maket',
-            component: () => import('../views/MaketApp.vue'),
+            component: () => import('../views/MaketMainApp.vue'),
             children: [
                 {
-                    path: '', // Пустой путь для отображения MaketApp.vue
+                    path: '',
                     name: 'maket',
-                    component: () => import('../views/MaketApp.vue')
+                    component: () => import('../components/maket/MaketApp.vue')
                 },
                 {
-                    path: 'layout', // Путь layout относится к родительскому пути /maket
+                    path: 'layout',
                     name: 'maket_layout',
                     component: () => import('../components/maket/maket_layout/MaketLayoutComponent.vue')
                 }
