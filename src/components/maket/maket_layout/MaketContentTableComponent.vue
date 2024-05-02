@@ -45,7 +45,7 @@
 export default {
   name: "MaketContentTableComponent",
   props: {
-    tableContent: Object
+    tableContent: Array
   }
 }
 </script>
