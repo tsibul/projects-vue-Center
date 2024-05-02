@@ -24,6 +24,7 @@ export const modalDragAndDrop = {
                 const y = event.clientY - this.diffY;
                 modal.style.left = `${x}px`;
                 modal.style.top = `${y}px`;
+                this.modalPosition = [modal.style.left, modal.style.top]
             }
         },
     }
