@@ -76,11 +76,3 @@ export default {
 }
 
 </style>
-
-<style lang="scss">
-
-.header, .full-content {
-  display: none;
-}
-
-</style>
