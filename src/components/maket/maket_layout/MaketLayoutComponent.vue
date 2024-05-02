@@ -14,6 +14,7 @@
 
     />
     <MaketContentTableComponent
+        v-if="maketData"
         :table-content="maketData['tableContent']"
     />
     <MaketFooterComponent
