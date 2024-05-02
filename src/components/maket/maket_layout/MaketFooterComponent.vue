@@ -37,6 +37,15 @@ export default {
   mixins: [modalDragAndDrop],
   props: {
     footerInfo: Object
+  },
+  data() {
+    return {
+      modalPosition: null,
+      componentModal: null,
+    }
+  },
+  mounted() {
+    this.componentModal = this.$refs.modalDraggable;
   }
 }
 </script>
@@ -46,7 +55,6 @@ export default {
 
 .maket-footer {
   font-size: 14px;
-  //padding: 12px;
   width: 200mm;
   border: 1px solid $colorPrimary800;
   border-radius: 8px;
@@ -70,14 +78,17 @@ export default {
   &__text {
     padding: 8px 0 8px 0;
   }
+
   &__block {
     padding: 8px 0 8px 0;
   }
 }
-.text-end{
+
+.text-end {
   text-align: end;
 }
-.text-small{
+
+.text-small {
   font-size: 10px;
 }
 </style>
