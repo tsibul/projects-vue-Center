@@ -65,7 +65,7 @@ export default {
   &__title {
     display: grid;
     //gap: 2px;
-    grid-template-columns: 0.3fr 2fr 4fr 2.2fr 0.8fr 2fr 2fr 0.5fr 0.8fr 2fr 2fr;
+    grid-template-columns: 0.5fr 2fr 4fr 2.2fr 0.8fr 2fr 2fr 0.5fr 0.8fr 2fr 2fr;
     text-align: center;
   }
 
@@ -73,10 +73,13 @@ export default {
     display: grid;
     align-items: center;
     //gap: 2px;
-    grid-template-columns: 0.3fr 2fr 4fr 2.2fr 0.8fr 9.3fr;
+    grid-template-columns: 0.5fr 2fr 4fr 2.2fr 0.8fr 9.3fr;
+    &:hover{
+      background-color: $colorSecondary100;
+    }
   }
   &__item{
-    padding: 0 5px 0 0;
+    padding: 5px 5px 0 0;
     width: 100%;
     word-break: break-all;
   }
@@ -86,7 +89,7 @@ export default {
   &__row {
     display: grid;
     gap: 6px;
-    grid-template-columns: 2fr 3fr 0.5fr 0.8fr 2fr 2fr;
+    grid-template-columns: 2fr 2.2fr 0.5fr 0.5fr 2fr 2.1fr;
   }
 
 }
