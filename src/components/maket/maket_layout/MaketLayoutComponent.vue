@@ -4,8 +4,14 @@
         :maket-id="maketId"
         @show-pictures="this.showPictures=!this.showPictures"
         @show-frame='frameShow'
+        @show-sort="showSort=!showSort"
     />
   </div>
+  <ItemGroupingComponent
+      v-if="maketData"
+      :item-group="maketData['itemGroups']"
+      :show-sort="showSort"
+  />
   <div class="maket-layout__print">
     <A4MarkingComponent v-if="showFrame"/>
     <MaketHeaderComponent
@@ -30,10 +36,12 @@ import MaketHeaderComponent from "@/components/maket/maket_layout/MaketHeaderCom
 import A4MarkingComponent from "@/components/maket/maket_layout/A4MarkingComponent.vue";
 import MaketFooterComponent from "@/components/maket/maket_layout/MaketFooterComponent.vue";
 import MaketContentTableComponent from "@/components/maket/maket_layout/MaketContentTableComponent.vue";
+import ItemGroupingComponent from "@/components/maket/maket_layout/ItemGroupingComponent.vue";
 
 export default {
   name: "MaketLayoutComponent",
   components: {
+    ItemGroupingComponent,
     MaketContentTableComponent,
     MaketFooterComponent, A4MarkingComponent, MaketHeaderComponent, TechDataComponent},
   inject: ["appUrl", "tokenName"],
@@ -43,7 +51,8 @@ export default {
       maketId: null,
       maketData: null,
       showPictures: false,
-      showFrame: true
+      showFrame: true,
+      showSort: false
     }
   },
   methods: {
