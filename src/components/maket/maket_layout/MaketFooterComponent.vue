@@ -1,10 +1,11 @@
 <template>
   <div class="maket-footer" ref="modalDraggable"
-       @mousedown="startDrag"
        @mouseup="stopDrag"
        @mousemove="drag">
     <div class="maket-footer__heading">
-      <div class="active maket-footer__text">Пожалуйста, ВНИМАТЕЛЬНО ПРОВЕРЯЙТЕ МАКЕТ!</div>
+      <div class="active maket-footer__text"
+           @mousedown="startDrag">
+        Пожалуйста, ВНИМАТЕЛЬНО ПРОВЕРЯЙТЕ МАКЕТ!</div>
       <strong>Найденная в готовом изделии ошибка, в случае если макет утвержден, не может быть основанием для переделки
         заказа
         за счет Исполнителя. После утверждения макета изменения не принимаются!</strong>
@@ -77,6 +78,10 @@ export default {
 
   &__text {
     padding: 8px 0 8px 0;
+    cursor: move;
+    &:hover{
+      background-color: $colorPrimary100;
+    }
   }
 
   &__block {
