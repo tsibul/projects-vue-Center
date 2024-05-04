@@ -16,7 +16,6 @@
     </div>
     <div class="single-group__content"
          @drop="itemDrop"
-         @dragover.prevent
     >
       <div v-for="(item, index) in groupData"
            :key="index"
