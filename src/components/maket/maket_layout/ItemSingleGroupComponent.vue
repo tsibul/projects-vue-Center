@@ -60,13 +60,6 @@ export default {
     dragEnd() {
       this.draggedItem = null;
     },
-    allowDrop(event) {
-      event.preventDefault(); // предотвращаем стандартное поведение браузера для обеспечения совместимости с перетаскиванием
-    },
-    dragEnter(index) {
-    },
-    dragLeave() {
-    },
     itemDrop(event) {
       const data = event.dataTransfer.getData("text/plain");
       const item = JSON.parse(data);
