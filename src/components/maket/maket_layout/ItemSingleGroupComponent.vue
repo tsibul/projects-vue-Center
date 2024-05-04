@@ -1,17 +1,8 @@
 <template>
   <div class="single-group">
     <div class="single-group__header">
-      <div class="single-group__header_item">
+      <div class="single-group__header_item active">
         {{ groupName }}
-      </div>
-      <div class="single-group__header_item">
-        <input type="checkbox"
-               :id="groupName"
-               checked
-               class="check-small">
-        &nbsp;
-        <label class=""
-               :for="groupName">в макете</label>
       </div>
     </div>
     <div class="single-group__content"
@@ -25,9 +16,7 @@
       >
         <div class="single-group__item"
         >
-          <div>артикул</div>
           <div>{{ item.article }}</div>
-          <div>нанесение</div>
           <div>{{ item.print_name }}</div>
         </div>
       </div>
@@ -79,7 +68,7 @@ export default {
   position: relative;
   background-color: $colorSecondary50;
   padding: 8px 12px;
-  width: 1200px;
+  width: 800px;
 
 
   &__header {
@@ -111,7 +100,7 @@ export default {
 
   &__item {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr 3fr;
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
     padding: 4px 12px;
 
