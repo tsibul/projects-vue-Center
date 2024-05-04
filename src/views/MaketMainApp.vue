@@ -69,7 +69,17 @@ export default {
     &:hover {
       color: $colorPrimary500;
       background-color: transparent;
-      //box-shadow: 6px 6px 12px $colorPrimary800;
+    }
+  }
+
+  &-save-inverted {
+    color:$colorPrimary500;
+    background-color: $colorPrimary100;
+    border-color: $colorPrimary100;
+
+    &:hover {
+      color: $colorPrimary100;
+      background-color: $colorPrimary500;
     }
   }
 
@@ -80,6 +90,17 @@ export default {
     &:hover {
       color: $colorSecondary600;
       background-color: transparent;
+    }
+  }
+
+  &-close-inverted {
+    color: $colorSecondary600;
+    background-color: $colorSecondary100;
+    border-color: $colorSecondary100;
+
+    &:hover {
+      color: $colorSecondary100;
+      background-color: $colorSecondary600;
     }
   }
 
