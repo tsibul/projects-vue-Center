@@ -11,6 +11,8 @@
       v-if="maketData"
       :item-group="maketData['itemGroups']"
       :show-sort="showSort"
+      @item-drag="handleItemDrag"
+      @item-drop="handleItemDrop"
   />
   <div class="maket-layout__print">
     <A4MarkingComponent v-if="showFrame"/>
@@ -52,7 +54,9 @@ export default {
       maketData: null,
       showPictures: false,
       showFrame: true,
-      showSort: false
+      showSort: false,
+      draggingItem: null,
+      sourceGroupName: null
     }
   },
   methods: {
@@ -63,6 +67,23 @@ export default {
     frameShow(data) {
       this.showFrame = data;
     },
+    handleItemDrag(element){
+      this.sourceGroupName = element.groupKey;
+
+    },
+    handleItemDrop(element){
+      this.draggingItem = element.item;
+      const targetGroupName = element.groupKey;
+      const targetGroup = this.maketData['itemGroups'][targetGroupName];
+      targetGroup.unshift(this.draggingItem.item);
+      targetGroup.sort((a, b) => a.article.localeCompare(b.article))
+      const sourceGroup = this.maketData['itemGroups'][this.sourceGroupName];
+      const itemIndex = sourceGroup.findIndex(el => el.id === element.item.item.id)
+      sourceGroup.splice(itemIndex, 1);
+      sourceGroup.sort((a, b) => a.article.localeCompare(b.article))
+      this.sourceGroupName = null;
+      this.draggingItem = null;
+    }
   },
   created() {
     const urlParams = new URLSearchParams(window.location.search);
