@@ -12,9 +12,10 @@
       сортировать (перетащите между разделами)
       <div class="item-grouping_btn-block">
         <button type="button"
-                class="btn btn-save-inverted">сохранить группировку</button>
+                class="btn btn-save-inverted" @click="saveGrouping">сохранить группировку</button>
         <button type="button"
-                class="btn btn-close-inverted" @click="sortShow=false">закрыть</button>
+                class="btn btn-close-inverted"
+                @click="sortShow=false">закрыть</button>
       </div>
     </header>
     <ItemSingleGroupComponent
@@ -31,10 +32,12 @@
 <script>
 import ItemSingleGroupComponent from "@/components/maket/maket_layout/ItemSingleGroupComponent.vue";
 import {modalDragAndDrop} from "@/components/modal_drag_drop/modalDragAndDrop.js";
+import {submitForm} from "@/components/services/submitForm.js";
 
 export default {
   name: "ItemGroupingComponent",
   components: {ItemSingleGroupComponent},
+  inject: ['appUrl', 'tokenName'],
   emits: ['item-drag', 'item-drop'],
   mixins: [modalDragAndDrop],
   props: {
@@ -53,11 +56,21 @@ export default {
   },
   methods: {
     handleItemDrag(element) {
-      this.$emit('item-drag', element)
+      this.$emit('item-drag', element);
     },
     handleItemDrop(element) {
-      this.$emit('item-drop', element)
+      this.$emit('item-drop', element);
     },
+    async saveGrouping(){
+      const url = `${this.appUrl}maket_grouping_change`;
+      const data = this.itemGroup;
+      const response = await submitForm(url, this.tokenName, data);
+      if(response){
+        this.sortShow = false;
+      } else {
+        // window.location.reload();
+      }
+    }
   },
 }
 </script>
@@ -76,7 +89,7 @@ export default {
   width: fit-content;
   position: absolute;
   z-index: 3;
-  left: 10vw;
+  left: 20vw;
   gap: 20px;
 
   &__header {
