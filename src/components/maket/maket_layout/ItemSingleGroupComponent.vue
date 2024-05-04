@@ -2,25 +2,35 @@
   <div class="single-group">
     <div class="single-group__header">
       <div class="single-group__header_item">
-      {{ groupName }}
+        {{ groupName }}
+      </div>
+      <div class="single-group__header_item">
+        <input type="checkbox"
+               :id="groupName"
+               checked
+               class="check-small">
+        &nbsp;
+        <label class=""
+               :for="groupName">в макете</label>
+      </div>
     </div>
-    <div class="single-group__header_item">
-      <input type="checkbox"
-             :id="groupName"
-             checked
-             class="check-small">
-      &nbsp;
-      <label class=""
-             :for="groupName">в макете</label>
-    </div>
-  </div>
-    <div class="single-group__content">
-      <div class="single-group__item" v-for="item in groupData"
-           :key="item.id">
-        <div>артикул</div>
-        <div>{{ item.article }}</div>
-        <div>нанесение</div>
-        <div>{{ item.print_name }}</div>
+    <div class="single-group__content"
+         @drop="itemDrop"
+         @dragover.prevent
+    >
+      <div v-for="(item, index) in groupData"
+           :key="index"
+           draggable="true"
+           @dragstart="dragStart(item)"
+           @dragend="dragEnd"
+      >
+        <div class="single-group__item"
+        >
+          <div>артикул</div>
+          <div>{{ item.article }}</div>
+          <div>нанесение</div>
+          <div>{{ item.print_name }}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -29,15 +39,42 @@
 <script>
 export default {
   name: "ItemSingleGroupComponent",
+  emits: ['item-drop', 'item-drag'],
   props: {
     groupKey: String,
     groupData: Array
   },
   data() {
     return {
-      groupName: `артикул: ${this.groupKey.replace('()', ' нанесение: ')}`
+      groupName: `артикул: ${this.groupKey.replace('()', ' нанесение: ')}`,
+      draggedItem: null,
     }
   },
+  methods: {
+    dragStart(item) {
+      this.draggedItem = item;
+      const data = JSON.stringify({groupKey: this.groupKey, item});
+      event.dataTransfer.setData("text/plain", data);
+      this.$emit('item-drag', {'groupKey': this.groupKey, item: this.draggedItem});
+    },
+    dragEnd() {
+      this.draggedItem = null;
+    },
+    allowDrop(event) {
+      event.preventDefault(); // предотвращаем стандартное поведение браузера для обеспечения совместимости с перетаскиванием
+    },
+    dragEnter(index) {
+    },
+    dragLeave() {
+    },
+    itemDrop(event) {
+      const data = event.dataTransfer.getData("text/plain");
+      const item = JSON.parse(data);
+      if (item.groupKey !== this.groupKey) {
+        this.$emit('item-drop', {'groupKey': this.groupKey, item});
+      }
+    }
+  }
 }
 </script>
 
@@ -77,6 +114,7 @@ export default {
     margin-top: 16px;
     display: grid;
     grid-template-columns: auto;
+    min-height: 20px;
   }
 
   &__item {

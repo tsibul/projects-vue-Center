@@ -3,14 +3,18 @@
        v-if="sortShow"
        ref="modalDraggable"
        @mouseup="stopDrag"
-       @mousemove="drag">
+       @mousemove="drag"
+       @dragover.prevent
+  >
     <header class="item-grouping__header"
             @mousedown="startDrag"
     >
       сортировать (перетащите между разделами)
-      <div class="item-grouping__close"
-           @click="sortShow=false"
-      >&times;
+      <div class="item-grouping_btn-block">
+        <button type="button"
+                class="btn btn-save-inverted">сохранить группировку</button>
+        <button type="button"
+                class="btn btn-close-inverted" @click="sortShow=false">закрыть</button>
       </div>
     </header>
     <ItemSingleGroupComponent
@@ -18,10 +22,9 @@
         :key="group.id"
         :group-key="group"
         :group-data="itemGroup[group]"
+        @item-drag="handleItemDrag"
+        @item-drop="handleItemDrop"
     />
-    <div class="item-grouping_btn-block">
-      <button type="button" class="btn btn-save">сохранить группировку</button>
-    </div>
   </div>
 </template>
 
@@ -32,11 +35,11 @@ import {modalDragAndDrop} from "@/components/modal_drag_drop/modalDragAndDrop.js
 export default {
   name: "ItemGroupingComponent",
   components: {ItemSingleGroupComponent},
+  emits: ['item-drag', 'item-drop'],
   mixins: [modalDragAndDrop],
   props: {
     itemGroup: Object,
     showSort: Boolean
-
   },
   data() {
     return {
@@ -47,7 +50,15 @@ export default {
     showSort() {
       this.sortShow = true;
     }
-  }
+  },
+  methods: {
+    handleItemDrag(element) {
+      this.$emit('item-drag', element)
+    },
+    handleItemDrop(element) {
+      this.$emit('item-drop', element)
+    },
+  },
 }
 </script>
 
@@ -75,6 +86,8 @@ export default {
     padding: 10px;
     margin-bottom: 16px;
     cursor: move;
+    @include d-flex-center(space-between);
+    width: 100%;
   }
 
   &__close {
@@ -87,7 +100,7 @@ export default {
 
   &_btn-block {
     display: flex;
-    justify-content: flex-end;
+    gap: 16px
   }
 
 }
