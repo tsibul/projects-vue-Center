@@ -19,8 +19,10 @@
   />
   <ShowGroupComponent
       v-if="showContent"
+      :show-group="maketData['showGroups']"
       :item-group="maketData['itemGroups']"
       @close-content="showContent=false"
+      @toggle-check="toggleCheckGroup"
   />
   <div class="maket-layout__print">
     <A4MarkingComponent v-if="showFrame"/>
@@ -32,6 +34,7 @@
     <MaketContentTableComponent
         v-if="maketData"
         :table-content="maketData['tableContent']"
+        :show-group="maketData['showGroups']"
     />
     <MaketFooterComponent
         v-if="maketData"
@@ -99,6 +102,9 @@ export default {
       sourceGroup.sort((a, b) => a.article.localeCompare(b.article))
       this.sourceGroupName = null;
       this.draggingItem = null;
+    },
+    toggleCheckGroup(group){
+      this.maketData['showGroups'][group] = !this.maketData['showGroups'][group];
     },
     windowClose() {
       window.close()

@@ -4,16 +4,18 @@
       <div>убрать&nbsp;ненужное</div>
       <button type="button"
               class="btn btn-close-inverted"
-              @click="closeContent">закрыть</button>
+              @click="closeContent">закрыть
+      </button>
     </div>
     <div class="show-group__content"
-         v-for="group in Object.keys(itemGroup)"
+         v-for="group in Object.keys(showGroup)"
          :key="group">
       <div>
         <input type="checkbox"
                class="check"
                id="group"
-               checked
+               :checked="showGroup[group]"
+               @change="toggleCheck(group)"
         >
         &nbsp;
         <label for="group">{{ group.replace('()', ' ') }}</label></div>
@@ -25,14 +27,18 @@
 <script>
 export default {
   name: "ShowGroupComponent",
-  emits: ['close-content'],
+  emits: ['close-content', 'toggle-check'],
   props: {
-    itemGroup: Array,
+    showGroup: Object,
+    itemGroup: Object
   },
   methods: {
     closeContent() {
       this.$emit('close-content');
     },
+    toggleCheck(group){
+      this.$emit('toggle-check', group)
+    }
   },
 }
 </script>
@@ -50,7 +56,7 @@ export default {
   left: 10vw;
   top: 10vh;
   box-shadow: 6px 6px 12px $colorPrimary800;
-  padding: 12px ;
+  padding: 12px;
 
   &__header {
     @include brd-standard;

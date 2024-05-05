@@ -16,8 +16,9 @@
     <div class="content-table__content"
          v-for="item in tableContent"
          :key="item.id"
+         v-show="showGroup[item.itemGroup]"
     >
-      <div class="content-table__item">{{ item.no }}</div>
+         <div class="content-table__item">{{ item.no }}</div>
       <div class="content-table__item">{{ item.article }}.</div>
       <div class="content-table__item">{{ item.name }}</div>
       <div class="content-table__item">{{ item.print_name }}</div>
@@ -45,7 +46,8 @@
 export default {
   name: "MaketContentTableComponent",
   props: {
-    tableContent: Array
+    tableContent: Array,
+    showGroup: Object
   }
 }
 </script>
