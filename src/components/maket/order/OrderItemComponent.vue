@@ -85,7 +85,7 @@ export default {
 .order-content {
   border: 1px solid $colorPrimary800;
   border-radius: 10px;
-  background-color: $colorSecondary100;
+  background-color: $colorSecondary50;
   font-size: 14px;
 }
 
