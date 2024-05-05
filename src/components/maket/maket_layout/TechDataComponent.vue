@@ -4,14 +4,25 @@
     <button class="btn btn-close">закрыть</button>
     <button class="btn btn-save">печать</button>
     <div></div>
-    <button class="btn btn-neutral"
-            @click="togglePictures"
-    >показать&nbsp;/&nbsp;скрыть&nbsp;картинки
-    </button>
-    <button class="btn btn-neutral"
-            @click="toggleFrame"
-    >показать&nbsp;/&nbsp;скрыть&nbsp;рамки
-    </button>
+    <div class="blank-header__item">
+      <input type="checkbox"
+             class="check"
+             id="pictures"
+             @change="togglePictures"
+      >
+      &nbsp;
+      <label for="pictures">картинки</label>
+    </div>
+    <div class="blank-header__item">
+      <input type="checkbox"
+             class="check"
+             id="frames"
+             @change="toggleFrame"
+             checked
+      >
+      &nbsp;
+      <label for="frames">рамки</label>
+    </div>
     <button class="btn btn-neutral"
             @click="showSort"
     >сортировка
@@ -63,8 +74,10 @@ export default {
 
 <style scoped lang="scss">
 @import "@/assets/maket/scss/vars";
+
 .tech-data {
   display: flex;
+  align-items: center;
   padding: 12px;
   gap: 12px;
   position: fixed;
@@ -77,7 +90,13 @@ export default {
 .long-input {
   width: 100%;
 }
-.blank-header{
+
+.blank-header {
   height: 63px;
+
+  &__item {
+    display: flex;
+    align-items: center;
+  }
 }
 </style>
