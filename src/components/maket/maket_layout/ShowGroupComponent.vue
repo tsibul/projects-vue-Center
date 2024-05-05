@@ -1,0 +1,71 @@
+<template>
+  <div class="show-group">
+    <div class="show-group__header">
+      <div>убрать&nbsp;ненужное</div>
+      <button type="button"
+              class="btn btn-close-inverted"
+              @click="closeContent">закрыть</button>
+    </div>
+    <div class="show-group__content"
+         v-for="group in Object.keys(itemGroup)"
+         :key="group">
+      <div>
+        <input type="checkbox"
+               class="check"
+               id="group"
+               checked
+        >
+        &nbsp;
+        <label for="group">{{ group.replace('()', ' ') }}</label></div>
+      <div>количество&nbsp;элементов&nbsp;{{ itemGroup[group].length }}</div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "ShowGroupComponent",
+  emits: ['close-content'],
+  props: {
+    itemGroup: Array,
+  },
+  methods: {
+    closeContent() {
+      this.$emit('close-content');
+    },
+  },
+}
+</script>
+<style scoped lang="scss">
+@import "@/assets/maket/scss/vars";
+@import "@/assets/maket/scss/mixins";
+
+.show-group {
+  @include brd-standard();
+  border-color: $colorPrimary800;
+  width: fit-content;
+  position: absolute;
+  z-index: 3;
+  background-color: $colorSecondary50;
+  left: 10vw;
+  top: 10vh;
+  box-shadow: 6px 6px 12px $colorPrimary800;
+  padding: 12px ;
+
+  &__header {
+    @include brd-standard;
+    background-color: $colorPrimary500;
+    color: $colorSecondary200;
+    padding: 8px;
+    @include d-flex-center(space-between);
+    width: 100%;
+    margin-bottom: 6px;
+  }
+
+  &__content {
+    display: flex;
+    gap: 24px;
+    padding: 6px 32px;
+  }
+}
+</style>

@@ -17,6 +17,11 @@
       @item-drag="handleItemDrag"
       @item-drop="handleItemDrop"
   />
+  <ShowGroupComponent
+      v-if="showContent"
+      :item-group="maketData['itemGroups']"
+      @close-content="showContent=false"
+  />
   <div class="maket-layout__print">
     <A4MarkingComponent v-if="showFrame"/>
     <MaketHeaderComponent
@@ -42,10 +47,12 @@ import A4MarkingComponent from "@/components/maket/maket_layout/A4MarkingCompone
 import MaketFooterComponent from "@/components/maket/maket_layout/MaketFooterComponent.vue";
 import MaketContentTableComponent from "@/components/maket/maket_layout/MaketContentTableComponent.vue";
 import ItemGroupingComponent from "@/components/maket/maket_layout/ItemGroupingComponent.vue";
+import ShowGroupComponent from "@/components/maket/maket_layout/ShowGroupComponent.vue";
 
 export default {
   name: "MaketLayoutComponent",
   components: {
+    ShowGroupComponent,
     ItemGroupingComponent,
     MaketContentTableComponent,
     MaketFooterComponent, A4MarkingComponent, MaketHeaderComponent, TechDataComponent
