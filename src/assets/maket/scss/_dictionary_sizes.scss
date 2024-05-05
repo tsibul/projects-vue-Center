@@ -39,6 +39,7 @@
 .detailtype-block,
 .ourcompany-block,
 .pantonetohex-block,
+.maketpattern-block,
 {
   max-width: 800px;
   grid-column: span 2;
@@ -48,6 +49,7 @@
 .colorscheme-row,
 .regiontofedregion-row,
 .pantonetohex-row,
+.maketpattern-row,
 {
   grid-template-columns: 2fr 2fr 1fr;
 }
