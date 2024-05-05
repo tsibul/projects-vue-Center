@@ -32,8 +32,4 @@ export const fieldTypeComponent = {
         component: FormFileComponent,
         props: ['value', 'readonly']
     },
-    'number': {
-        component: FormInputNumberComponent,
-        props: ['value', 'readonly']
-    },
 }

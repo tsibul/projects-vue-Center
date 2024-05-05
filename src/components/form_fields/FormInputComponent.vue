@@ -21,7 +21,7 @@ export default {
   },
   props: {
     field: Object,
-    fieldValue: String
+    fieldValue: [String, Number],
   },
   emits: ['field-valid'],
   methods:{
