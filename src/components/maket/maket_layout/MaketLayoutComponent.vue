@@ -5,6 +5,8 @@
         @show-pictures="this.showPictures=!this.showPictures"
         @show-frame='frameShow'
         @show-sort="showSort=!showSort"
+        @window-print="windowPrint"
+        @window-close="windowClose"
     />
   </div>
   <ItemGroupingComponent
@@ -45,7 +47,8 @@ export default {
   components: {
     ItemGroupingComponent,
     MaketContentTableComponent,
-    MaketFooterComponent, A4MarkingComponent, MaketHeaderComponent, TechDataComponent},
+    MaketFooterComponent, A4MarkingComponent, MaketHeaderComponent, TechDataComponent
+  },
   inject: ["appUrl", "tokenName"],
   data() {
     return {
@@ -67,11 +70,11 @@ export default {
     frameShow(data) {
       this.showFrame = data;
     },
-    handleItemDrag(element){
+    handleItemDrag(element) {
       this.sourceGroupName = element.groupKey;
 
     },
-    handleItemDrop(element){
+    handleItemDrop(element) {
       this.draggingItem = element.item;
       const targetGroupName = element.groupKey;
       const targetGroup = this.maketData['itemGroups'][targetGroupName];
@@ -83,7 +86,13 @@ export default {
       sourceGroup.sort((a, b) => a.article.localeCompare(b.article))
       this.sourceGroupName = null;
       this.draggingItem = null;
-    }
+    },
+    windowClose() {
+      window.close()
+    },
+    windowPrint() {
+      window.print()
+    },
   },
   created() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -100,7 +109,8 @@ export default {
 
 .maket-layout {
   width: calc(100vw - 19px);
-  &__print{
+
+  &__print {
     height: 100vh;
     position: relative;
   }

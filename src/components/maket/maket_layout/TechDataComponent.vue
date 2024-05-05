@@ -1,8 +1,10 @@
 <template>
   <div class="no-print blank-header"></div>
   <header class="tech-data no-print">
-    <button class="btn btn-close">закрыть</button>
-    <button class="btn btn-save">печать</button>
+    <button class="btn btn-close"
+            @click="windowClose">закрыть</button>
+    <button class="btn btn-save"
+            @click="windowPrint">печать</button>
     <div></div>
     <div class="blank-header__item">
       <input type="checkbox"
@@ -45,7 +47,7 @@
 
 export default {
   name: "TechDataComponent",
-  emits: ['show-pictures', 'show-frame', 'show-sort'],
+  emits: ['show-pictures', 'show-frame', 'show-sort', 'window-print', 'window-close'],
   props: {
     maketId: String,
   },
@@ -66,7 +68,13 @@ export default {
     },
     showSort() {
       this.$emit('show-sort')
-    }
+    },
+    windowPrint(){
+      this.$emit('window-print')
+    },
+    windowClose(){
+      this.$emit('window-close')
+    },
   }
 }
 </script>
