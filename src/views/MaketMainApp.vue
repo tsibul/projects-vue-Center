@@ -257,6 +257,10 @@ export default {
   accent-color: $colorPrimary800;
 }
 
+.check{
+  accent-color: $colorNeutral700;
+}
+
 @media (max-width: 767px) {
   .menu {
     padding: 0 10px;
