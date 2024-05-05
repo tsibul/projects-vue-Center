@@ -58,10 +58,14 @@
   grid-template-columns: 2fr 1fr 1fr 2fr 1fr;
 }
 
-.good-row,
 .manager-row,
 {
   grid-template-columns: 1fr 2fr 2fr 1fr 1fr;
+}
+
+.good-row,
+{
+  grid-template-columns: 1fr 2fr 2fr 1fr 2fr 1fr;
 }
 
 //.detailitem-row{
