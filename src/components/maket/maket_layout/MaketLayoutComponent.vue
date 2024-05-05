@@ -7,6 +7,7 @@
         @show-sort="showSort=!showSort"
         @window-print="windowPrint"
         @window-close="windowClose"
+        @show-content="contentShow"
     />
   </div>
   <ItemGroupingComponent
@@ -59,7 +60,8 @@ export default {
       showFrame: true,
       showSort: false,
       draggingItem: null,
-      sourceGroupName: null
+      sourceGroupName: null,
+      showContent: false
     }
   },
   methods: {
@@ -70,6 +72,10 @@ export default {
     frameShow(data) {
       this.showFrame = data;
     },
+    contentShow() {
+      this.showContent = true;
+    },
+
     handleItemDrag(element) {
       this.sourceGroupName = element.groupKey;
 

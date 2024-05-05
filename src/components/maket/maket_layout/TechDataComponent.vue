@@ -29,6 +29,10 @@
             @click="showSort"
     >сортировка
     </button>
+    <button class="btn btn-neutral"
+            @click="showContent"
+    >состав
+    </button>
     <div></div>
     <input type="number"
            class="form-input"
@@ -47,7 +51,7 @@
 
 export default {
   name: "TechDataComponent",
-  emits: ['show-pictures', 'show-frame', 'show-sort', 'window-print', 'window-close'],
+  emits: ['show-pictures', 'show-frame', 'show-sort', 'window-print', 'window-close', 'show-content'],
   props: {
     maketId: String,
   },
@@ -68,6 +72,9 @@ export default {
     },
     showSort() {
       this.$emit('show-sort')
+    },
+    showContent(){
+      this.$emit('show-content')
     },
     windowPrint(){
       this.$emit('window-print')
