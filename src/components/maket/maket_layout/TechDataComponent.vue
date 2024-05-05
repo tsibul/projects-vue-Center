@@ -31,7 +31,7 @@
     </button>
     <button class="btn btn-neutral"
             @click="showContent"
-    >состав
+    >группы
     </button>
     <div></div>
     <input type="number"
