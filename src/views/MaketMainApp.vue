@@ -258,7 +258,7 @@ export default {
 }
 
 .check{
-  accent-color: $colorNeutral700;
+  accent-color: $colorPrimary500;
 }
 
 @media (max-width: 767px) {
