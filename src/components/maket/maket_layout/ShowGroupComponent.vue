@@ -1,6 +1,13 @@
 <template>
-  <div class="show-group">
-    <div class="show-group__header">
+  <div class="show-group"
+       ref="modalDraggable"
+       @mouseup="stopDrag"
+       @mousemove="drag"
+  >
+    <div
+        class="show-group__header"
+        @mousedown="startDrag"
+    >
       <div>убрать&nbsp;ненужное</div>
       <button type="button"
               class="btn btn-close-inverted"
@@ -25,9 +32,12 @@
 </template>
 
 <script>
+import {modalDragAndDrop} from "@/components/modal_drag_drop/modalDragAndDrop.js";
+
 export default {
   name: "ShowGroupComponent",
   emits: ['close-content', 'toggle-check'],
+  mixins: [modalDragAndDrop],
   props: {
     showGroup: Object,
     itemGroup: Object
@@ -36,7 +46,7 @@ export default {
     closeContent() {
       this.$emit('close-content');
     },
-    toggleCheck(group){
+    toggleCheck(group) {
       this.$emit('toggle-check', group)
     }
   },
@@ -66,6 +76,7 @@ export default {
     @include d-flex-center(space-between);
     width: 100%;
     margin-bottom: 6px;
+    cursor: move;
   }
 
   &__content {
