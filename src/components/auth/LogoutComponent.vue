@@ -68,7 +68,7 @@ export default {
     border: 1px solid $colorPrimary800;
     width: 300px;
     border-radius: 10px;
-    background-color: $colorSecondary200;
+    background-color: $colorSecondary100;
     box-shadow: 6px 6px 12px $colorPrimary800;
     position: absolute;
     left: 40vw;
