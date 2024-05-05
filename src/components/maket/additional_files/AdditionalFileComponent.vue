@@ -153,7 +153,7 @@ export default {
   left: 16vw;
   //max-width: 740px;
   box-shadow: 6px 6px 12px $colorPrimary800;
-  background-color: $colorSecondary200;
+  background-color: $colorSecondary100;
 
   &__header {
     padding: 16px;

@@ -110,7 +110,7 @@ export default {
     padding: 0 4px;
     top: -10px;
     left: 24px;
-    background-color: $colorSecondary200;
+    background-color: $colorSecondary100;
     z-index: 2;
   }
 
