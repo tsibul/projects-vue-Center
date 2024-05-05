@@ -5,6 +5,7 @@ import DropDownComponent from "@/components/form_fields/DropDownComponent.vue";
 import FormBooleanComponent from "@/components/form_fields/FormBooleanComponent.vue";
 import FormChoicesComponent from "@/components/form_fields/FormChoicesComponent.vue";
 import FormFileComponent from "@/components/form_fields/FormFileComponent.vue";
+import FormInputNumberComponent from "@/components/form_fields/FormInputNumberComponent.vue";
 
 export const fieldTypeComponent = {
     'string': {
@@ -30,5 +31,9 @@ export const fieldTypeComponent = {
     'file': {
         component: FormFileComponent,
         props: ['value', 'readonly']
-    }
+    },
+    'number': {
+        component: FormInputNumberComponent,
+        props: ['value', 'readonly']
+    },
 }
