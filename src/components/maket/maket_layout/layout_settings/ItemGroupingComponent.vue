@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import ItemSingleGroupComponent from "@/components/maket/maket_layout/ItemSingleGroupComponent.vue";
+import ItemSingleGroupComponent from "@/components/maket/maket_layout/layout_settings/ItemSingleGroupComponent.vue";
 import {modalDragAndDrop} from "@/components/modal_drag_drop/modalDragAndDrop.js";
 import {submitForm} from "@/components/services/submitForm.js";
 

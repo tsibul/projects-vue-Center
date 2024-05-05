@@ -44,13 +44,13 @@
 
 <script>
 import {fetchData} from "@/components/services/fetchData.js";
-import TechDataComponent from "@/components/maket/maket_layout/TechDataComponent.vue";
-import MaketHeaderComponent from "@/components/maket/maket_layout/MaketHeaderComponent.vue";
-import A4MarkingComponent from "@/components/maket/maket_layout/A4MarkingComponent.vue";
-import MaketFooterComponent from "@/components/maket/maket_layout/MaketFooterComponent.vue";
-import MaketContentTableComponent from "@/components/maket/maket_layout/MaketContentTableComponent.vue";
-import ItemGroupingComponent from "@/components/maket/maket_layout/ItemGroupingComponent.vue";
-import ShowGroupComponent from "@/components/maket/maket_layout/ShowGroupComponent.vue";
+import TechDataComponent from "@/components/maket/maket_layout/layout_settings/TechDataComponent.vue";
+import MaketHeaderComponent from "@/components/maket/maket_layout/layout_header_footer/MaketHeaderComponent.vue";
+import A4MarkingComponent from "@/components/maket/maket_layout/layout_settings/A4MarkingComponent.vue";
+import MaketFooterComponent from "@/components/maket/maket_layout/layout_header_footer/MaketFooterComponent.vue";
+import MaketContentTableComponent from "@/components/maket/maket_layout/layout_header_footer/MaketContentTableComponent.vue";
+import ItemGroupingComponent from "@/components/maket/maket_layout/layout_settings/ItemGroupingComponent.vue";
+import ShowGroupComponent from "@/components/maket/maket_layout/layout_settings/ShowGroupComponent.vue";
 
 export default {
   name: "MaketLayoutComponent",
