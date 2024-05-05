@@ -10,7 +10,7 @@
     >
       <div>убрать&nbsp;ненужное</div>
       <button type="button"
-              class="btn btn-close-inverted"
+              class="btn btn-close"
               @click="closeContent">закрыть
       </button>
     </div>
@@ -73,8 +73,8 @@ export default {
 
   &__header {
     @include brd-standard;
-    background-color: $colorPrimary500;
-    color: $colorSecondary200;
+    background-color: $colorPrimary400;
+    color: $colorPrimary800;
     padding: 8px;
     @include d-flex-center(space-between);
     width: 100%;

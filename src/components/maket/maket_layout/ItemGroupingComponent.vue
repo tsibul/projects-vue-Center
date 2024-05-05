@@ -11,9 +11,9 @@
       сортировать (перетащите между разделами)
       <div class="item-grouping_btn-block">
         <button type="button"
-                class="btn btn-save-inverted" @click="saveGrouping">сохранить группировку</button>
+                class="btn btn-save" @click="saveGrouping">сохранить группировку</button>
         <button type="button"
-                class="btn btn-close-inverted"
+                class="btn btn-close"
                 @click="closeSort">закрыть</button>
       </div>
     </header>
@@ -90,8 +90,8 @@ export default {
 
   &__header {
     @include brd-standard;
-    background-color: $colorPrimary500;
-    color: $colorSecondary200;
+    background-color: $colorPrimary400;
+    color: $colorPrimary800;
     padding: 10px;
     margin-bottom: 16px;
     cursor: move;
