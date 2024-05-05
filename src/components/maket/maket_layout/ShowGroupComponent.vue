@@ -17,16 +17,20 @@
     <div class="show-group__content"
          v-for="group in Object.keys(showGroup)"
          :key="group">
-      <div>
-        <input type="checkbox"
-               class="check"
-               id="group"
-               :checked="showGroup[group]"
-               @change="toggleCheck(group)"
-        >
-        &nbsp;
-        <label for="group">{{ group.replace('()', ' ') }}</label></div>
-      <div>количество&nbsp;элементов&nbsp;{{ itemGroup[group].length }}</div>
+      <div class="show-group__item">
+        <div>
+          <input type="checkbox"
+                 class="check"
+                 :id="group"
+                 :checked="showGroup[group]"
+                 @change="toggleCheck(group)"
+          >
+          &nbsp;
+          <label
+              :for="group">{{ group.replace('()', ' ') }}</label>
+        </div>
+        <div>элементов&nbsp;{{ itemGroup[group].length }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -63,8 +67,7 @@ export default {
   position: absolute;
   z-index: 3;
   background-color: $colorSecondary50;
-  left: 10vw;
-  top: 10vh;
+  left: 30vw;
   box-shadow: 6px 6px 12px $colorPrimary800;
   padding: 12px;
 
@@ -83,6 +86,12 @@ export default {
     display: flex;
     gap: 24px;
     padding: 6px 32px;
+  }
+
+  &__item {
+    @include d-flex-center(space-between);
+    gap: 24px;
+    width: 100%;
   }
 }
 </style>
