@@ -4,18 +4,18 @@
         :maket-id="maketId"
         @show-pictures="this.showPictures=!this.showPictures"
         @show-frame='frameShow'
-        @show-sort="showSort=!showSort"
+        @show-sort="sortShow"
         @window-print="windowPrint"
         @window-close="windowClose"
         @show-content="contentShow"
     />
   </div>
   <ItemGroupingComponent
-      v-if="maketData"
+      v-if="showSort"
       :item-group="maketData['itemGroups']"
-      :show-sort="showSort"
       @item-drag="handleItemDrag"
       @item-drop="handleItemDrop"
+      @close-sort="showSort=false"
   />
   <ShowGroupComponent
       v-if="showContent"
@@ -83,9 +83,11 @@ export default {
       this.showFrame = data;
     },
     contentShow() {
-      this.showContent = true;
+      this.showContent = !this.showContent;
     },
-
+    sortShow() {
+      this.showSort = !this.showSort;
+    },
     handleItemDrag(element) {
       this.sourceGroupName = element.groupKey;
 

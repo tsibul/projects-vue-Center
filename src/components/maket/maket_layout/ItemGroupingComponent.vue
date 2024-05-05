@@ -1,6 +1,5 @@
 <template>
   <div class="item-grouping"
-       v-if="sortShow"
        ref="modalDraggable"
        @mouseup="stopDrag"
        @mousemove="drag"
@@ -15,7 +14,7 @@
                 class="btn btn-save-inverted" @click="saveGrouping">сохранить группировку</button>
         <button type="button"
                 class="btn btn-close-inverted"
-                @click="sortShow=false">закрыть</button>
+                @click="closeSort">закрыть</button>
       </div>
     </header>
     <ItemSingleGroupComponent
@@ -38,20 +37,13 @@ export default {
   name: "ItemGroupingComponent",
   components: {ItemSingleGroupComponent},
   inject: ['appUrl', 'tokenName'],
-  emits: ['item-drag', 'item-drop'],
+  emits: ['item-drag', 'item-drop', 'close-sort'],
   mixins: [modalDragAndDrop],
   props: {
     itemGroup: Object,
-    showSort: Boolean
   },
   data() {
     return {
-      sortShow: false
-    }
-  },
-  watch: {
-    showSort() {
-      this.sortShow = true;
     }
   },
   methods: {
@@ -70,7 +62,11 @@ export default {
       } else {
         // window.location.reload();
       }
-    }
+    },
+    closeSort() {
+      this.$emit('close-sort');
+    },
+
   },
 }
 </script>
@@ -115,7 +111,6 @@ export default {
     display: flex;
     gap: 16px
   }
-
 }
 
 
