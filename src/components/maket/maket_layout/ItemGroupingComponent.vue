@@ -58,7 +58,7 @@ export default {
       const data = this.itemGroup;
       const response = await submitForm(url, this.tokenName, data);
       if(response){
-        this.sortShow = false;
+        this.$emit('close-sort');
       } else {
         // window.location.reload();
       }
@@ -85,7 +85,7 @@ export default {
   width: fit-content;
   position: absolute;
   z-index: 3;
-  left: 20vw;
+  left: 22vw;
   gap: 20px;
 
   &__header {
