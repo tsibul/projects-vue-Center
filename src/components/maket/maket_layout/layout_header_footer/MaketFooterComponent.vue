@@ -1,10 +1,11 @@
 <template>
-  <div class="maket-footer" ref="modalDraggable"
-       @mouseup="stopDrag"
-       @mousemove="drag">
+  <div class="maket-footer" ref="modalDraggable">
+<!--       @mouseup="stopDrag"-->
+<!--       @mousemove="drag"-->
+
     <div class="maket-footer__heading">
-      <div class="active maket-footer__text"
-           @mousedown="startDrag">
+      <div class="active maket-footer__text">
+<!--           @mousedown="startDrag"-->
         Пожалуйста, ВНИМАТЕЛЬНО ПРОВЕРЯЙТЕ МАКЕТ!</div>
       <strong>Найденная в готовом изделии ошибка, в случае если макет утвержден, не может быть основанием для переделки
         заказа
@@ -31,11 +32,11 @@
 </template>
 
 <script>
-import {modalDragAndDrop} from "@/components/modal_drag_drop/modalDragAndDrop.js";
+// import {modalDragAndDrop} from "@/components/modal_drag_drop/modalDragAndDrop.js";
 
 export default {
   name: "MaketFooterComponent",
-  mixins: [modalDragAndDrop],
+  // mixins: [modalDragAndDrop],
   props: {
     footerInfo: Object
   },
@@ -63,7 +64,8 @@ export default {
   flex-direction: column;
   gap: 8px;
   margin: 0 0 5mm 5mm;
-  position: absolute;
+  //position: absolute;
+  //top: 890px;
 
   &__heading {
     text-align: center;

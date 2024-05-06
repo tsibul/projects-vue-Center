@@ -39,8 +39,6 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin: 5mm 5mm 0 5mm;
-
 }
 
 </style>

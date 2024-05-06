@@ -17,7 +17,7 @@ export default {
 .frame-set {
   position: absolute;
   display: flex;
-  top: -5mm;
+  top: 61px;
 }
 
 .a4-marking {

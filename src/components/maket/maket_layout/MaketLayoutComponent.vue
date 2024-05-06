@@ -1,5 +1,5 @@
 <template>
-  <div class="maket-layout">
+<!--  <div class="maket-layout">-->
     <TechDataComponent
         :maket-id="maketId"
         @show-pictures="this.showPictures=!this.showPictures"
@@ -9,37 +9,58 @@
         @window-close="windowClose"
         @show-content="contentShow"
     />
-  </div>
-  <ItemGroupingComponent
-      v-if="showSort"
-      :item-group="maketData['itemGroups']"
-      @item-drag="handleItemDrag"
-      @item-drop="handleItemDrop"
-      @close-sort="showSort=false"
-  />
-  <ShowGroupComponent
-      v-if="showContent"
-      :show-group="maketData['showGroups']"
-      :item-group="maketData['itemGroups']"
-      @close-content="showContent=false"
-      @toggle-check="toggleCheckGroup"
-  />
-  <div class="maket-layout__print">
-    <A4MarkingComponent v-if="showFrame"/>
-    <MaketHeaderComponent
-        v-if="maketData"
-        :header-info="maketData['headerInfo']"
-
+    <!--  </div>-->
+    <ItemGroupingComponent
+        v-if="showSort"
+        :item-group="maketData['itemGroups']"
+        @item-drag="handleItemDrag"
+        @item-drop="handleItemDrop"
+        @close-sort="showSort=false"
     />
-    <MaketContentTableComponent
-        v-if="maketData"
-        :table-content="maketData['tableContent']"
+    <ShowGroupComponent
+        v-if="showContent"
         :show-group="maketData['showGroups']"
+        :item-group="maketData['itemGroups']"
+        @close-content="showContent=false"
+        @toggle-check="toggleCheckGroup"
     />
-    <MaketFooterComponent
-        v-if="maketData"
-        :footer-info="maketData['footerInfo']"/>
-  </div>
+    <A4MarkingComponent v-if="showFrame"/>
+    <div class="maket-layout__print"
+    >
+      <div class="maket-layout__top">
+        <MaketHeaderComponent
+            v-if="maketData"
+            :header-info="maketData['headerInfo']"
+
+        />
+        <MaketContentTableComponent
+            v-if="maketData"
+            :table-content="maketData['tableContent']"
+            :show-group="maketData['showGroups']"
+        />
+      </div>
+      <div
+          class=""
+          v-if="maketData"
+      >
+        <div
+            v-for="group in Object.keys(maketData['itemGroups'])"
+            v-show="maketData['showGroups'][group]"
+            :key="group.id"
+            :ref="'group_' + group"
+            class="maket-layout__content"
+        >
+          <ContentFrameComponent
+              :group-data="maketData['itemGroups'][group]"
+              :group-mame="group"
+          />
+        </div>
+      </div>
+      <MaketFooterComponent
+          v-if="maketData"
+          :footer-info="maketData['footerInfo']"/>
+    </div>
+<!--  </div>-->
 </template>
 
 <script>
@@ -48,13 +69,16 @@ import TechDataComponent from "@/components/maket/maket_layout/layout_settings/T
 import MaketHeaderComponent from "@/components/maket/maket_layout/layout_header_footer/MaketHeaderComponent.vue";
 import A4MarkingComponent from "@/components/maket/maket_layout/layout_settings/A4MarkingComponent.vue";
 import MaketFooterComponent from "@/components/maket/maket_layout/layout_header_footer/MaketFooterComponent.vue";
-import MaketContentTableComponent from "@/components/maket/maket_layout/layout_header_footer/MaketContentTableComponent.vue";
+import MaketContentTableComponent
+  from "@/components/maket/maket_layout/layout_header_footer/MaketContentTableComponent.vue";
 import ItemGroupingComponent from "@/components/maket/maket_layout/layout_settings/ItemGroupingComponent.vue";
 import ShowGroupComponent from "@/components/maket/maket_layout/layout_settings/ShowGroupComponent.vue";
+import ContentFrameComponent from "@/components/maket/maket_layout/layout_content/ContentFrameComponent.vue";
 
 export default {
   name: "MaketLayoutComponent",
   components: {
+    ContentFrameComponent,
     ShowGroupComponent,
     ItemGroupingComponent,
     MaketContentTableComponent,
@@ -105,7 +129,7 @@ export default {
       this.sourceGroupName = null;
       this.draggingItem = null;
     },
-    toggleCheckGroup(group){
+    toggleCheckGroup(group) {
       this.maketData['showGroups'][group] = !this.maketData['showGroups'][group];
     },
     windowClose() {
@@ -129,11 +153,20 @@ export default {
 <style scoped lang="scss">
 
 .maket-layout {
-  width: calc(100vw - 19px);
+  //width: calc(100vw - 19px);
+
+
+  &__top {
+    margin: 5mm 0 2px 5mm;
+    width: 205mm;
+  }
 
   &__print {
-    height: 100vh;
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-height: 297mm;
+    max-width: fit-content;
   }
 }
 
