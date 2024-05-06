@@ -18,6 +18,7 @@ export default {
   position: absolute;
   display: flex;
   top: 61px;
+  z-index: -2;
 }
 
 .a4-marking {
