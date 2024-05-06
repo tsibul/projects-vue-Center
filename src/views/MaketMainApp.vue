@@ -259,6 +259,7 @@ export default {
 
 .check{
   accent-color: $colorPrimary500;
+  cursor: pointer;
 }
 
 @media (max-width: 767px) {
