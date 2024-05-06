@@ -26,6 +26,7 @@
       <div class="print-content">
         <div class="print-content__row"
              v-for="print in item.print_item"
+             v-show="print.printable"
              :key="print.id"
         >
           <div class="content-table__item">{{ print.place }}</div>
@@ -56,6 +57,9 @@ export default {
 @import "@/assets/maket/scss/vars";
 
 .content-table {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
   border: 1px solid $colorPrimary800;
   border-radius: 0 0 6px 6px;
   border-top: none;
@@ -73,6 +77,7 @@ export default {
     display: grid;
     align-items: center;
     grid-template-columns: 0.5fr 1.8fr 4fr 2.2fr 0.8fr 9.5fr;
+    gap: 4px;
     &:hover{
       background-color: $colorSecondary100;
     }
@@ -90,6 +95,7 @@ export default {
   &__row {
     display: grid;
     gap: 4px;
+    align-items: center;
     grid-template-columns: 2.2fr 2.2fr 0.5fr 0.5fr 2fr 2.1fr;
   }
 }
