@@ -1,67 +1,61 @@
 <template>
-<!--  <div class="maket-layout">-->
-    <TechDataComponent
-        :maket-id="maketId"
-        @show-pictures="this.showPictures=!this.showPictures"
-        @show-table="tableShow"
-        @show-frame='frameShow'
-        @show-sort="sortShow"
-        @window-print="windowPrint"
-        @window-close="windowClose"
-        @show-content="contentShow"
-    />
-    <!--  </div>-->
-    <ItemGroupingComponent
-        v-if="showSort"
-        :item-group="maketData['itemGroups']"
-        @item-drag="handleItemDrag"
-        @item-drop="handleItemDrop"
-        @close-sort="showSort=false"
-    />
-    <ShowGroupComponent
-        v-if="showContent"
-        :show-group="maketData['showGroups']"
-        :item-group="maketData['itemGroups']"
-        @close-content="showContent=false"
-        @toggle-check="toggleCheckGroup"
-    />
-    <A4MarkingComponent v-if="showFrame"/>
-    <div class="maket-layout__print"
-    >
-      <div class="maket-layout__top">
-        <MaketHeaderComponent
-            v-if="maketData"
-            :header-info="maketData['headerInfo']"
+  <TechDataComponent
+      :maket-id="maketId"
+      @show-pictures="this.showPictures=!this.showPictures"
+      @show-table="tableShow"
+      @show-frame='frameShow'
+      @show-sort="sortShow"
+      @window-print="windowPrint"
+      @window-close="windowClose"
+      @show-content="contentShow"
+  />
+  <ItemGroupingComponent
+      v-if="showSort"
+      :item-group="maketData['itemGroups']"
+      @item-drag="handleItemDrag"
+      @item-drop="handleItemDrop"
+      @close-sort="showSort=false"
+  />
+  <ShowGroupComponent
+      v-if="showContent"
+      :show-group="maketData['showGroups']"
+      :item-group="maketData['itemGroups']"
+      @close-content="showContent=false"
+      @toggle-check="toggleCheckGroup"
+  />
+  <A4MarkingComponent v-if="showFrame"/>
+  <div class="maket-layout__print"
+  >
+    <div class="maket-layout__top">
+      <MaketHeaderComponent
+          v-if="maketData"
+          :header-info="maketData['headerInfo']"
 
-        />
-        <MaketContentTableComponent
-            v-if="maketData && showTable"
-            :table-content="maketData['tableContent']"
-            :show-group="maketData['showGroups']"
-        />
-      </div>
-      <div
-          class=""
-          v-if="maketData"
-      >
-        <div
-            v-for="group in Object.keys(maketData['itemGroups'])"
-            v-show="maketData['showGroups'][group]"
-            :key="group.id"
-            :ref="'group_' + group"
-            class="maket-layout__content"
-        >
-          <ContentFrameComponent
-              :group-data="maketData['itemGroups'][group]"
-              :group-mame="group"
-          />
-        </div>
-      </div>
-      <MaketFooterComponent
-          v-if="maketData"
-          :footer-info="maketData['footerInfo']"/>
+      />
+      <MaketContentTableComponent
+          v-if="maketData && showTable"
+          :table-content="maketData['tableContent']"
+          :show-group="maketData['showGroups']"
+      />
     </div>
-<!--  </div>-->
+    <div
+        class=""
+        v-if="maketData && showPictures"
+    >
+      <ContentFrameComponent
+          v-for="group in Object.keys(maketData['itemGroups'])"
+          v-show="maketData['showGroups'][group]"
+          :key="group.id"
+          :ref="'group_' + group"
+          class="maket-layout__content"
+          :group-data="maketData['itemGroups'][group]"
+          :group-mame="group"
+      />
+    </div>
+    <MaketFooterComponent
+        v-if="maketData"
+        :footer-info="maketData['footerInfo']"/>
+  </div>
 </template>
 
 <script>
