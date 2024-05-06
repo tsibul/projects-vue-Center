@@ -14,7 +14,8 @@
              checked
       >
       &nbsp;
-      <label for="table">таблица</label>
+      <label for="table"
+             class="check">таблица</label>
     </div>
     <div class="blank-header__item">
       <input type="checkbox"
@@ -23,7 +24,8 @@
              @change="togglePictures"
       >
       &nbsp;
-      <label for="pictures">картинки</label>
+      <label class="check"
+             for="pictures">картинки</label>
     </div>
     <div class="blank-header__item">
       <input type="checkbox"
@@ -33,7 +35,8 @@
              checked
       >
       &nbsp;
-      <label for="frames">рамки</label>
+      <label for="frames"
+             class="check">рамки</label>
     </div>
     <button class="btn btn-neutral"
             @click="showSort"
