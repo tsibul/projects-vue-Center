@@ -18,7 +18,6 @@
 .fedregion-row,
 .printplace-row,
 .printposition-row,
-.printtype-row,
 .typegroup-row,
 {
   grid-template-columns: 3fr 1fr;
@@ -47,6 +46,7 @@
 .regiontofedregion-row,
 .pantonetohex-row,
 .maketpattern-row,
+.printtype-row,
 {
   grid-template-columns: 2fr 2fr 1fr;
 }
