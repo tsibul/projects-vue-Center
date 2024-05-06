@@ -153,8 +153,6 @@ export default {
 <style scoped lang="scss">
 
 .maket-layout {
-  //width: calc(100vw - 19px);
-
 
   &__top {
     margin: 5mm 0 2px 5mm;
