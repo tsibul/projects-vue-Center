@@ -3,6 +3,7 @@
     <TechDataComponent
         :maket-id="maketId"
         @show-pictures="this.showPictures=!this.showPictures"
+        @show-table="tableShow"
         @show-frame='frameShow'
         @show-sort="sortShow"
         @window-print="windowPrint"
@@ -34,7 +35,7 @@
 
         />
         <MaketContentTableComponent
-            v-if="maketData"
+            v-if="maketData && showTable"
             :table-content="maketData['tableContent']"
             :show-group="maketData['showGroups']"
         />
@@ -95,7 +96,8 @@ export default {
       showSort: false,
       draggingItem: null,
       sourceGroupName: null,
-      showContent: false
+      showContent: false,
+      showTable: true
     }
   },
   methods: {
@@ -105,6 +107,9 @@ export default {
     },
     frameShow(data) {
       this.showFrame = data;
+    },
+    tableShow() {
+      this.showTable = !this.showTable;
     },
     contentShow() {
       this.showContent = !this.showContent;

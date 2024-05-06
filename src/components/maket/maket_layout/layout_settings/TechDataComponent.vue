@@ -9,6 +9,16 @@
     <div class="blank-header__item">
       <input type="checkbox"
              class="check"
+             id="table"
+             @change="toggleTable"
+             checked
+      >
+      &nbsp;
+      <label for="table">таблица</label>
+    </div>
+    <div class="blank-header__item">
+      <input type="checkbox"
+             class="check"
              id="pictures"
              @change="togglePictures"
       >
@@ -51,14 +61,15 @@
 
 export default {
   name: "TechDataComponent",
-  emits: ['show-pictures', 'show-frame', 'show-sort', 'window-print', 'window-close', 'show-content'],
+  emits: ['show-pictures', 'show-frame', 'show-sort', 'window-print', 'window-close', 'show-content', 'show-table'],
   props: {
     maketId: String,
   },
   data() {
     return {
       showPictures: false,
-      showFrame: true
+      showFrame: true,
+      showTable: true
     }
   },
   methods: {
@@ -69,6 +80,10 @@ export default {
     toggleFrame() {
       this.showFrame = !this.showFrame;
       this.$emit('show-frame', this.showFrame);
+    },
+    toggleTable() {
+      this.showTable = !this.showTable;
+      this.$emit('show-table', this.showTable);
     },
     showSort() {
       this.$emit('show-sort')
