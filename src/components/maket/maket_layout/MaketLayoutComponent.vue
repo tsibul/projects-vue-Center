@@ -49,7 +49,8 @@
           :ref="'group_' + group"
           class="maket-layout__content"
           :group-data="maketData['itemGroups'][group]"
-          :group-mame="group"
+          :group-name="group"
+          :group-pattern-name="maketData['groupPatterns'][group]"
       />
     </div>
     <MaketFooterComponent
