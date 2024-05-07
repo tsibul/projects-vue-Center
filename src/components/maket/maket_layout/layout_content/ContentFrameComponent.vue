@@ -1,5 +1,7 @@
 <template>
-  <div class="content-frame"  >
+  <div class="content-frame"
+       v-if="selectedComponent"
+  >
     <div class="content-frame__header">{{ groupName.replace('()', ' ') }}</div>
     <component
         v-if="selectedComponent"
