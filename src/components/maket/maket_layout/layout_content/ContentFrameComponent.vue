@@ -1,16 +1,30 @@
 <template>
   <div class="content-frame"  >
-    <div class="content-frame__header">{{ groupMame.replace('()', ' ') }}</div>
+    <div class="content-frame__header">{{ groupName.replace('()', ' ') }}</div>
+    <component
+        v-if="selectedComponent"
+        :is="selectedComponent"
+        :group-data="groupData"
+    />
   </div>
-
 </template>
 
 <script>
+import {goodsLayout} from "@/components/maket/maket_layout/layout_content/goodsLayouts.js";
+
 export default {
   name: "ContentFrameComponent",
   props: {
     groupData: Array,
-    groupMame: String,
+    groupName: String,
+    groupPatternName: String,
+  },
+  data(){
+    return{
+      selectedComponent: goodsLayout[this.groupPatternName] ? goodsLayout[this.groupPatternName] : null,
+    }
+  },
+  created() {
   },
 }
 </script>
