@@ -107,6 +107,9 @@ export default {
 
 <style scoped lang="scss">
 @import "@/assets/maket/scss/vars";
+*{
+  font-family: 'Montserrat', sans-serif;
+}
 
 .tech-data {
   display: flex;

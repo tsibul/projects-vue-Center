@@ -30,7 +30,6 @@ export default {
   margin: 0;
   color: $colorPrimary900;
   box-sizing: border-box;
-  font-family: "Montserrat", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;

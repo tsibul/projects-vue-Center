@@ -150,6 +150,13 @@ export default {
 }
 </script>
 
+<style lang="scss">
+* {
+  font-family: 'Arial', sans-serif;
+}
+
+</style>
+
 <style scoped lang="scss">
 
 .maket-layout {

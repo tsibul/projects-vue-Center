@@ -134,5 +134,9 @@ export default {
 
 
 <style lang="scss">
+
+* {
+  font-family: 'Montserrat', sans-serif;
+}
 </style>
 
