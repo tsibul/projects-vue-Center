@@ -51,6 +51,7 @@
           :group-data="maketData['itemGroups'][group]"
           :group-name="group"
           :group-pattern-name="maketData['groupPatterns'][group]"
+          :group-images="maketData['groupImages'][group]"
       />
     </div>
     <MaketFooterComponent
