@@ -7,6 +7,7 @@
         v-if="selectedComponent"
         :is="selectedComponent"
         :group-data="groupData"
+        :group-images="groupImages"
     />
   </div>
 </template>
@@ -18,6 +19,7 @@ export default {
   name: "ContentFrameComponent",
   props: {
     groupData: Array,
+    groupImages: Array,
     groupName: String,
     groupPatternName: String,
   },
