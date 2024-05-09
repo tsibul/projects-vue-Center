@@ -11,49 +11,38 @@
     </div>
     <div class="pen-small__items">
       <div class="pen-small__single-item"
-           v-for="printItem in penData.print_item"
+           v-for="printItem in printItemList"
            :key="printItem.id"
       >
         <div class="pen-small__text">{{ printItem.place }}</div>
         <div class="pen-small__item">
           <div class="pen-small__image"
-               v-html="currentHtml ? currentHtml.replace('itemWidth', '75') : currentHtml"
+               v-html="colorImages[printItem.image_id] ? colorImages[printItem.image_id][0].replace('itemWidth', '75') : colorImages"
           >
           </div>
-          <!--          <ul class="image-list">-->
-          <!--            <li-->
-          <!--                v-for="image in Object.keys(colorImages)"-->
-          <!--                :key="image.id"-->
-          <!--                v-html="colorImages[image][0].replace('itemWidth', '90mm')"-->
-          <!--                :data-id="image"-->
-          <!--                @click="selectImage($event, image)"-->
-          <!--            >-->
-          <!--            </li>-->
-          <!--          </ul>-->
         </div>
         <div
-            v-if="colorImages[currentImage]"
-            @click="Object.keys(colorImages).length > 1 ? showImageList($event) : null"
+            v-if="colorImages[printItem.image_id]"
+            @click="printItem.image_list.length > 1 ? showImageList($event) : null"
             :data-id="currentImage"
         >
           <div class="pen-small__dropdown">
-            <div>{{ colorImages[currentImage][2] }}</div>
+            <div>{{ colorImages[printItem.image_id][2] }}</div>
             <font-awesome-icon
-                v-if="Object.keys(colorImages).length > 1"
+                v-if="printItem.image_list.length > 1"
                 :icon="['fas', 'chevron-down']"/>
           </div>
         </div>
         <ul class="image-list">
           <li
-              v-for="image in Object.keys(colorImages)"
+              v-for="image in printItem.image_list"
               :key="image.id"
               :data-id="image"
-              @click="selectImage($event, image)"
+              @click="selectImage($event, image, printItem)"
           >
-            {{ colorImages[image][2] }}
+            <div v-if="colorImages[image]">{{ colorImages[image][2] }}</div>
           </li>
         </ul>
-        <!--        </div>-->
       </div>
     </div>
   </div>
@@ -69,8 +58,7 @@ export default {
     return {
       article: this.penData['article'],
       colorImages: {},
-      currentImage: '1',
-      currentHtml: null,
+      printItemList: this.penData.print_item,
     }
   },
   props: {
@@ -86,18 +74,17 @@ export default {
     },
     showImageList(event) {
       console.log()
-      event.target.closest('.pen-small__items').querySelector('.image-list').style.display = 'block';
+      event.target.closest('.pen-small__single-item').querySelector('.image-list').style.display = 'block';
     },
-    selectImage(event, image) {
+    selectImage(event, image, printItem) {
       event.target.closest('.image-list').style.display = 'none';
-      this.currentImage = image;
-      this.currentHtml = this.colorImages[this.currentImage][0];
+      const itemFromList = this.printItemList.find(item => item.id === printItem.id);
+      itemFromList['image_id'] = image;
     },
   },
   created() {
     (async () => {
       await this.setColorImages();
-      this.currentHtml = this.colorImages[this.currentImage][0];
     })();
   }
 }
