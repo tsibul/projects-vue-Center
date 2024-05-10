@@ -3,15 +3,15 @@
     <div class="content-table__title active">
       <div></div>
       <div class="no-center">арт.</div>
-      <div>наименование</div>
-      <div>нанесение</div>
-      <div>кол.</div>
-      <div>место</div>
-      <div>тип</div>
-      <div>цв.</div>
-      <div>2пр.</div>
-      <div>позиция</div>
-      <div>цвет</div>
+      <div class="content-table__item">наименование</div>
+      <div class="content-table__item">нанесение</div>
+      <div class="content-table__item">кол.</div>
+      <div class="content-table__item">место</div>
+      <div class="content-table__item">тип</div>
+      <div class="content-table__item">цв.</div>
+      <div class="content-table__item">2пр.</div>
+      <div class="content-table__item">позиция</div>
+      <div class="content-table__item">цвет</div>
     </div>
     <div class="content-table__content"
          v-for="item in tableContent"
@@ -70,14 +70,12 @@ export default {
   &__title {
     display: grid;
     grid-template-columns: 0.5fr 1.8fr 4fr 2.2fr 0.8fr 2.2fr 2fr 0.5fr 0.8fr 2fr 2fr;
-    text-align: center;
   }
 
   &__content {
     display: grid;
     align-items: center;
     grid-template-columns: 0.5fr 1.8fr 4fr 2.2fr 0.8fr 9.5fr;
-    gap: 4px;
     &:hover{
       background-color: $colorSecondary100;
     }
@@ -85,6 +83,7 @@ export default {
   &__item{
     width: 100%;
     word-break: break-all;
+    padding: 0 2px;
   }
 }
 .no-center{
@@ -94,9 +93,8 @@ export default {
 .print-content {
   &__row {
     display: grid;
-    gap: 4px;
     align-items: center;
-    grid-template-columns: 2.2fr 2.2fr 0.5fr 0.5fr 2fr 2.1fr;
+    grid-template-columns: 2.1fr 2.2fr 0.5fr 0.8fr 1.9fr 1.9fr;
   }
 }
 </style>
