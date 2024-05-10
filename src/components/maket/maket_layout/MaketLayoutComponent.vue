@@ -38,22 +38,17 @@
           :show-group="maketData['showGroups']"
       />
     </div>
-    <div
-        class=""
-        v-if="maketData && showPictures"
-    >
-      <ContentFrameComponent
-          v-for="group in Object.keys(maketData['itemGroups'])"
-          v-show="maketData['showGroups'][group]"
-          :key="group.id"
-          :ref="'group_' + group"
-          class="maket-layout__content"
-          :group-data="maketData['itemGroups'][group]"
-          :group-name="group"
-          :group-pattern-name="maketData['groupPatterns'][group]"
-          :group-images="maketData['groupImages'][group]"
-      />
-    </div>
+    <ContentFrameComponent
+        v-for="group in Object.keys(maketData['itemGroups'])"
+        v-show="maketData['showGroups'][group]"
+        :key="group.id"
+        :ref="'group_' + group"
+        class="maket-layout__content"
+        :group-data="maketData['itemGroups'][group]"
+        :group-name="group"
+        :group-pattern-name="maketData['groupPatterns'][group]"
+        :group-images="maketData['groupImages'][group]"
+    />
     <MaketFooterComponent
         v-if="maketData"
         :footer-info="maketData['footerInfo']"/>
