@@ -15,11 +15,9 @@
            :key="printItem.id"
       >
         <div class="pen-small__text">{{ printItem.place }}</div>
-        <div class="pen-small__item">
-          <div class="pen-small__image"
-               v-html="colorImages[printItem.image_id] ? colorImages[printItem.image_id][0].replace('itemWidth', '75') : colorImages"
-          >
-          </div>
+        <div class="pen-small__item"
+             v-html="colorImages[printItem.image_id] ? colorImages[printItem.image_id][0].replace('itemWidth', '40') : colorImages"
+        >
         </div>
         <div
             v-if="colorImages[printItem.image_id]"
@@ -117,7 +115,7 @@ export default {
     padding-left: 6px;
     display: grid;
     align-items: center;
-    grid-template-columns: 1fr 2.8fr repeat(2, 1fr);
+    grid-template-columns: 1fr 40mm repeat(2, 1fr);
     position: relative;
     width: 100%;
   }
@@ -133,12 +131,10 @@ export default {
     padding: 3px;
     @include brd-standard;
     border: transparent;
-    &:hover{
+
+    &:hover {
       background-color: $colorSecondary100;
     }
-  }
-  &__image{
-    width: 80mm;
   }
 }
 
