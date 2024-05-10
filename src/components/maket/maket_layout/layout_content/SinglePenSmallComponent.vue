@@ -24,7 +24,7 @@
         <div
             v-if="colorImages[printItem.image_id]"
             @click="printItem.image_list.length > 1 ? showImageList($event) : null"
-            :data-id="currentImage"
+            :data-id="printItem.image_id"
         >
           <div class="pen-small__dropdown">
             <div>{{ colorImages[printItem.image_id][2] }}</div>
@@ -95,7 +95,7 @@ export default {
 @import "@/assets/maket/scss/mixins";
 
 .pen-small {
-  font-size: 12px;
+  font-size: 10px;
   display: grid;
   grid-template-columns: 1fr 5.5fr;
   align-items: center;
