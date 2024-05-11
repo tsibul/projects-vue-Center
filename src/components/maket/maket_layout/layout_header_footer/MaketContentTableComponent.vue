@@ -2,7 +2,7 @@
 export default {
   name: "MaketContentTableComponent",
   props: {
-    tableContent: Array,
+    tableContent: Object,
     showGroup: Object
   }
 }
