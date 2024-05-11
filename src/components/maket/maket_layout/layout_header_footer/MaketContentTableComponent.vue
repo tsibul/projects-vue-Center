@@ -21,7 +21,7 @@
            v-show="showGroup[item.itemGroup]"
       >
         <div class="content-table__item">{{ item.no }}</div>
-        <div class="content-table__item">{{ item.article }}</div>
+        <div class="content-table__item content-table__wrap">{{ item.article }}</div>
         <div class="content-table__item">{{ item.name }}</div>
         <div class="content-table__item content-table__wrap">{{ item.print_name }}</div>
         <div class="content-table__item">{{ item.quantity }}</div>
