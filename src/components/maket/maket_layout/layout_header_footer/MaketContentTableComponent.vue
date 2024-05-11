@@ -23,7 +23,7 @@
         <div class="content-table__item">{{ item.no }}</div>
         <div class="content-table__item">{{ item.article }}</div>
         <div class="content-table__item">{{ item.name }}</div>
-        <div class="content-table__item">{{ item.print_name }}</div>
+        <div class="content-table__item content-table__wrap">{{ item.print_name }}</div>
         <div class="content-table__item">{{ item.quantity }}</div>
         <div class="print-content">
           <div class="print-content__row"
@@ -86,8 +86,12 @@ export default {
 
   &__item {
     width: 100%;
-    word-break: break-all;
     padding: 0 2px;
+  }
+
+  &__wrap {
+    word-break: break-all;
+
   }
 }
 
