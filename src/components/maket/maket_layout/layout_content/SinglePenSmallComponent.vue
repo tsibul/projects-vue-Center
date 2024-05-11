@@ -20,7 +20,7 @@ export default {
     async setColorImages() {
       for (const image of this.penImages) {
         this.colorImages[image[0]] = [await setImageColors(this.article, image[1], this.appUrl, this.tokenName),
-          image[2], image[3]];
+          image[2], image[3], image[4]];
       }
     },
     showImageList(event) {
