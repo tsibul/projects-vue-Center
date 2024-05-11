@@ -82,7 +82,7 @@ export default {
           >
           </div>
         </div>
-        <div class="pen-small__tech">
+        <div class="pen-small__tech no-print">
           <div
               v-if="colorImages[printItem.image_id]"
               @click="printItem.image_list.length > 1 ? showImageList($event) : null"
@@ -133,27 +133,25 @@ export default {
   &__tech {
     border: 1px solid $colorPrimary800;
     border-radius: 10px;
-    font-size: 14px;
-    padding: 8px;
+    font-size: 12px;
+    padding: 6px;
     position: absolute;
-    display: none;
     z-index: 3;
-    left: 98%;
+    left: 100%;
     top: -8px;
-    //width: 100%;
-    transition: max-width 3s ease-in-out;
+    @include d-flex-center(space-between);
+    gap: 12px;
+    transition: opacity 1s ease-in-out;
     background-color: $colorPrimary200;
+    opacity: 0;
   }
 
   &__single-item {
-    padding-left: 6px;
+    padding: 3px 3px 3px 6px;
     position: relative;
-    //width: 100%;
 
     &:hover .pen-small__tech {
-      //@include brd-standard;
-      @include d-flex-center(space-between);
-      gap: 12px;
+      opacity: 1;
     }
   }
 
