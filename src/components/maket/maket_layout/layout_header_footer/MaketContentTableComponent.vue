@@ -1,3 +1,13 @@
+<script>
+export default {
+  name: "MaketContentTableComponent",
+  props: {
+    tableContent: Array,
+    showGroup: Object
+  }
+}
+</script>
+
 <template>
   <div class="content-table">
     <div class="content-table__title active">
@@ -44,16 +54,6 @@
   </div>
 
 </template>
-
-<script>
-export default {
-  name: "MaketContentTableComponent",
-  props: {
-    tableContent: Array,
-    showGroup: Object
-  }
-}
-</script>
 
 <style scoped lang="scss">
 @import "@/assets/maket/scss/vars";
