@@ -136,7 +136,7 @@ export default {
     <ContentFrameComponent
         v-for="group in itemGroupsKeys"
         v-show="maketData['showGroups'][group] && showPictures"
-        :key="group.id"f
+        :key="group.id"
         :ref="'group_' + group"
         class="maket-layout__content"
         :group-data="maketData['itemGroups'][group]"
