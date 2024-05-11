@@ -9,40 +9,43 @@
           :id="article">&nbsp;
       <label :for="article">{{ article }}</label>
     </div>
-    <div class="pen-small__items">
+    <div >
       <div class="pen-small__single-item"
            v-for="printItem in printItemList"
            :key="printItem.id"
       >
-        <div class="pen-small__text">{{ printItem.place }}</div>
+        <!--        <div class="pen-small__text">{{ printItem.place }}</div>-->
         <div class="pen-small__item">
           <div class="pen-small__image"
-               v-html="colorImages[printItem.image_id] ? colorImages[printItem.image_id][0].replace('itemWidth', '75') : colorImages"
+               v-html="colorImages[printItem.image_id] ? colorImages[printItem.image_id][0].replace('itemWidth', '40') : colorImages"
           >
           </div>
         </div>
-        <div
-            v-if="colorImages[printItem.image_id]"
-            @click="printItem.image_list.length > 1 ? showImageList($event) : null"
-            :data-id="printItem.image_id"
-        >
-          <div class="pen-small__dropdown">
-            <div>{{ colorImages[printItem.image_id][2] }}</div>
-            <font-awesome-icon
-                v-if="printItem.image_list.length > 1"
-                :icon="['fas', 'chevron-down']"/>
-          </div>
-        </div>
-        <ul class="image-list">
-          <li
-              v-for="image in printItem.image_list"
-              :key="image.id"
-              :data-id="image"
-              @click="selectImage($event, image, printItem)"
+        <div class="pen-small__tech">
+          <div
+              v-if="colorImages[printItem.image_id]"
+              @click="printItem.image_list.length > 1 ? showImageList($event) : null"
+              :data-id="printItem.image_id"
           >
-            <div v-if="colorImages[image]">{{ colorImages[image][2] }}</div>
-          </li>
-        </ul>
+            <div class="pen-small__dropdown">
+              <div>{{ colorImages[printItem.image_id][2] }}</div>
+              <font-awesome-icon
+                  v-if="printItem.image_list.length > 1"
+                  :icon="['fas', 'chevron-down']"/>
+            </div>
+          </div>
+          <input type="text" class="pen-small__color">
+          <ul class="image-list">
+            <li
+                v-for="image in printItem.image_list"
+                :key="image.id"
+                :data-id="image"
+                @click="selectImage($event, image, printItem)"
+            >
+              <div v-if="colorImages[image]">{{ colorImages[image][2] }}</div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -95,29 +98,28 @@ export default {
 @import "@/assets/maket/scss/mixins";
 
 .pen-small {
+  @include d-flex-center(space-between);
   font-size: 10px;
-  display: grid;
-  grid-template-columns: 1fr 5.5fr;
-  align-items: center;
   gap: 4px;
-  width: 100%;
+  //width: 100%;
 
   &__item {
     padding: 3px 0;
     display: flex;
     align-items: center;
     gap: 3px;
+    position: relative;
   }
 
   &__items {
-    width: 100%;
+    //width: 100%;
   }
 
   &__single-item {
     padding-left: 6px;
-    display: grid;
-    align-items: center;
-    grid-template-columns: 1fr 2.8fr repeat(2, 1fr);
+    //display: grid;
+    //align-items: center;
+    //grid-template-columns: 1fr 2.8fr repeat(2, 1fr);
     position: relative;
     width: 100%;
   }
@@ -133,12 +135,28 @@ export default {
     padding: 3px;
     @include brd-standard;
     border: transparent;
-    &:hover{
+
+    &:hover {
       background-color: $colorSecondary100;
     }
   }
-  &__image{
-    width: 80mm;
+
+  &__image {
+    //width: 80mm;
+  }
+
+  &__color {
+    @include brd-standard;
+    width: 100%;
+  }
+
+  &__tech {
+    position: absolute;
+    display: none;
+    background-color: white;
+  }
+
+  &__item:hover {
   }
 }
 
