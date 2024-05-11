@@ -36,7 +36,7 @@ export default {
       itemFromList['position_id'] = selectedImage[1];
       itemFromList['position'] = selectedImage[2];
     },
-    positionChanged(){
+    positionChanged() {
       this.$emit('position-selected', this.currentPenData);
     }
   },
@@ -48,10 +48,10 @@ export default {
         itemFromList['position_id'] = selectedImage[1];
         itemFromList['position'] = selectedImage[2];
       });
-       this.$emit('position-selected', [this.key, this.currentPenData]);
+      this.$emit('position-selected', [this.key, this.currentPenData]);
     })();
   },
-  watch:{
+  watch: {
     currentPenData: {
       handler: 'positionChanged',
       deep: true,
@@ -63,19 +63,22 @@ export default {
 <template>
   <div class="pen-small"
   >
-    <div class="pen-small__text">
-      <div>{{ currentPenData['no'] }}</div>
-      <input
-          type="checkbox"
-          class="check"
-          :id="article">&nbsp;
-      <label :for="article">{{ article }}</label>
-    </div>
-    <div>
+    <div>{{ currentPenData['no'] }}</div>
+    <div class="pen-small__prints">
       <div class="pen-small__single-item"
            v-for="printItem in currentPenData.print_item"
            :key="printItem"
       >
+        <div class="pen-small__text">
+          <input
+              type="checkbox"
+              class="check"
+              :id="article">&nbsp;
+          <label :for="article"
+                 class="pen-small__wrap"
+          >
+            {{ article }}</label>
+        </div>
         <div class="pen-small__item">
           <div class="pen-small__image"
                v-html="colorImages[printItem.image_id] ? colorImages[printItem.image_id][0].replace('itemWidth', '40') : colorImages"
@@ -118,9 +121,14 @@ export default {
 @import "@/assets/maket/scss/mixins";
 
 .pen-small {
-  @include d-flex-center(space-between);
+  display: flex;
+  align-items: center;
   font-size: 10px;
-  gap: 4px;
+  //gap: 4px;
+
+  &__prints {
+    width: 100%;
+  }
 
   &__item {
     padding: 3px 0;
@@ -149,6 +157,9 @@ export default {
   &__single-item {
     padding: 3px 3px 3px 6px;
     position: relative;
+    @include d-flex-center(space-between);
+
+    gap: 4px;
 
     &:hover .pen-small__tech {
       opacity: 1;
@@ -158,7 +169,8 @@ export default {
   &__text {
     display: flex;
     align-items: center;
-    gap: 4px;
+    justify-content: space-between;
+    //gap: 4px;
   }
 
   &__dropdown {
@@ -177,6 +189,10 @@ export default {
     min-width: 60px;
     font-size: 14px;
     padding: 4px 10px;
+  }
+
+  &__wrap {
+    word-break: break-all;
   }
 
 }
