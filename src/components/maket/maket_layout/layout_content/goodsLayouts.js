@@ -1,9 +1,9 @@
 'use strict';
 
 import {markRaw} from "vue";
-import PenFrameComponent from "@/components/maket/maket_layout/layout_content/PenFrameComponent.vue";
-import NoteFrameComponent from "@/components/maket/maket_layout/layout_content/NoteFrameComponent.vue";
-import CupFrameComponent from "@/components/maket/maket_layout/layout_content/CupFrameComponent.vue";
+import PenFrameComponent from "@/components/maket/maket_layout/layout_content/pen_component/PenFrameComponent.vue";
+import NoteFrameComponent from "@/components/maket/maket_layout/layout_content/note_component/NoteFrameComponent.vue";
+import CupFrameComponent from "@/components/maket/maket_layout/layout_content/cup_component/CupFrameComponent.vue";
 import SingleDetailFrameComponent from "@/components/maket/maket_layout/layout_content/SingleDetailFrameComponent.vue";
 
 export const goodsLayout = {

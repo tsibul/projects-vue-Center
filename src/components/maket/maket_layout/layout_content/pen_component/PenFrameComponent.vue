@@ -1,6 +1,6 @@
 <script>
 import SinglePenSmallSingleComponent
-  from "@/components/maket/maket_layout/layout_content/SinglePenSmallComponent.vue";
+  from "@/components/maket/maket_layout/layout_content/pen_component/SinglePenSmallComponent.vue";
 
 export default {
   name: "PenFrameComponent",
