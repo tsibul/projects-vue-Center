@@ -39,8 +39,8 @@
       />
     </div>
     <ContentFrameComponent
-        v-for="group in Object.keys(maketData['itemGroups'])"
-        v-show="maketData['showGroups'][group]"
+        v-for="group in itemGroupsKeys"
+        v-show="maketData['showGroups'][group] && showPictures"
         :key="group.id"
         :ref="'group_' + group"
         class="maket-layout__content"
@@ -88,7 +88,8 @@ export default {
       draggingItem: null,
       sourceGroupName: null,
       showContent: false,
-      showTable: true
+      showTable: true,
+      itemGroupsKeys: null
     }
   },
   methods: {
@@ -136,11 +137,12 @@ export default {
     },
   },
   created() {
-    const urlParams = new URLSearchParams(window.location.search);
-    this.maketId = urlParams.get('maketId');
-    this.orderId = urlParams.get('orderId');
     (async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      this.maketId = urlParams.get('maketId');
+      this.orderId = urlParams.get('orderId');
       await this.getMaketData();
+      this.itemGroupsKeys = Object.keys(this.maketData['itemGroups']);
     })();
   },
 }
