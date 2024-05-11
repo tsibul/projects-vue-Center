@@ -1,19 +1,3 @@
-<template>
-  <div class="pen-frame">
-    <div class="pen-frame__big">
-
-    </div>
-    <div class="pen-frame__small">
-      <SinglePenSmallSingleComponent
-          v-for="pen in groupData"
-          :key="pen.id"
-          :pen-data="pen"
-          :pen-images="groupImages"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
 import SinglePenSmallSingleComponent
   from "@/components/maket/maket_layout/layout_content/SinglePenSmallComponent.vue";
@@ -21,15 +5,41 @@ import SinglePenSmallSingleComponent
 export default {
   name: "PenFrameComponent",
   components: {SinglePenSmallSingleComponent},
+  emits: ['position-selected'],
   data() {
-    return {}
+    return {
+      currentGroupData: this.groupData,
+    }
   },
   props: {
     groupData: Array,
     groupImages: Array
   },
+  methods: {
+    positionSelected(penData){
+      this.currentGroupData[penData[0]] = penData[1];
+      this.$emit('position-selected', this.currentGroupData);
+    }
+  },
 }
 </script>
+
+<template>
+  <div class="pen-frame">
+    <div class="pen-frame__big">
+
+    </div>
+    <div class="pen-frame__small">
+      <SinglePenSmallSingleComponent
+          v-for="(pen, index) in currentGroupData"
+          :key="index"
+          :pen-data="pen"
+          :pen-images="groupImages"
+          @position-selected="positionSelected"
+      />
+    </div>
+  </div>
+</template>
 
 <style scoped lang="scss">
 @import "@/assets/maket/scss/vars";

@@ -1,3 +1,98 @@
+<script>
+import {fetchData} from "@/components/services/fetchData.js";
+import TechDataComponent from "@/components/maket/maket_layout/layout_settings/TechDataComponent.vue";
+import MaketHeaderComponent from "@/components/maket/maket_layout/layout_header_footer/MaketHeaderComponent.vue";
+import A4MarkingComponent from "@/components/maket/maket_layout/layout_settings/A4MarkingComponent.vue";
+import MaketFooterComponent from "@/components/maket/maket_layout/layout_header_footer/MaketFooterComponent.vue";
+import MaketContentTableComponent
+  from "@/components/maket/maket_layout/layout_header_footer/MaketContentTableComponent.vue";
+import ItemGroupingComponent from "@/components/maket/maket_layout/layout_settings/ItemGroupingComponent.vue";
+import ShowGroupComponent from "@/components/maket/maket_layout/layout_settings/ShowGroupComponent.vue";
+import ContentFrameComponent from "@/components/maket/maket_layout/layout_content/ContentFrameComponent.vue";
+
+export default {
+  name: "MaketLayoutComponent",
+  components: {
+    ContentFrameComponent,
+    ShowGroupComponent,
+    ItemGroupingComponent,
+    MaketContentTableComponent,
+    MaketFooterComponent, A4MarkingComponent, MaketHeaderComponent, TechDataComponent
+  },
+  inject: ["appUrl", "tokenName"],
+  data() {
+    return {
+      orderId: null,
+      maketId: null,
+      maketData: null,
+      showPictures: false,
+      showFrame: true,
+      showSort: false,
+      draggingItem: null,
+      sourceGroupName: null,
+      showContent: false,
+      showTable: true,
+      itemGroupsKeys: null,
+    }
+  },
+  methods: {
+    async getMaketData() {
+      const maketUrl = `${this.appUrl}maket_info/${this.maketId}/${this.orderId}`;
+      this.maketData = await fetchData(maketUrl, this.tokenName);
+    },
+    frameShow(data) {
+      this.showFrame = data;
+    },
+    tableShow() {
+      this.showTable = !this.showTable;
+    },
+    contentShow() {
+      this.showContent = !this.showContent;
+    },
+    sortShow() {
+      this.showSort = !this.showSort;
+    },
+    handleItemDrag(element) {
+      this.sourceGroupName = element.groupKey;
+    },
+    positionSelected(groupData){
+      this.maketData['itemGroups'][groupData[0]]= groupData[1];
+    },
+    handleItemDrop(element) {
+      this.draggingItem = element.item;
+      const targetGroupName = element.groupKey;
+      const targetGroup = this.maketData['itemGroups'][targetGroupName];
+      targetGroup.unshift(this.draggingItem.item);
+      targetGroup.sort((a, b) => a.article.localeCompare(b.article))
+      const sourceGroup = this.maketData['itemGroups'][this.sourceGroupName];
+      const itemIndex = sourceGroup.findIndex(el => el.id === element.item.item.id)
+      sourceGroup.splice(itemIndex, 1);
+      sourceGroup.sort((a, b) => a.article.localeCompare(b.article))
+      this.sourceGroupName = null;
+      this.draggingItem = null;
+    },
+    toggleCheckGroup(group) {
+      this.maketData['showGroups'][group] = !this.maketData['showGroups'][group];
+    },
+    windowClose() {
+      window.close()
+    },
+    windowPrint() {
+      window.print()
+    },
+  },
+  created() {
+    (async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      this.maketId = urlParams.get('maketId');
+      this.orderId = urlParams.get('orderId');
+      await this.getMaketData();
+      this.itemGroupsKeys = Object.keys(this.maketData['itemGroups']);
+    })();
+  },
+}
+</script>
+
 <template>
   <TechDataComponent
       :maket-id="maketId"
@@ -34,119 +129,27 @@
       />
       <MaketContentTableComponent
           v-if="maketData && showTable"
-          :table-content="maketData['tableContent']"
+          :table-content="maketData['itemGroups']"
           :show-group="maketData['showGroups']"
       />
     </div>
     <ContentFrameComponent
         v-for="group in itemGroupsKeys"
         v-show="maketData['showGroups'][group] && showPictures"
-        :key="group.id"
+        :key="group.id"f
         :ref="'group_' + group"
         class="maket-layout__content"
         :group-data="maketData['itemGroups'][group]"
         :group-name="group"
         :group-pattern-name="maketData['groupPatterns'][group]"
         :group-images="maketData['groupImages'][group]"
+        @position-selected="positionSelected"
     />
     <MaketFooterComponent
         v-if="maketData"
         :footer-info="maketData['footerInfo']"/>
   </div>
 </template>
-
-<script>
-import {fetchData} from "@/components/services/fetchData.js";
-import TechDataComponent from "@/components/maket/maket_layout/layout_settings/TechDataComponent.vue";
-import MaketHeaderComponent from "@/components/maket/maket_layout/layout_header_footer/MaketHeaderComponent.vue";
-import A4MarkingComponent from "@/components/maket/maket_layout/layout_settings/A4MarkingComponent.vue";
-import MaketFooterComponent from "@/components/maket/maket_layout/layout_header_footer/MaketFooterComponent.vue";
-import MaketContentTableComponent
-  from "@/components/maket/maket_layout/layout_header_footer/MaketContentTableComponent.vue";
-import ItemGroupingComponent from "@/components/maket/maket_layout/layout_settings/ItemGroupingComponent.vue";
-import ShowGroupComponent from "@/components/maket/maket_layout/layout_settings/ShowGroupComponent.vue";
-import ContentFrameComponent from "@/components/maket/maket_layout/layout_content/ContentFrameComponent.vue";
-
-export default {
-  name: "MaketLayoutComponent",
-  components: {
-    ContentFrameComponent,
-    ShowGroupComponent,
-    ItemGroupingComponent,
-    MaketContentTableComponent,
-    MaketFooterComponent, A4MarkingComponent, MaketHeaderComponent, TechDataComponent
-  },
-  inject: ["appUrl", "tokenName"],
-  data() {
-    return {
-      orderId: null,
-      maketId: null,
-      maketData: null,
-      showPictures: false,
-      showFrame: true,
-      showSort: false,
-      draggingItem: null,
-      sourceGroupName: null,
-      showContent: false,
-      showTable: true,
-      itemGroupsKeys: null
-    }
-  },
-  methods: {
-    async getMaketData() {
-      const maketUrl = `${this.appUrl}maket_info/${this.maketId}/${this.orderId}`;
-      this.maketData = await fetchData(maketUrl, this.tokenName);
-    },
-    frameShow(data) {
-      this.showFrame = data;
-    },
-    tableShow() {
-      this.showTable = !this.showTable;
-    },
-    contentShow() {
-      this.showContent = !this.showContent;
-    },
-    sortShow() {
-      this.showSort = !this.showSort;
-    },
-    handleItemDrag(element) {
-      this.sourceGroupName = element.groupKey;
-
-    },
-    handleItemDrop(element) {
-      this.draggingItem = element.item;
-      const targetGroupName = element.groupKey;
-      const targetGroup = this.maketData['itemGroups'][targetGroupName];
-      targetGroup.unshift(this.draggingItem.item);
-      targetGroup.sort((a, b) => a.article.localeCompare(b.article))
-      const sourceGroup = this.maketData['itemGroups'][this.sourceGroupName];
-      const itemIndex = sourceGroup.findIndex(el => el.id === element.item.item.id)
-      sourceGroup.splice(itemIndex, 1);
-      sourceGroup.sort((a, b) => a.article.localeCompare(b.article))
-      this.sourceGroupName = null;
-      this.draggingItem = null;
-    },
-    toggleCheckGroup(group) {
-      this.maketData['showGroups'][group] = !this.maketData['showGroups'][group];
-    },
-    windowClose() {
-      window.close()
-    },
-    windowPrint() {
-      window.print()
-    },
-  },
-  created() {
-    (async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      this.maketId = urlParams.get('maketId');
-      this.orderId = urlParams.get('orderId');
-      await this.getMaketData();
-      this.itemGroupsKeys = Object.keys(this.maketData['itemGroups']);
-    })();
-  },
-}
-</script>
 
 <style lang="scss">
 * {

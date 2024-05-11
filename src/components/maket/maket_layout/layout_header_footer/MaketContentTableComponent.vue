@@ -13,32 +13,34 @@
       <div class="content-table__item">позиция</div>
       <div class="content-table__item">цвет</div>
     </div>
-    <div class="content-table__content"
-         v-for="item in tableContent"
-         :key="item.id"
-         v-show="showGroup[item.itemGroup]"
-    >
-         <div class="content-table__item">{{ item.no }}</div>
-      <div class="content-table__item">{{ item.article }}</div>
-      <div class="content-table__item">{{ item.name }}</div>
-      <div class="content-table__item">{{ item.print_name }}</div>
-      <div class="content-table__item">{{ item.quantity }}</div>
-      <div class="print-content">
-        <div class="print-content__row"
-             v-for="print in item.print_item"
-             v-show="print.printable"
-             :key="print.id"
-        >
-          <div class="content-table__item">{{ print.place }}</div>
-          <div class="content-table__item">{{ print.type }}</div>
-          <div class="content-table__item">{{ print.color_quantity }}</div>
-          <div class="content-table__item">{{ print.second_pass ? 'V' : '' }}</div>
-          <div class="content-table__item">{{ print.position }}</div>
-          <div class="content-table__item">{{ print.color }}</div>
+    <div v-for="(group, index) in Object.values(tableContent)"
+         :key="index">
+      <div class="content-table__content"
+           v-for="(item, index) in group"
+           :key="index"
+           v-show="showGroup[item.itemGroup]"
+      >
+        <div class="content-table__item">{{ item.no }}</div>
+        <div class="content-table__item">{{ item.article }}</div>
+        <div class="content-table__item">{{ item.name }}</div>
+        <div class="content-table__item">{{ item.print_name }}</div>
+        <div class="content-table__item">{{ item.quantity }}</div>
+        <div class="print-content">
+          <div class="print-content__row"
+               v-for="print in item.print_item"
+               v-show="print.printable"
+               :key="print.id"
+          >
+            <div class="content-table__item">{{ print.place }}</div>
+            <div class="content-table__item">{{ print.type }}</div>
+            <div class="content-table__item">{{ print.color_quantity }}</div>
+            <div class="content-table__item">{{ print.second_pass ? 'V' : '' }}</div>
+            <div class="content-table__item">{{ print.position }}</div>
+            <div class="content-table__item">{{ print.color }}</div>
+          </div>
         </div>
       </div>
     </div>
-
   </div>
 
 </template>
@@ -76,17 +78,20 @@ export default {
     display: grid;
     align-items: center;
     grid-template-columns: 0.5fr 1.8fr 4fr 2.2fr 0.8fr 9.5fr;
-    &:hover{
+
+    &:hover {
       background-color: $colorSecondary100;
     }
   }
-  &__item{
+
+  &__item {
     width: 100%;
     word-break: break-all;
     padding: 0 2px;
   }
 }
-.no-center{
+
+.no-center {
   text-align: start;
 }
 

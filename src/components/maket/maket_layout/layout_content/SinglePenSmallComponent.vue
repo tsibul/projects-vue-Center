@@ -1,20 +1,81 @@
+<script>
+import {setImageColors} from "@/components/maket/maket_layout/layout_content/setImageColors.js";
+
+export default {
+  name: "SinglePenSmallComponent",
+  inject: ['appUrl', 'tokenName'],
+  emits: ['position-selected'],
+  data() {
+    return {
+      currentPenData: this.penData,
+      article: this.penData['article'],
+      colorImages: {},
+    }
+  },
+  props: {
+    penData: Object,
+    penImages: Array,
+  },
+  methods: {
+    async setColorImages() {
+      for (const image of this.penImages) {
+        this.colorImages[image[0]] = [await setImageColors(this.article, image[1], this.appUrl, this.tokenName),
+          image[2], image[3]];
+      }
+    },
+    showImageList(event) {
+      console.log()
+      event.target.closest('.pen-small__single-item').querySelector('.image-list').style.display = 'block';
+    },
+    selectImage(event, image, printItem) {
+      const printItemId = printItem.id;
+      const selectedImage = this.colorImages[image]
+      event.target.closest('.image-list').style.display = 'none';
+      const itemFromList = this.currentPenData.print_item.find(item => item.id === printItemId);
+      itemFromList['image_id'] = image;
+      itemFromList['position_id'] = selectedImage[1];
+      itemFromList['position'] = selectedImage[2];
+    },
+    positionChanged(){
+      this.$emit('position-selected', this.currentPenData);
+    }
+  },
+  created() {
+    (async () => {
+      await this.setColorImages();
+      this.currentPenData.print_item.forEach(itemFromList => {
+        const selectedImage = this.colorImages[itemFromList['image_id']]
+        itemFromList['position_id'] = selectedImage[1];
+        itemFromList['position'] = selectedImage[2];
+      });
+       this.$emit('position-selected', [this.key, this.currentPenData]);
+    })();
+  },
+  watch:{
+    currentPenData: {
+      handler: 'positionChanged',
+      deep: true,
+    },
+  }
+}
+</script>
+
 <template>
   <div class="pen-small"
   >
     <div class="pen-small__text">
-      <div>{{ penData['no'] }}</div>
+      <div>{{ currentPenData['no'] }}</div>
       <input
           type="checkbox"
           class="check"
           :id="article">&nbsp;
       <label :for="article">{{ article }}</label>
     </div>
-    <div >
+    <div>
       <div class="pen-small__single-item"
-           v-for="printItem in printItemList"
-           :key="printItem.id"
+           v-for="printItem in currentPenData.print_item"
+           :key="printItem"
       >
-        <!--        <div class="pen-small__text">{{ printItem.place }}</div>-->
         <div class="pen-small__item">
           <div class="pen-small__image"
                v-html="colorImages[printItem.image_id] ? colorImages[printItem.image_id][0].replace('itemWidth', '40') : colorImages"
@@ -28,7 +89,8 @@
               :data-id="printItem.image_id"
           >
             <div class="pen-small__dropdown">
-              <div>{{ colorImages[printItem.image_id][2] }}</div>
+              <div class="image-list__nowrap">{{ colorImages[printItem.image_id][2] }}</div>
+              &nbsp;
               <font-awesome-icon
                   v-if="printItem.image_list.length > 1"
                   :icon="['fas', 'chevron-down']"/>
@@ -36,7 +98,7 @@
           </div>
           <input type="text" class="pen-small__color">
           <ul class="image-list">
-            <li
+            <li class="image-list__nowrap"
                 v-for="image in printItem.image_list"
                 :key="image.id"
                 :data-id="image"
@@ -51,48 +113,6 @@
   </div>
 </template>
 
-<script>
-import {setImageColors} from "@/components/maket/maket_layout/layout_content/setImageColors.js";
-
-export default {
-  name: "SinglePenSmallComponent",
-  inject: ['appUrl', 'tokenName'],
-  data() {
-    return {
-      article: this.penData['article'],
-      colorImages: {},
-      printItemList: this.penData.print_item,
-    }
-  },
-  props: {
-    penData: Object,
-    penImages: Array
-  },
-  methods: {
-    async setColorImages() {
-      for (const image of this.penImages) {
-        this.colorImages[image[0]] = [await setImageColors(this.article, image[1], this.appUrl, this.tokenName),
-          image[2], image[3]];
-      }
-    },
-    showImageList(event) {
-      console.log()
-      event.target.closest('.pen-small__single-item').querySelector('.image-list').style.display = 'block';
-    },
-    selectImage(event, image, printItem) {
-      event.target.closest('.image-list').style.display = 'none';
-      const itemFromList = this.printItemList.find(item => item.id === printItem.id);
-      itemFromList['image_id'] = image;
-    },
-  },
-  created() {
-    (async () => {
-      await this.setColorImages();
-    })();
-  }
-}
-</script>
-
 <style scoped lang="scss">
 @import "@/assets/maket/scss/vars";
 @import "@/assets/maket/scss/mixins";
@@ -101,7 +121,6 @@ export default {
   @include d-flex-center(space-between);
   font-size: 10px;
   gap: 4px;
-  //width: 100%;
 
   &__item {
     padding: 3px 0;
@@ -111,17 +130,31 @@ export default {
     position: relative;
   }
 
-  &__items {
+  &__tech {
+    border: 1px solid $colorPrimary800;
+    border-radius: 10px;
+    font-size: 14px;
+    padding: 8px;
+    position: absolute;
+    display: none;
+    z-index: 3;
+    left: 98%;
+    top: -8px;
     //width: 100%;
+    transition: max-width 3s ease-in-out;
+    background-color: $colorPrimary200;
   }
 
   &__single-item {
     padding-left: 6px;
-    //display: grid;
-    //align-items: center;
-    //grid-template-columns: 1fr 2.8fr repeat(2, 1fr);
     position: relative;
-    width: 100%;
+    //width: 100%;
+
+    &:hover .pen-small__tech {
+      //@include brd-standard;
+      @include d-flex-center(space-between);
+      gap: 12px;
+    }
   }
 
   &__text {
@@ -137,27 +170,17 @@ export default {
     border: transparent;
 
     &:hover {
-      background-color: $colorSecondary100;
+      background-color: $colorPrimary100;
     }
-  }
-
-  &__image {
-    //width: 80mm;
   }
 
   &__color {
     @include brd-standard;
-    width: 100%;
+    min-width: 60px;
+    font-size: 14px;
+    padding: 4px 10px;
   }
 
-  &__tech {
-    position: absolute;
-    display: none;
-    background-color: white;
-  }
-
-  &__item:hover {
-  }
 }
 
 .image-list {
@@ -165,8 +188,8 @@ export default {
   position: absolute;
   list-style: none;
   background-color: white;
-  top: 2rem;
-  left: 112mm;
+  top: 1rem;
+  //left: 112mm;
   z-index: 3;
   @include brd-standard;
 
@@ -180,7 +203,9 @@ export default {
     background-color: $colorSecondary100;
   }
 
-
+  &__nowrap {
+    text-wrap: nowrap;
+  }
 }
 
 </style>
