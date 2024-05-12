@@ -9,6 +9,7 @@ export default {
   data() {
     return {
       currentGroupData: this.groupData,
+      bigImages: {},
     }
   },
   props: {
@@ -16,9 +17,12 @@ export default {
     groupImages: Array
   },
   methods: {
-    positionSelected(penData){
+    positionSelected(penData) {
       this.currentGroupData[penData[0]] = penData[1];
       this.$emit('position-selected', this.currentGroupData);
+    },
+    printItemChecked(itemData) {
+      this.bigImages[itemData[0]] = itemData[1]
     }
   },
 }
@@ -27,6 +31,13 @@ export default {
 <template>
   <div class="pen-frame">
     <div class="pen-frame__big">
+      <div v-for="item in Object.keys(bigImages)"
+           :key="item.id"
+      >
+        <div v-if="bigImages[item]"
+             v-html="bigImages[item][0].replace('itemWidth', bigImages[item][3])">
+        </div>
+      </div>
 
     </div>
     <div class="pen-frame__small">
@@ -36,6 +47,7 @@ export default {
           :pen-data="pen"
           :pen-images="groupImages"
           @position-selected="positionSelected"
+          @print-item-checked="printItemChecked"
       />
     </div>
   </div>

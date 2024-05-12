@@ -4,7 +4,7 @@ import {setImageColors} from "@/components/maket/maket_layout/layout_content/set
 export default {
   name: "SinglePenSmallComponent",
   inject: ['appUrl', 'tokenName'],
-  emits: ['position-selected'],
+  emits: ['position-selected', 'print-item-checked'],
   data() {
     return {
       currentPenData: this.penData,
@@ -35,10 +35,21 @@ export default {
       itemFromList['image_id'] = image;
       itemFromList['position_id'] = selectedImage[1];
       itemFromList['position'] = selectedImage[2];
+      if(event.target.closest('.pen-small__single-item').querySelector('.check').checked){
+        this.$emit('print-item-checked', [itemFromList.id, this.colorImages[itemFromList.image_id]])
+      }
     },
     positionChanged() {
       this.$emit('position-selected', this.currentPenData);
-    }
+    },
+    printItemChecked(event, printItem){
+      if(event.target.checked){
+        this.$emit('print-item-checked', [printItem.id, this.colorImages[printItem.image_id]])
+      } else {
+        this.$emit('print-item-checked', [printItem.id, null])
+      }
+
+    },
   },
   created() {
     (async () => {
@@ -73,7 +84,9 @@ export default {
           <input
               type="checkbox"
               class="check"
-              :id="article">&nbsp;
+              :id="article"
+              @change="printItemChecked($event, printItem)"
+          >&nbsp;
           <label :for="article"
                  class="pen-small__wrap"
           >
@@ -123,7 +136,7 @@ export default {
 .pen-small {
   display: flex;
   align-items: center;
-  font-size: 10px;
+  font-size: 8px;
   //gap: 4px;
 
   &__prints {
@@ -144,25 +157,29 @@ export default {
     font-size: 12px;
     padding: 6px;
     position: absolute;
-    z-index: 3;
+    z-index: 1;
     left: 100%;
     top: -8px;
     @include d-flex-center(space-between);
     gap: 12px;
-    transition: opacity 1s ease-in-out;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
     background-color: $colorPrimary200;
     opacity: 0;
+    visibility: hidden;
+    transition-delay: 0.2s;
   }
 
   &__single-item {
     padding: 3px 3px 3px 6px;
     position: relative;
     @include d-flex-center(space-between);
-
     gap: 4px;
 
     &:hover .pen-small__tech {
+      transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+      transition-delay: 0.2s;
       opacity: 1;
+      visibility: visible;
     }
   }
 
@@ -192,7 +209,11 @@ export default {
   }
 
   &__wrap {
-    word-break: break-all;
+    text-overflow: ellipsis;
+    //word-break: break-word;
+    //line-break: auto;
+    //text-wrap: wrap;
+    //font-size: 9px;
   }
 
 }
@@ -204,7 +225,7 @@ export default {
   background-color: white;
   top: 1rem;
   //left: 112mm;
-  z-index: 3;
+  z-index: 5;
   @include brd-standard;
 
   & li {
