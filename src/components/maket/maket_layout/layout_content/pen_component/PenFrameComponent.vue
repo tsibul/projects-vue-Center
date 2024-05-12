@@ -1,10 +1,12 @@
 <script>
 import SinglePenSmallSingleComponent
   from "@/components/maket/maket_layout/layout_content/pen_component/SinglePenSmallComponent.vue";
+import {fetchData} from "@/components/services/fetchData.js";
 
 export default {
   name: "PenFrameComponent",
   components: {SinglePenSmallSingleComponent},
+  inject: ['tokenName', 'appUrl'],
   emits: ['position-selected'],
   data() {
     return {
@@ -24,7 +26,17 @@ export default {
     },
     printItemChecked(itemData) {
       this.bigImages[itemData[0]] = itemData[1]
-    }
+    },
+    async changeColor(event){
+      const pantone = event.target.value;
+      const square = event.target.closest('.pen-frame__big_footer').querySelector('.pen-frame__big_square');
+      const hexUrl = `${this.appUrl}hex_from_pantone/${pantone}`;
+      const data = await fetchData(hexUrl, this.tokenName)
+      const hexColor = data.hex;
+      if (hexColor) {
+        square.style.backgroundColor = hexColor;
+      }
+    },
   },
 }
 </script>
@@ -43,10 +55,17 @@ export default {
         </div>
       </div>
       <div class="pen-frame__big_footer">
-        <div v-for="color in colorQuantity"
+        <div class="pen-frame__big_footer" v-for="color in colorQuantity"
              :key="color"
-        >цвет&nbsp;{{color + 1}}&nbsp;
-          <input type="text" class="pen-frame__big_input">
+        >
+          <div>цвет</div>
+          <div>{{ color + 1 }}</div>
+          <input
+              type="text"
+              class="pen-frame__big_input"
+              @change="changeColor($event)"
+          >
+          <div class="pen-frame__big_square"></div>
         </div>
       </div>
 
@@ -78,14 +97,24 @@ export default {
     &_center {
       text-align: center;
     }
-    &_footer{
+
+    &_footer {
       @include d-flex-center(center);
-      padding: 12px 0;
-      gap: 2px;
+      font-size: 14px;
+      padding: 8px 0;
+      gap: 8px;
     }
-    &_input{
+
+    &_input {
       @include brd-standard;
-      padding: 8px;
+      padding: 6px;
+      max-width: 60px;
+    }
+
+    &_square {
+      @include brd-standard;
+      height: 30px;
+      width: 30px;
     }
   }
 
