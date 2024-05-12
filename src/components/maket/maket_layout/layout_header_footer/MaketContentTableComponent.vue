@@ -4,6 +4,15 @@ export default {
   props: {
     tableContent: Object,
     showGroup: Object
+  },
+  methods: {
+    showColors(print){
+      let colorList = [];
+      print.forEach(el => {
+        colorList.push(el.pantone);
+      });
+      return colorList.join(', ');
+    }
   }
 }
 </script>
@@ -46,7 +55,7 @@ export default {
             <div class="content-table__item">{{ print.color_quantity }}</div>
             <div class="content-table__item">{{ print.second_pass ? 'V' : '' }}</div>
             <div class="content-table__item">{{ print.position }}</div>
-            <div class="content-table__item">{{ Object.values(print.color).join(', ') }}</div>
+            <div class="content-table__item">{{ showColors(print.color) }}</div>
           </div>
         </div>
       </div>
