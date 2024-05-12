@@ -10,6 +10,7 @@ export default {
     return {
       currentGroupData: this.groupData,
       bigImages: {},
+      colorQuantity: [...Array(this.groupData[0].print_item[0].color_quantity).keys()]
     }
   },
   props: {
@@ -34,8 +35,18 @@ export default {
       <div v-for="item in Object.keys(bigImages)"
            :key="item.id"
       >
-        <div v-if="bigImages[item]"
-             v-html="bigImages[item][0].replace('itemWidth', bigImages[item][3])">
+        <div v-if="bigImages[item]">
+          <div
+              v-html="bigImages[item][0].replace('itemWidth', bigImages[item][3])"
+          ></div>
+          <div class="pen-frame__big_center">расположение:&nbsp;{{ bigImages[item][2] }}</div>
+        </div>
+      </div>
+      <div class="pen-frame__big_footer">
+        <div v-for="color in colorQuantity"
+             :key="color"
+        >цвет&nbsp;{{color + 1}}&nbsp;
+          <input type="text" class="pen-frame__big_input">
         </div>
       </div>
 
@@ -62,7 +73,20 @@ export default {
   width: 100%;
 
   &__big {
-    //width: 150mm;
+    padding: 12px 0;
+
+    &_center {
+      text-align: center;
+    }
+    &_footer{
+      @include d-flex-center(center);
+      padding: 12px 0;
+      gap: 2px;
+    }
+    &_input{
+      @include brd-standard;
+      padding: 8px;
+    }
   }
 
   &__small {
