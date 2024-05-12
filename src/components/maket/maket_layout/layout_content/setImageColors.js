@@ -8,7 +8,8 @@ export async function setImageColors(article, html, appUrl, token) {
     const articleColors = response.id
     for (let i = 0; i < articleColors.length; i++){
         const j = i + 1;
-        html = html.replace('itemColor_' + j, articleColors[i]);
+        html = html.replaceAll('itemColor_' + j, articleColors[i]);
     }
     return html;
+
 }
