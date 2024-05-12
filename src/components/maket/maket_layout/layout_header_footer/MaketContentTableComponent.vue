@@ -46,7 +46,7 @@ export default {
             <div class="content-table__item">{{ print.color_quantity }}</div>
             <div class="content-table__item">{{ print.second_pass ? 'V' : '' }}</div>
             <div class="content-table__item">{{ print.position }}</div>
-            <div class="content-table__item">{{ print.color }}</div>
+            <div class="content-table__item">{{ Object.values(print.color).join(', ') }}</div>
           </div>
         </div>
       </div>
