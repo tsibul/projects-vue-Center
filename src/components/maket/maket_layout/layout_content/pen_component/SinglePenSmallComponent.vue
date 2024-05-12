@@ -35,15 +35,15 @@ export default {
       itemFromList['image_id'] = image;
       itemFromList['position_id'] = selectedImage[1];
       itemFromList['position'] = selectedImage[2];
-      if(event.target.closest('.pen-small__single-item').querySelector('.check').checked){
+      if (event.target.closest('.pen-small__single-item').querySelector('.check').checked) {
         this.$emit('print-item-checked', [itemFromList.id, this.colorImages[itemFromList.image_id]])
       }
     },
     positionChanged() {
       this.$emit('position-selected', this.currentPenData);
     },
-    printItemChecked(event, printItem){
-      if(event.target.checked){
+    printItemChecked(event, printItem) {
+      if (event.target.checked) {
         this.$emit('print-item-checked', [printItem.id, this.colorImages[printItem.image_id]])
       } else {
         this.$emit('print-item-checked', [printItem.id, null])
@@ -112,7 +112,14 @@ export default {
                   :icon="['fas', 'chevron-down']"/>
             </div>
           </div>
-          <input type="text" class="pen-small__color">
+          <div
+              v-for="(color, index) in printItem.color"
+              :key="index"
+              class="pen-small__color-set"
+          >
+            <div>{{ index + 1 }}</div>
+            <input type="text" class="pen-small__color" :value="color['pantone']">
+          </div>
           <ul class="image-list">
             <li class="image-list__nowrap"
                 v-for="image in printItem.image_list"
@@ -201,10 +208,16 @@ export default {
     }
   }
 
+  &__color-set {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
   &__color {
     @include brd-standard;
-    min-width: 60px;
-    font-size: 14px;
+    max-width: 60px;
+    font-size: 12px;
     padding: 4px 10px;
   }
 
