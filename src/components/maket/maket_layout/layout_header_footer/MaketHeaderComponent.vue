@@ -35,10 +35,11 @@ export default {
   padding: 12px;
   width: 200mm;
   border: 1px solid $colorPrimary800;
-  border-radius: 6px 6px 0 0;
+  border-radius: 6px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  margin-bottom: 8px;
 }
 
 </style>

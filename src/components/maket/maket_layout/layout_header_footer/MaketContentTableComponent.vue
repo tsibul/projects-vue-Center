@@ -72,8 +72,7 @@ export default {
   flex-direction: column;
   gap: 2px;
   border: 1px solid $colorPrimary800;
-  border-radius: 0 0 6px 6px;
-  border-top: none;
+  border-radius: 6px;
   width: 200mm;
   font-size: 10px;
   padding: 8px;
