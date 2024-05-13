@@ -12,7 +12,8 @@ export default {
     return {
       currentGroupData: this.groupData,
       bigImages: {},
-      colorQuantity: [...Array(this.groupData[0].print_item[0].color_quantity).keys()]
+      // colorQuantity: [...Array(this.groupData[0].print_item[0].color_quantity).keys()],
+      // printColorSet: {}
     }
   },
   props: {
@@ -27,7 +28,7 @@ export default {
     printItemChecked(itemData) {
       this.bigImages[itemData[0]] = itemData[1]
     },
-    async changeColor(event){
+    async changeColor(event, place, index) {
       const pantone = event.target.value;
       const square = event.target.closest('.pen-frame__big_footer').querySelector('.pen-frame__big_square');
       const hexUrl = `${this.appUrl}hex_from_pantone/${pantone}`;
@@ -36,8 +37,19 @@ export default {
       if (hexColor) {
         square.style.backgroundColor = hexColor;
       }
+      for(let itemIndex in this.currentGroupData){
+        let item = this.currentGroupData[itemIndex];
+        for(let printItemIndex in item.print_item){
+          let printItem = item.print_item[printItemIndex];
+          if(printItem.place === place){
+            printItem.color[index]['pantone'] = pantone;
+          }
+        }
+      }
     },
   },
+  created() {
+  }
 }
 </script>
 
@@ -54,21 +66,24 @@ export default {
           <div class="pen-frame__big_center">расположение:&nbsp;{{ bigImages[item][2] }}</div>
         </div>
       </div>
-      <div class="pen-frame__big_footer">
-        <div class="pen-frame__big_footer" v-for="color in colorQuantity"
-             :key="color"
+      <div  class="pen-frame__big_footer"
+           v-for="(printItem, index) in currentGroupData[0].print_item"
+           :key="index">
+        <div class="active">{{ printItem.position }}</div>
+        <div class="pen-frame__big_footer"
+            v-for="(color, index) in printItem.color"
+             :key="index"
         >
           <div>цвет</div>
-          <div>{{ color + 1 }}</div>
+          <div>{{ index + 1 }}</div>
           <input
               type="text"
               class="pen-frame__big_input"
-              @change="changeColor($event)"
+              @change="changeColor($event, printItem.place, index)"
           >
           <div class="pen-frame__big_square"></div>
         </div>
       </div>
-
     </div>
     <div class="pen-frame__small">
       <SinglePenSmallSingleComponent
