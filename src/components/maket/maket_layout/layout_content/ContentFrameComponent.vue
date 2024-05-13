@@ -43,7 +43,7 @@ export default {
 @import "@/assets/maket/scss/vars";
 
 .content-frame {
-  border-top: 1px solid $colorPrimary800;
+  border-top: 1px solid $colorPrimary200;
   width: 200mm;
   margin: 5mm 5mm 6px 5mm;
   position: relative;
