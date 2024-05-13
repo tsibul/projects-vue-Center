@@ -69,7 +69,7 @@ export default {
       <div  class="pen-frame__big_footer"
            v-for="(printItem, index) in currentGroupData[0].print_item"
            :key="index">
-        <div class="active">{{ printItem.position }}</div>
+        <div><b>{{ printItem.position }}</b>&nbsp;<small>({{printItem.place}})</small></div>
         <div class="pen-frame__big_footer"
             v-for="(color, index) in printItem.color"
              :key="index"
