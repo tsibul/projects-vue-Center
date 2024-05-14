@@ -15,6 +15,7 @@ export default {
   props: {
     penData: Object,
     penImages: Array,
+    selectAll: Boolean,
   },
   methods: {
     async setColorImages() {
@@ -43,13 +44,20 @@ export default {
       this.$emit('position-selected', this.currentPenData);
     },
     printItemChecked(event, printItem) {
-      if (event.target.checked) {
+      if (event.checked) {
         this.$emit('print-item-checked', [printItem.id, this.colorImages[printItem.image_id]])
       } else {
         this.$emit('print-item-checked', [printItem.id, null])
       }
-
     },
+    selectAllHandler(){
+      const block = document.getElementById(`${this.currentPenData['id']}`);
+      block.querySelectorAll('.check').forEach(el => {
+        el.checked = this.selectAll;
+        const printItem = this.currentPenData.print_item.find(item => item.id === Number(el.id));
+        this.printItemChecked(el, printItem);
+      });
+    }
   },
   created() {
     (async () => {
@@ -67,12 +75,16 @@ export default {
       handler: 'positionChanged',
       deep: true,
     },
+    selectAll:{
+      handler: 'selectAllHandler'
+    }
   }
 }
 </script>
 
 <template>
   <div class="pen-small"
+       :id="currentPenData.id"
   >
     <div>{{ currentPenData['no'] }}</div>
     <div class="pen-small__prints">
@@ -84,10 +96,10 @@ export default {
           <input
               type="checkbox"
               class="check"
-              :id="article"
-              @change="printItemChecked($event, printItem)"
+              :id="printItem.id"
+              @change="printItemChecked($event.target, printItem)"
           >&nbsp;
-          <label :for="article"
+          <label :for="printItem.id"
                  class="pen-small__wrap"
           >
             {{ article }}</label>

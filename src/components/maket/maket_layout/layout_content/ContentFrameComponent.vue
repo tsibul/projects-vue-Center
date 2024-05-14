@@ -15,6 +15,7 @@ export default {
       selectedComponent: goodsLayout[this.groupPatternName] ? goodsLayout[this.groupPatternName] : null,
       currentGroupData: this.groupData,
       showMiniature: true,
+      selectAllCheck: false,
     }
   },
   methods: {
@@ -24,6 +25,9 @@ export default {
     },
     toggleMiniature(){
       this.showMiniature = !this.showMiniature;
+    },
+    selectAll(){
+      this.selectAllCheck = !this.selectAllCheck;
     },
   },
 }
@@ -44,6 +48,14 @@ export default {
         >
         &nbsp;
         <label :for="groupName" >показывать миниатюры</label>
+        &emsp;&emsp;
+        <input type="checkbox"
+               class="check"
+               :id="groupName"
+               @change="selectAll"
+        >
+        &nbsp;
+        <label :for="groupName" >выбрать все</label>
       </div>
     </div>
     <component
@@ -53,6 +65,7 @@ export default {
         :group-images="groupImages"
         @position-selected="positionSelected"
         :show-miniature="showMiniature"
+        :select-all="selectAllCheck"
     />
   </div>
 </template>

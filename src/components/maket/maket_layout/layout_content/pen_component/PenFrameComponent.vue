@@ -19,7 +19,8 @@ export default {
   props: {
     groupData: Array,
     groupImages: Array,
-    showMiniature: Boolean
+    showMiniature: Boolean,
+    selectAll: Boolean,
   },
   methods: {
     positionSelected(penData) {
@@ -96,6 +97,7 @@ export default {
           :pen-images="groupImages"
           @position-selected="positionSelected"
           @print-item-checked="printItemChecked"
+          :select-all="selectAll"
       />
     </div>
   </div>
