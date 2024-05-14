@@ -139,7 +139,7 @@ export default {
   }
 
   &__small {
-margin-top: 4px  }
+margin-top: 8px  }
 
 }
 
