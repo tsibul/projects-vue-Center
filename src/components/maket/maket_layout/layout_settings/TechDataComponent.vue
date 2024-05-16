@@ -1,3 +1,47 @@
+<script>
+
+export default {
+  name: "TechDataComponent",
+  emits: ['show-pictures', 'show-frame', 'show-sort', 'window-print', 'window-close', 'show-content', 'show-table'],
+  props: {
+    maketId: String,
+  },
+  data() {
+    return {
+      showPictures: false,
+      showFrame: true,
+      showTable: true
+    }
+  },
+  methods: {
+    togglePictures() {
+      this.showPictures = !this.showPictures;
+      this.$emit('show-pictures', this.showPictures);
+    },
+    toggleFrame() {
+      this.showFrame = !this.showFrame;
+      this.$emit('show-frame', this.showFrame);
+    },
+    toggleTable() {
+      this.showTable = !this.showTable;
+      this.$emit('show-table', this.showTable);
+    },
+    showSort() {
+      this.$emit('show-sort')
+    },
+    showContent(){
+      this.$emit('show-content')
+    },
+    windowPrint(){
+      this.$emit('window-print')
+    },
+    windowClose(){
+      this.$emit('window-close')
+    },
+  }
+}
+</script>
+
 <template>
   <div class="no-print blank-header"></div>
   <header class="tech-data no-print">
@@ -60,50 +104,6 @@
   </header>
 
 </template>
-<script>
-
-export default {
-  name: "TechDataComponent",
-  emits: ['show-pictures', 'show-frame', 'show-sort', 'window-print', 'window-close', 'show-content', 'show-table'],
-  props: {
-    maketId: String,
-  },
-  data() {
-    return {
-      showPictures: false,
-      showFrame: true,
-      showTable: true
-    }
-  },
-  methods: {
-    togglePictures() {
-      this.showPictures = !this.showPictures;
-      this.$emit('show-pictures', this.showPictures);
-    },
-    toggleFrame() {
-      this.showFrame = !this.showFrame;
-      this.$emit('show-frame', this.showFrame);
-    },
-    toggleTable() {
-      this.showTable = !this.showTable;
-      this.$emit('show-table', this.showTable);
-    },
-    showSort() {
-      this.$emit('show-sort')
-    },
-    showContent(){
-      this.$emit('show-content')
-    },
-    windowPrint(){
-      this.$emit('window-print')
-    },
-    windowClose(){
-      this.$emit('window-close')
-    },
-  }
-}
-</script>
-
 
 <style scoped lang="scss">
 @import "@/assets/maket/scss/vars";
