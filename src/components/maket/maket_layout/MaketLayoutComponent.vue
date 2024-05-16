@@ -55,9 +55,9 @@ export default {
     handleItemDrag(element) {
       this.sourceGroupName = element.groupKey;
     },
-    positionSelected(groupData){
-      this.maketData['itemGroups'][groupData[0]]= groupData[1];
-    },
+    // positionSelected(groupData){
+    //   this.maketData['itemGroups'][groupData[0]]= groupData[1];
+    // },
     handleItemDrop(element) {
       this.draggingItem = element.item;
       const targetGroupName = element.groupKey;
@@ -143,8 +143,8 @@ export default {
         :group-name="group"
         :group-pattern-name="maketData['groupPatterns'][group]"
         :group-images="maketData['groupImages'][group]"
-        @position-selected="positionSelected"
     />
+    <!--        @position-selected="positionSelected"-->
     <MaketFooterComponent
         v-if="maketData"
         :footer-info="maketData['footerInfo']"/>

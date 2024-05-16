@@ -4,7 +4,7 @@ import {setImageColors} from "@/components/maket/maket_layout/layout_content/set
 export default {
   name: "SinglePenSmallComponent",
   inject: ['appUrl', 'tokenName'],
-  emits: ['position-selected', 'print-item-checked'],
+  emits: ['print-item-checked'],
   data() {
     return {
       currentPenData: this.penData,
@@ -16,6 +16,7 @@ export default {
     penData: Object,
     penImages: Array,
     selectAll: Boolean,
+    totalOrientation: Array,
   },
   methods: {
     async setColorImages() {
@@ -40,9 +41,9 @@ export default {
         this.$emit('print-item-checked', [itemFromList.id, this.colorImages[itemFromList.image_id]])
       }
     },
-    positionChanged() {
-      this.$emit('position-selected', this.currentPenData);
-    },
+    // positionChanged() {
+    //   this.$emit('position-selected', this.currentPenData);
+    // },
     printItemChecked(event, printItem) {
       if (event.checked) {
         this.$emit('print-item-checked', [printItem.id, this.colorImages[printItem.image_id]])
@@ -50,33 +51,47 @@ export default {
         this.$emit('print-item-checked', [printItem.id, null])
       }
     },
-    selectAllHandler(){
+    selectAllHandler() {
       const block = document.getElementById(`${this.currentPenData['id']}`);
       block.querySelectorAll('.check').forEach(el => {
         el.checked = this.selectAll;
         const printItem = this.currentPenData.print_item.find(item => item.id === Number(el.id));
         this.printItemChecked(el, printItem);
       });
-    }
-  },
-  created() {
-    (async () => {
-      await this.setColorImages();
+    },
+    setAllPositions() {
       this.currentPenData.print_item.forEach(itemFromList => {
         const selectedImage = this.colorImages[itemFromList['image_id']]
         itemFromList['position_id'] = selectedImage[1];
         itemFromList['position'] = selectedImage[2];
       });
-      this.$emit('position-selected', [this.key, this.currentPenData]);
+      // this.$emit('position-selected', [this.key, this.currentPenData]);
+    },
+    setAllPositionChanged() {
+      this.currentPenData.print_item.forEach(itemFromList => {
+        const checkBoxValue = document.getElementById(itemFromList.id).checked;
+        if (checkBoxValue) {
+          this.$emit('print-item-checked', [itemFromList.id, this.colorImages[itemFromList.image_id]])
+        }
+      });
+    }
+  },
+  created() {
+    (async () => {
+      await this.setColorImages();
+      this.setAllPositions();
     })();
   },
   watch: {
-    currentPenData: {
-      handler: 'positionChanged',
-      deep: true,
-    },
-    selectAll:{
+    // currentPenData: {
+    //   handler: 'positionChanged',
+    //   deep: true,
+    // },
+    selectAll: {
       handler: 'selectAllHandler'
+    },
+    totalOrientation: {
+      handler: 'setAllPositionChanged'
     }
   }
 }

@@ -3,7 +3,7 @@ import {goodsLayout} from "@/components/maket/maket_layout/layout_content/goodsL
 
 export default {
   name: "ContentFrameComponent",
-  emits: ['position-selected'],
+  // emits: ['position-selected'],
   props: {
     groupData: Array,
     groupImages: Array,
@@ -16,19 +16,23 @@ export default {
       currentGroupData: this.groupData,
       showMiniature: true,
       selectAllCheck: false,
+      totalOrientation: false,
     }
   },
   methods: {
-    positionSelected(groupData) {
-      this.currentGroupData = groupData;
-      this.$emit("position-selected", [this.groupName, this.currentGroupData]);
-    },
-    toggleMiniature(){
+    // positionSelected(groupData) {
+    //   this.currentGroupData = groupData;
+    //   this.$emit("position-selected", [this.groupName, this.currentGroupData]);
+    // },
+    toggleMiniature() {
       this.showMiniature = !this.showMiniature;
     },
-    selectAll(){
+    selectAll() {
       this.selectAllCheck = !this.selectAllCheck;
     },
+    totalChangeOrientation(){
+      this.totalOrientation = !this.totalOrientation;
+    }
   },
 }
 </script>
@@ -40,6 +44,14 @@ export default {
     <div class="content-frame__frame">
       <div class="content-frame__header">{{ groupName.replace('()', ' ') }}</div>
       <div class="content-frame__header_end no-print">
+        <button
+            v-if="currentGroupData.length > 1"
+            type="button"
+            class="btn-sm"
+            @click="totalChangeOrientation"
+        >
+          установить позицию по первой</button>
+        &emsp;&emsp;
         <input type="checkbox"
                class="check"
                checked
@@ -47,7 +59,7 @@ export default {
                @change="toggleMiniature"
         >
         &nbsp;
-        <label :for="groupName" >показывать миниатюры</label>
+        <label :for="groupName">показывать миниатюры</label>
         &emsp;&emsp;
         <input type="checkbox"
                class="check"
@@ -55,7 +67,7 @@ export default {
                @change="selectAll"
         >
         &nbsp;
-        <label :for="groupName" >выбрать все</label>
+        <label :for="groupName">выбрать все</label>
       </div>
     </div>
     <component
@@ -63,10 +75,11 @@ export default {
         :is="selectedComponent"
         :group-data="currentGroupData"
         :group-images="groupImages"
-        @position-selected="positionSelected"
         :show-miniature="showMiniature"
         :select-all="selectAllCheck"
+        :total-orientation="totalOrientation"
     />
+    <!--        @position-selected="positionSelected"-->
   </div>
 </template>
 
@@ -89,7 +102,7 @@ export default {
     //left: 20mm;
     top: -9px;
     width: 100%;
-    padding: 0 32px;
+    padding-left: 12px;
   }
 
   &__header {
@@ -102,6 +115,21 @@ export default {
     align-items: center;
     background-color: #fff;
     padding: 0 12px;
+  }
+}
+
+.btn-sm {
+  color: white;
+  padding: 1px 8px;
+  @include brd-standard;
+  background-color: $colorPrimary500;
+  transition: background-color 0.3s ease-out;
+  cursor: pointer;
+  z-index: 5;
+
+  &:hover{
+    color: $colorPrimary500;
+    background-color: white;
   }
 }
 </style>

@@ -7,13 +7,12 @@ export default {
   name: "PenFrameComponent",
   components: {SinglePenSmallSingleComponent},
   inject: ['tokenName', 'appUrl'],
-  emits: ['position-selected'],
+  // emits: ['position-selected'],
   data() {
     return {
       currentGroupData: this.groupData,
       bigImages: {},
-      // colorQuantity: [...Array(this.groupData[0].print_item[0].color_quantity).keys()],
-      // printColorSet: {}
+      orientationResult: null,
     }
   },
   props: {
@@ -21,12 +20,13 @@ export default {
     groupImages: Array,
     showMiniature: Boolean,
     selectAll: Boolean,
+    totalOrientation: Boolean,
   },
   methods: {
-    positionSelected(penData) {
-      this.currentGroupData[penData[0]] = penData[1];
-      this.$emit('position-selected', this.currentGroupData);
-    },
+    // positionSelected(penData) {
+    //   this.currentGroupData[penData[0]] = penData[1];
+    //   this.$emit('position-selected', this.currentGroupData);
+    // },
     printItemChecked(itemData) {
       this.bigImages[itemData[0]] = itemData[1]
     },
@@ -49,8 +49,30 @@ export default {
         }
       }
     },
+    handleTotalOrientation() {
+      const firstItem = this.currentGroupData[0].print_item;
+      const orientationList = []
+      for (let index in firstItem) {
+        orientationList[index] = {
+          'position': firstItem[index]['position'],
+          'position_id': firstItem[index]['position_id'],
+          'image_id': firstItem[index]['image_id']
+        }
+      }
+      for( let i = 1; i < this.currentGroupData.length; i++ ) {
+        for(let j = 0; j < orientationList.length; j++){
+          this.currentGroupData[i].print_item[j]['position_id'] = orientationList[j]['position_id'];
+          this.currentGroupData[i].print_item[j]['position'] = orientationList[j]['position'];
+          this.currentGroupData[i].print_item[j]['image_id'] = orientationList[j]['image_id'];
+        }
+      }
+      this.orientationResult = orientationList;
+    },
   },
-  created() {
+  watch: {
+    totalOrientation: {
+      handler: 'handleTotalOrientation',
+    }
   }
 }
 </script>
@@ -95,10 +117,11 @@ export default {
           :key="index"
           :pen-data="pen"
           :pen-images="groupImages"
-          @position-selected="positionSelected"
           @print-item-checked="printItemChecked"
           :select-all="selectAll"
+          :total-orientation="orientationResult"
       />
+      <!--          @position-selected="positionSelected"-->
     </div>
   </div>
 </template>
