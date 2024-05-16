@@ -1,15 +1,15 @@
+<script>
+export default {
+  name: "A4MarkingComponent"
+}
+</script>
+
 <template>
   <div class="frame-set">
     <div class="a4-marking no-print"></div>
     <div class="a4-marking no-print"></div>
   </div>
 </template>
-
-<script>
-export default {
-  name: "A4MarkingComponent"
-}
-</script>
 
 <style scoped lang="scss">
 @import '@/assets/maket/scss/vars';
