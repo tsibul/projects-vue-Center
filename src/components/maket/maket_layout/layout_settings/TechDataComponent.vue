@@ -6,40 +6,36 @@ export default {
   name: "TechDataComponent",
   components: {FontAwesomeIcon},
   emits: [
-    'show-pictures',
-    'show-frame',
     'show-sort',
     'window-print',
     'window-close',
     'show-content',
-    'show-table',
-    'chosen-format'
+    'tech-info-changed'
   ],
   props: {
     maketId: String,
     formatList: Object,
     formatSelected: Number,
+    techInfo: Object,
   },
   data() {
     return {
-      showPictures: false,
-      showFrame: true,
-      showTable: true,
-      currentFormatSelected: this.formatSelected,
+      currentTechInfo: {}
     }
   },
   methods: {
     togglePictures() {
-      this.showPictures = !this.showPictures;
-      this.$emit('show-pictures', this.showPictures);
+      this.currentTechInfo['pictureShow'] = !this.currentTechInfo['pictureShow'];
+      this.$emit('tech-info-changed', this.currentTechInfo);
+
     },
     toggleFrame() {
-      this.showFrame = !this.showFrame;
-      this.$emit('show-frame', this.showFrame);
+      this.currentTechInfo['frameShow'] = !this.currentTechInfo['frameShow'];
+      this.$emit('tech-info-changed', this.currentTechInfo);
     },
     toggleTable() {
-      this.showTable = !this.showTable;
-      this.$emit('show-table', this.showTable);
+      this.currentTechInfo['tableShow'] = !this.currentTechInfo['tableShow'];
+      this.$emit('tech-info-changed', this.currentTechInfo);
     },
     showSort() {
       this.$emit('show-sort')
@@ -59,10 +55,18 @@ export default {
     selectFormat(event, item) {
       event.preventDefault();
       event.target.closest('.format__list').style.display = 'none';
-      this.currentFormatSelected = item;
-      this.$emit('chosen-format', item)
+      this.currentTechInfo['formatSelected'] = item;
+      this.$emit('tech-info-changed', this.currentTechInfo);
     }
-  }
+  },
+  watch: {
+    techInfo: {
+      immediate: true,
+      handler(newVal) {
+        this.currentTechInfo = newVal;
+      }
+    }
+  },
 }
 </script>
 
@@ -82,7 +86,11 @@ export default {
       <div class="format__block"
            @click="showFormatList($event)"
       >
-        <div class="format__text">{{ formatList[currentFormatSelected][0] }}</div>
+        <div class="format__text"
+             v-if="currentTechInfo"
+        >
+          {{ formatList[currentTechInfo['formatSelected']][0] }}
+        </div>
         &nbsp;
         <font-awesome-icon :icon="['fas', 'chevron-down']"/>
         <ul class="format__list">
@@ -96,32 +104,39 @@ export default {
         </ul>
       </div>
       &emsp;
-      <input type="checkbox"
-             class="check"
-             id="table"
-             @change="toggleTable"
-             checked
+      <input
+          v-if="currentTechInfo"
+          type="checkbox"
+          class="check"
+          id="table"
+          @change="toggleTable"
+          :checked="currentTechInfo['tableShow']"
       >
       &nbsp;
       <label for="table"
              class="check">таблица</label>
     </div>
     <div class="blank-header__item">
-      <input type="checkbox"
-             class="check"
-             id="pictures"
-             @change="togglePictures"
+      <input
+          v-if="currentTechInfo"
+          type="checkbox"
+          class="check"
+          id="pictures"
+          @change="togglePictures"
+          :checked="currentTechInfo['pictureShow']"
       >
       &nbsp;
       <label class="check"
              for="pictures">картинки</label>
     </div>
     <div class="blank-header__item">
-      <input type="checkbox"
-             class="check"
-             id="frames"
-             @change="toggleFrame"
-             checked
+      <input
+          v-if="currentTechInfo"
+          type="checkbox"
+          class="check"
+          id="frames"
+          @change="toggleFrame"
+          :checked="currentTechInfo['frameShow']"
       >
       &nbsp;
       <label for="frames"

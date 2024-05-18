@@ -10,6 +10,7 @@ import ItemGroupingComponent from "@/components/maket/maket_layout/layout_settin
 import ShowGroupComponent from "@/components/maket/maket_layout/layout_settings/ShowGroupComponent.vue";
 import ContentFrameComponent from "@/components/maket/maket_layout/layout_content/ContentFrameComponent.vue";
 import {formatList} from "@/components/maket/maket_layout/layout_content/formatListData.js";
+import {defaultTechInfo} from "@/components/maket/maket_layout/layout_settings/defaultTechInfo.js";
 
 export default {
   name: "MaketLayoutComponent",
@@ -31,15 +32,10 @@ export default {
       orderId: null,
       maketId: null,
       maketData: null,
-      showPictures: false,
-      showFrame: true,
       showSort: false,
-      draggingItem: null,
       sourceGroupName: null,
       showContent: false,
-      showTable: true,
       itemGroupsKeys: null,
-      formatSelected: 1,
     }
   },
   methods: {
@@ -84,8 +80,8 @@ export default {
     windowPrint() {
       window.print()
     },
-    chooseFormat(item) {
-      this.formatSelected = item;
+    techInfoChanged(currentTechInfo) {
+      this.maketData['techInfo'] = currentTechInfo;
     }
   },
   created() {
@@ -95,6 +91,9 @@ export default {
       this.orderId = urlParams.get('orderId');
       await this.getMaketData();
       this.itemGroupsKeys = Object.keys(this.maketData['itemGroups']);
+      if(!this.maketData['techInfo']){
+        this.maketData['techInfo'] = defaultTechInfo;
+      }
     })();
   },
 }
@@ -102,17 +101,15 @@ export default {
 
 <template>
   <TechDataComponent
+      v-if="maketData"
       :maket-id="maketId"
       :format-list="formatList"
-      :format-selected="Number(formatSelected)"
-      @show-pictures="this.showPictures=!this.showPictures"
-      @show-table="tableShow"
-      @show-frame='frameShow'
+      :tech-info="maketData['techInfo']"
       @show-sort="sortShow"
       @window-print="windowPrint"
       @window-close="windowClose"
       @show-content="contentShow"
-      @chosen-format="chooseFormat"
+      @tech-info-changed="techInfoChanged"
   />
   <ItemGroupingComponent
       v-if="showSort"
@@ -129,10 +126,12 @@ export default {
       @toggle-check="toggleCheckGroup"
   />
   <component
-      :is="formatList[formatSelected][1]"
-      v-if="showFrame"/>
+      :is="formatList[maketData['techInfo']['formatSelected']][1]"
+      v-if="maketData && maketData['techInfo'] && maketData['techInfo']['frameShow']"
+  />
   <div class="maket-layout__print"
-       :class="formatList[formatSelected][3] + ' ' + formatList[formatSelected][2]"
+       v-if="maketData && maketData['techInfo']"
+       :class="formatList[maketData['techInfo']['formatSelected']][3] + ' ' + formatList[maketData['techInfo']['formatSelected']][2]"
   >
     <div class="maket-layout__top"
     >
@@ -142,7 +141,7 @@ export default {
           class="maket-layout__content"
       />
       <MaketContentTableComponent
-          v-if="maketData && showTable"
+          v-if="maketData && maketData['techInfo']['tableShow']"
           :table-content="maketData['itemGroups']"
           :show-group="maketData['showGroups']"
           class="maket-layout__content"
@@ -150,7 +149,7 @@ export default {
     </div>
     <ContentFrameComponent
         v-for="group in itemGroupsKeys"
-        v-show="maketData['showGroups'][group] && showPictures"
+        v-show="maketData['showGroups'][group] && maketData['techInfo']['pictureShow']"
         :key="group.id"
         :ref="'group_' + group"
         class="maket-layout__content"
