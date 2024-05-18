@@ -73,9 +73,10 @@ export default {
   gap: 2px;
   border: 1px solid $colorPrimary800;
   border-radius: 6px;
-  width: 200mm;
+  //width: 200mm;
   font-size: 10px;
   padding: 8px;
+  //margin: 2px 5mm 2px 5mm;
 
   &__title {
     display: grid;

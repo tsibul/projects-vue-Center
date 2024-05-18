@@ -1,3 +1,22 @@
+<script>
+
+export default {
+  name: "MaketFooterComponent",
+  props: {
+    footerInfo: Object
+  },
+  data() {
+    return {
+      modalPosition: null,
+      componentModal: null,
+    }
+  },
+  mounted() {
+    this.componentModal = this.$refs.modalDraggable;
+  }
+}
+</script>
+
 <template>
   <div class="maket-footer" ref="modalDraggable">
 
@@ -28,37 +47,18 @@
 
 </template>
 
-<script>
-
-export default {
-  name: "MaketFooterComponent",
-  props: {
-    footerInfo: Object
-  },
-  data() {
-    return {
-      modalPosition: null,
-      componentModal: null,
-    }
-  },
-  mounted() {
-    this.componentModal = this.$refs.modalDraggable;
-  }
-}
-</script>
-
 <style scoped lang="scss">
 @import "@/assets/maket/scss/vars";
 
 .maket-footer {
   font-size: 14px;
-  width: 200mm;
+  //width: 200mm;
   border: 1px solid $colorPrimary800;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin: 0 0 5mm 5mm;
+  //margin: 0 0 5mm 5mm;
 
   &__heading {
     text-align: center;

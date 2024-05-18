@@ -9,9 +9,15 @@ import MaketContentTableComponent
 import ItemGroupingComponent from "@/components/maket/maket_layout/layout_settings/ItemGroupingComponent.vue";
 import ShowGroupComponent from "@/components/maket/maket_layout/layout_settings/ShowGroupComponent.vue";
 import ContentFrameComponent from "@/components/maket/maket_layout/layout_content/ContentFrameComponent.vue";
+import {formatList} from "@/components/maket/maket_layout/layout_content/formatListData.js";
 
 export default {
   name: "MaketLayoutComponent",
+  computed: {
+    formatList() {
+      return formatList
+    }
+  },
   components: {
     ContentFrameComponent,
     ShowGroupComponent,
@@ -33,6 +39,7 @@ export default {
       showContent: false,
       showTable: true,
       itemGroupsKeys: null,
+      formatSelected: 1,
     }
   },
   methods: {
@@ -80,6 +87,15 @@ export default {
     windowPrint() {
       window.print()
     },
+    chooseFormat(item) {
+      this.formatSelected = item;
+      // const layoutPrint = document.querySelector('.maket-layout__print');
+      // layoutPrint.removeAttribute('class');
+      // layoutPrint.classList.add(formatList[item][2], 'maket-layout__print');
+      // const layoutTop = document.querySelector('.maket-layout__top');
+      // layoutTop.removeAttribute('class');
+      // layoutTop.classList.add(formatList[item][2], 'maket-layout__top');
+    }
   },
   created() {
     (async () => {
@@ -96,6 +112,8 @@ export default {
 <template>
   <TechDataComponent
       :maket-id="maketId"
+      :format-list="formatList"
+      :format-selected="Number(formatSelected)"
       @show-pictures="this.showPictures=!this.showPictures"
       @show-table="tableShow"
       @show-frame='frameShow'
@@ -103,6 +121,7 @@ export default {
       @window-print="windowPrint"
       @window-close="windowClose"
       @show-content="contentShow"
+      @chosen-format="chooseFormat"
   />
   <ItemGroupingComponent
       v-if="showSort"
@@ -118,19 +137,24 @@ export default {
       @close-content="showContent=false"
       @toggle-check="toggleCheckGroup"
   />
-  <A4MarkingComponent v-if="showFrame"/>
+  <component
+      :is="formatList[formatSelected][1]"
+      v-if="showFrame"/>
   <div class="maket-layout__print"
+       :class="formatList[formatSelected][3] + ' ' + formatList[formatSelected][2]"
   >
-    <div class="maket-layout__top">
+    <div class="maket-layout__top"
+    >
       <MaketHeaderComponent
           v-if="maketData"
           :header-info="maketData['headerInfo']"
-
+          class="maket-layout__content"
       />
       <MaketContentTableComponent
           v-if="maketData && showTable"
           :table-content="maketData['itemGroups']"
           :show-group="maketData['showGroups']"
+          class="maket-layout__content"
       />
     </div>
     <ContentFrameComponent
@@ -147,7 +171,9 @@ export default {
     <!--        @position-selected="positionSelected"-->
     <MaketFooterComponent
         v-if="maketData"
-        :footer-info="maketData['footerInfo']"/>
+        :footer-info="maketData['footerInfo']"
+        class="maket-layout__content"
+    />
   </div>
 </template>
 
@@ -163,17 +189,50 @@ export default {
 .maket-layout {
 
   &__top {
-    margin: 5mm 0 2px 5mm;
-    width: 205mm;
+    //width: 100%;
   }
 
   &__print {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    max-height: 297mm;
-    max-width: fit-content;
+    //max-height: 297mm;
+    //max-width: fit-content;
+    //gap: 16px;
+  }
+
+  &__content {
+    margin: 16px 16px 8px 16px;
   }
 }
+
+.width {
+  &__a4 {
+    width: 210mm;
+  }
+
+  &__a3-v {
+    width: 297mm;
+  }
+
+  &__a3-h {
+    width: 210mm;
+  }
+}
+
+.height {
+  &__a4 {
+    max-height: 594mm;
+  }
+
+  &__a3-v {
+    max-height: 420mm;
+  }
+
+  &__a3-h {
+    max-height: 594mm;
+  }
+}
+
 
 </style>

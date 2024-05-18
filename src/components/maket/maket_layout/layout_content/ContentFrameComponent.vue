@@ -89,8 +89,8 @@ export default {
 
 .content-frame {
   border-top: 1px solid $colorPrimary200;
-  width: 200mm;
-  margin: 5mm 5mm 6px 5mm;
+  //width: 100%;
+  //margin: 5mm 5mm 6px 5mm;
   position: relative;
 
   &__frame {
