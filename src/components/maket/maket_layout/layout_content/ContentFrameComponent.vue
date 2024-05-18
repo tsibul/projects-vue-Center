@@ -84,7 +84,6 @@ export default {
         :select-all="selectAllCheck"
         :total-orientation="totalOrientation"
     />
-    <!--        @position-selected="positionSelected"-->
   </div>
 </template>
 

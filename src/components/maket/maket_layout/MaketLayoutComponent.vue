@@ -62,9 +62,6 @@ export default {
     handleItemDrag(element) {
       this.sourceGroupName = element.groupKey;
     },
-    // positionSelected(groupData){
-    //   this.maketData['itemGroups'][groupData[0]]= groupData[1];
-    // },
     handleItemDrop(element) {
       this.draggingItem = element.item;
       const targetGroupName = element.groupKey;
@@ -89,12 +86,6 @@ export default {
     },
     chooseFormat(item) {
       this.formatSelected = item;
-      // const layoutPrint = document.querySelector('.maket-layout__print');
-      // layoutPrint.removeAttribute('class');
-      // layoutPrint.classList.add(formatList[item][2], 'maket-layout__print');
-      // const layoutTop = document.querySelector('.maket-layout__top');
-      // layoutTop.removeAttribute('class');
-      // layoutTop.classList.add(formatList[item][2], 'maket-layout__top');
     }
   },
   created() {
@@ -168,7 +159,6 @@ export default {
         :group-pattern-name="maketData['groupPatterns'][group]"
         :group-images="maketData['groupImages'][group]"
     />
-    <!--        @position-selected="positionSelected"-->
     <MaketFooterComponent
         v-if="maketData"
         :footer-info="maketData['footerInfo']"

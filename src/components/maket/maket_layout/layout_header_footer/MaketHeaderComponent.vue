@@ -33,7 +33,6 @@ export default {
 .maket-header {
   font-size: 14px;
   padding: 12px;
-  //width: 200mm;
   border: 1px solid $colorPrimary800;
   border-radius: 6px;
   display: flex;

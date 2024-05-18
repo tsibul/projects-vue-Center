@@ -7,7 +7,6 @@ export default {
       row.classList.add('empty-row');
       row.style.height = '16px';
       row.textContent= '';
-      // const element = event.target;
       let frame = event.target.closest('.content-frame')
       if (!frame){
         frame = event.target.closest('.maket-footer');

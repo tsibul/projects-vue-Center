@@ -41,9 +41,6 @@ export default {
         this.$emit('print-item-checked', [itemFromList.id, this.colorImages[itemFromList.image_id]])
       }
     },
-    // positionChanged() {
-    //   this.$emit('position-selected', this.currentPenData);
-    // },
     printItemChecked(event, printItem) {
       if (event.checked) {
         this.$emit('print-item-checked', [printItem.id, this.colorImages[printItem.image_id]])
@@ -65,7 +62,6 @@ export default {
         itemFromList['position_id'] = selectedImage[1];
         itemFromList['position'] = selectedImage[2];
       });
-      // this.$emit('position-selected', [this.key, this.currentPenData]);
     },
     setAllPositionChanged() {
       this.currentPenData.print_item.forEach(itemFromList => {
@@ -83,10 +79,6 @@ export default {
     })();
   },
   watch: {
-    // currentPenData: {
-    //   handler: 'positionChanged',
-    //   deep: true,
-    // },
     selectAll: {
       handler: 'selectAllHandler'
     },

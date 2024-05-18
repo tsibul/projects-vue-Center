@@ -7,7 +7,6 @@ export default {
   name: "PenFrameComponent",
   components: {SinglePenSmallSingleComponent},
   inject: ['tokenName', 'appUrl'],
-  // emits: ['position-selected'],
   data() {
     return {
       currentGroupData: this.groupData,
@@ -23,10 +22,6 @@ export default {
     totalOrientation: Boolean,
   },
   methods: {
-    // positionSelected(penData) {
-    //   this.currentGroupData[penData[0]] = penData[1];
-    //   this.$emit('position-selected', this.currentGroupData);
-    // },
     printItemChecked(itemData) {
       this.bigImages[itemData[0]] = itemData[1]
     },
@@ -121,7 +116,6 @@ export default {
           :select-all="selectAll"
           :total-orientation="orientationResult"
       />
-      <!--          @position-selected="positionSelected"-->
     </div>
   </div>
 </template>
