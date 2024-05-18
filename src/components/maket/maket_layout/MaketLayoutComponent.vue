@@ -172,7 +172,6 @@ export default {
     <MaketFooterComponent
         v-if="maketData"
         :footer-info="maketData['footerInfo']"
-        class="maket-layout__content"
     />
   </div>
 </template>
@@ -189,7 +188,7 @@ export default {
 .maket-layout {
 
   &__top {
-    //width: 100%;
+    padding: 0 16px 8px 16px;
   }
 
   &__print {
@@ -202,7 +201,9 @@ export default {
   }
 
   &__content {
-    margin: 16px 16px 8px 16px;
+    margin-top: 16px;
+    width: 100%;
+    padding: 16px 16px 8px 16px;
   }
 }
 
