@@ -261,16 +261,18 @@ export default {
 }
 
 .tooltip-text{
+  font-size: 16px;
   position: absolute;
   visibility: hidden;
-  color: $colorPrimary100;
+  color: white;
   background-color: $colorSecondary400;
   @include brd-standard;
-  transition: visibility 0.3s ease-out;
+  border-color: $colorSecondary400;
+  transition: visibility 0.1s ease-out;
   padding: 4px 8px;
-  top: -1.5rem;
-  text-wrap: nowrap;
+  top: -2.5rem;
   z-index: 10;
+  max-width: 300px;
 }
 
 @media (max-width: 767px) {
