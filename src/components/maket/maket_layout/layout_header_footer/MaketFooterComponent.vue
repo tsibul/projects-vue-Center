@@ -77,7 +77,7 @@ export default {
 
   &__text {
     padding: 8px 0 8px 0;
-    cursor: move;
+    //cursor: move;
 
     &:hover {
       background-color: $colorPrimary100;
