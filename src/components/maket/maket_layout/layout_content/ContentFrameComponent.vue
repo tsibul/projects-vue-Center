@@ -1,8 +1,10 @@
 <script>
 import {goodsLayout} from "@/components/maket/maket_layout/layout_content/goodsLayouts.js";
+import BlankRowComponent from "@/components/maket/maket_layout/layout_header_footer/BlankRowComponent.vue";
 
 export default {
   name: "ContentFrameComponent",
+  components: {BlankRowComponent},
   // emits: ['position-selected'],
   props: {
     groupData: Array,
@@ -30,7 +32,7 @@ export default {
     selectAll() {
       this.selectAllCheck = !this.selectAllCheck;
     },
-    totalChangeOrientation(){
+    totalChangeOrientation() {
       this.totalOrientation = !this.totalOrientation;
     }
   },
@@ -41,8 +43,9 @@ export default {
   <div class="content-frame"
        v-if="selectedComponent"
   >
+    <BlankRowComponent/>
     <div class="content-frame__frame">
-      <div class="content-frame__header">{{ groupName.replace('()', ' ') }}</div>
+      <div class="content-frame__header active">{{ groupName.replace('()', ' ') }}</div>
       <div class="content-frame__header_end no-print">
         <button
             v-if="currentGroupData.length > 1"
@@ -50,7 +53,9 @@ export default {
             class="btn-sm"
             @click="totalChangeOrientation"
         >
-          установить позицию по первой</button>
+          установить позицию по первой
+          <span class="tooltip-text">повернуть все ручки в соответствии с ориентацией первой ручки</span>
+        </button>
         &emsp;&emsp;
         <input type="checkbox"
                class="check"
@@ -89,9 +94,8 @@ export default {
 
 .content-frame {
   border-top: 1px solid $colorPrimary200;
-  //width: 100%;
-  //margin: 5mm 5mm 6px 5mm;
   position: relative;
+  padding-top: 8px;
 
   &__frame {
     display: flex;
@@ -99,10 +103,9 @@ export default {
     justify-content: space-between;
     font-size: 12px;
     position: absolute;
-    //left: 20mm;
     top: -9px;
-    width: 100%;
-    padding-left: 12px;
+    width: 97%;
+    padding-left: 80px;
   }
 
   &__header {
@@ -127,9 +130,13 @@ export default {
   cursor: pointer;
   z-index: 5;
 
-  &:hover{
+  &:hover {
     color: $colorPrimary500;
     background-color: white;
+  }
+
+  &:hover .tooltip-text {
+    visibility: visible;
   }
 }
 </style>
