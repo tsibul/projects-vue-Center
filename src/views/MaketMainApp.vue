@@ -72,7 +72,7 @@ export default {
   }
 
   &-save-inverted {
-    color:$colorPrimary500;
+    color: $colorPrimary500;
     background-color: $colorPrimary100;
     border-color: $colorPrimary100;
 
@@ -115,7 +115,6 @@ export default {
   }
 }
 
-////
 .header {
   position: fixed;
   width: 100%;
@@ -256,9 +255,22 @@ export default {
   accent-color: $colorPrimary800;
 }
 
-.check{
+.check {
   accent-color: $colorPrimary500;
   cursor: pointer;
+}
+
+.tooltip-text{
+  position: absolute;
+  visibility: hidden;
+  color: $colorPrimary100;
+  background-color: $colorSecondary400;
+  @include brd-standard;
+  transition: visibility 0.3s ease-out;
+  padding: 4px 8px;
+  top: -1.5rem;
+  text-wrap: nowrap;
+  z-index: 10;
 }
 
 @media (max-width: 767px) {
@@ -301,10 +313,8 @@ export default {
   }
 }
 
-@media print
-{
-  .no-print, .no-print *
-  {
+@media print {
+  .no-print, .no-print * {
     display: none !important;
   }
 }
