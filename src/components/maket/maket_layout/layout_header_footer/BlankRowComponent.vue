@@ -23,8 +23,8 @@ export default {
       const row = frame.previousElementSibling;
       if (row.classList.contains('empty-row')) {
         row.remove();
+        window.scrollBy(0, -16);
       }
-      window.scrollBy(0, -16);
     },
   },
 
