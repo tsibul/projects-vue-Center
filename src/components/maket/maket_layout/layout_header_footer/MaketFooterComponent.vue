@@ -1,7 +1,10 @@
 <script>
 
+import BlankRowComponent from "@/components/maket/maket_layout/layout_header_footer/BlankRowComponent.vue";
+
 export default {
   name: "MaketFooterComponent",
+  components: {BlankRowComponent},
   props: {
     footerInfo: Object
   },
@@ -19,10 +22,11 @@ export default {
 
 <template>
   <div class="maket-footer" ref="modalDraggable">
-
+    <BlankRowComponent/>
     <div class="maket-footer__heading">
       <div class="active maket-footer__text">
-        Пожалуйста, ВНИМАТЕЛЬНО ПРОВЕРЯЙТЕ МАКЕТ!</div>
+        Пожалуйста, ВНИМАТЕЛЬНО ПРОВЕРЯЙТЕ МАКЕТ!
+      </div>
       <strong>Найденная в готовом изделии ошибка, в случае если макет утвержден, не может быть основанием для переделки
         заказа
         за счет Исполнителя. После утверждения макета изменения не принимаются!</strong>
@@ -51,14 +55,14 @@ export default {
 @import "@/assets/maket/scss/vars";
 
 .maket-footer {
+  position: relative;
   font-size: 14px;
-  //width: 200mm;
   border: 1px solid $colorPrimary800;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  //margin: 0 0 5mm 5mm;
+  margin: 16px 16px 8px 16px;
 
   &__heading {
     text-align: center;
@@ -74,7 +78,8 @@ export default {
   &__text {
     padding: 8px 0 8px 0;
     cursor: move;
-    &:hover{
+
+    &:hover {
       background-color: $colorPrimary100;
     }
   }
