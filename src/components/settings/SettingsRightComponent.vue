@@ -70,7 +70,7 @@ export default {
   //display: grid;
   //grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   //grid-auto-flow: dense;
-  gap: 20px;
+  gap: 12px;
   width: 100%;
 }
 
