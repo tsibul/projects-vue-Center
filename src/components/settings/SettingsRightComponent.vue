@@ -3,17 +3,6 @@
 import SettingsSingleComponent from "@/components/settings/SettingsSingleComponent.vue";
 </script>
 
-<template>
-  <div class="dict-right">
-    <SettingsSingleComponent v-for="item in dictionariesReady"
-                             :key="item['name']"
-                             :style="showState[item]['checked'] ? 'display:flex' : 'display:none'"
-                             :dictionaryName="item" :icon="showState[item]['icon']"
-                             :label="showState[item]['label']"
-    />
-  </div>
-</template>
-
 <script>
 
 export default {
@@ -54,20 +43,33 @@ export default {
       if (checked && !state) {
         this.showState[dictionaryName] = {'checked': true, 'ready': true, 'label': dictionaryLabel, 'icon': icon};
         this.dictionariesReady.push(dictionaryName);
-        // this.dictionariesReady.sort()
       } else this.showState[dictionaryName]['checked'] = !(!checked && state);
     },
   },
 }
 </script>
 
+
+<template>
+  <div class="dict-right">
+    <SettingsSingleComponent v-for="item in dictionariesReady"
+                             :key="item['name']"
+                             :style="showState[item]['checked'] ? 'display:flex' : 'display:none'"
+                             :dictionaryName="item" :icon="showState[item]['icon']"
+                             :label="showState[item]['label']"
+    />
+  </div>
+</template>
+
 <style scoped lang="scss">
 
 .dict-right {
   position: relative;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  grid-auto-flow: dense;
+  display: flex;
+  flex-wrap: wrap;
+  //display: grid;
+  //grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  //grid-auto-flow: dense;
   gap: 20px;
   width: 100%;
 }
