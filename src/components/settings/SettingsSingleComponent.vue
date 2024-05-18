@@ -34,29 +34,55 @@ export default {
     },
     showForm(data) {
       this.show = data;
-    }
+    },
+    inputSizeChange() {
+      const blockField = this.$refs[this.label + 'block'];
+      const inputField = this.$refs[this.label + 'input'];
+      if (blockField.offsetWidth < 468) {
+        if (!inputField.classList.contains('dict-block__form-input_hidden')) {
+          inputField.classList.add('dict-block__form-input_hidden');
+        }
+      } else {
+        if (inputField.classList.contains('dict-block__form-input_hidden')) {
+          inputField.classList.remove('dict-block__form-input_hidden');
+        }
+      }
+    },
   },
   computed: {
-    fieldsData() {
-      return this.$store.getters.getFieldData;
-    },
+    // fieldsData() {
+    //   return this.$store.getters.getFieldData;
+    // },
     dictBlockClass() {
       return {
         [this.dictionaryName.toLowerCase() + '-block']: true
       }
-    },
+    }
+    ,
     rowClass() {
       return {
         [this.dictionaryName.toLowerCase() + '-row']: true
       }
     },
-  }
+  },
+  mounted() {
+    // this.$refs[this.label + 'block'].addEventListener('resize', this.inputSizeChange);
+    this.resizeObserver = new ResizeObserver(this.inputSizeChange);
+    this.resizeObserver.observe(this.$refs[this.label + 'block']);
+  },
+  beforeUnmount() {
+    this.resizeObserver.observe(this.$refs[this.label + 'block']);
+  },
 }
+
 </script>
 
 
 <template>
-  <div class="dict-block" :class="dictBlockClass">
+  <div class="dict-block"
+       :class="dictBlockClass"
+       :ref="label + 'block'"
+  >
     <div class="dict-block__header active">
       <div>
         <font-awesome-icon :icon="['fas', icon]" class="fa fa-flip"/>
@@ -64,7 +90,10 @@ export default {
       </div>
       <div class="dict-block__search">
         <font-awesome-icon :icon="['fas', 'magnifying-glass']"/>
-        <input v-model="searchInput" type="text" class="form-input dict-block__form-input"
+        <input v-model="searchInput"
+               type="text"
+               class="form-input dict-block__form-input"
+               :ref="label + 'input'"
                placeholder="искать...">
         <button class="btn btn-save" type="button" @click="search">поиск</button>
         <button class="btn btn-close" type="button" @click="clearInput">очистить</button>
@@ -112,15 +141,26 @@ export default {
   }
 
   &__search {
-    //align-items: center;
+    position: relative;
     @include d-flex-center(flex-end);
     gap: 10px;
     width: 80%;
+
+    &:hover  .dict-block__form-input_hidden {
+      display: block;
+    }
   }
 
   &__form-input {
     width: 100%;
     max-width: 400px;
+
+    &_hidden {
+      display: none;
+      position: absolute;
+      width: 200px;
+      right: 180px;
+    }
   }
 
   &__section {
