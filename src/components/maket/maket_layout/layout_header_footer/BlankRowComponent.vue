@@ -1,28 +1,30 @@
 <script>
 export default {
   name: "BlankRowComponent",
-  methods:{
-    addBlankRow(event){
+  methods: {
+    addBlankRow(event) {
       const row = document.createElement('div');
       row.classList.add('empty-row');
       row.style.height = '16px';
-      row.textContent= '';
+      row.textContent = '';
       let frame = event.target.closest('.content-frame')
-      if (!frame){
+      if (!frame) {
         frame = event.target.closest('.maket-footer');
       }
-      const print = frame.closest('.maket-layout__print')
-      print.insertBefore(row, frame)
+      const print = frame.closest('.maket-layout__print');
+      print.insertBefore(row, frame);
+      window.scrollBy(0, 16);
     },
-    removeBlankRow(event){
-      let frame = event.target.closest('.content-frame')
-      if (!frame){
+    removeBlankRow(event) {
+      let frame = event.target.closest('.content-frame');
+      if (!frame) {
         frame = event.target.closest('.maket-footer');
       }
       const row = frame.previousElementSibling;
-      if(row.classList.contains('empty-row')) {
+      if (row.classList.contains('empty-row')) {
         row.remove();
       }
+      window.scrollBy(0, -16);
     },
   },
 
@@ -77,11 +79,13 @@ export default {
   z-index: 5;
   transition: color 0.3s ease-out;
   position: relative;
-  &:hover{
+
+  &:hover {
     color: $colorPrimary500;
     background-color: white;
   }
-  &:hover .tooltip-text{
+
+  &:hover .tooltip-text {
     visibility: visible;
   }
 }
