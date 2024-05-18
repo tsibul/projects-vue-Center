@@ -4,36 +4,6 @@ import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import TitleRowComponent from "@/components/settings/TitleRowComponent.vue";
 import DataRowSetComponent from "@/components/settings/DataRowSetComponent.vue";
 </script>
-
-<template>
-  <div class="dict-block" :class="dictBlockClass">
-    <div class="dict-block__header active">
-      <div>
-        <font-awesome-icon :icon="['fas', icon]" class="fa fa-flip"/>
-        {{ label }}
-      </div>
-      <div class="dict-block__search">
-        <font-awesome-icon :icon="['fas', 'magnifying-glass']"/>
-        <input v-model="searchInput" type="text" class="form-input dict-block__form-input"
-               placeholder="искать...">
-        <button class="btn btn-save" type="button" @click="search">поиск</button>
-        <button class="btn btn-close" type="button" @click="clearInput">очистить</button>
-      </div>
-    </div>
-    <TitleRowComponent :dictionaryName="dictionaryName"
-                       :rowClass="rowClass"
-                       @show-form="showForm"
-    />
-    <DataRowSetComponent :dictionaryName="dictionaryName"
-                         :rowClass="rowClass"
-                         :searchString="searchString"
-                         :dictionaryOrder="order"
-                         :show="show"
-    />
-  </div><!-- цвета -->
-
-</template>
-
 <script>
 export default {
   name: 'SettingsSingleComponent',
@@ -62,7 +32,7 @@ export default {
     clearInput() {
       this.searchInput = '';
     },
-    showForm(data){
+    showForm(data) {
       this.show = data;
     }
   },
@@ -84,6 +54,36 @@ export default {
 }
 </script>
 
+
+<template>
+  <div class="dict-block" :class="dictBlockClass">
+    <div class="dict-block__header active">
+      <div>
+        <font-awesome-icon :icon="['fas', icon]" class="fa fa-flip"/>
+        {{ label }}
+      </div>
+      <div class="dict-block__search">
+        <font-awesome-icon :icon="['fas', 'magnifying-glass']"/>
+        <input v-model="searchInput" type="text" class="form-input dict-block__form-input"
+               placeholder="искать...">
+        <button class="btn btn-save" type="button" @click="search">поиск</button>
+        <button class="btn btn-close" type="button" @click="clearInput">очистить</button>
+      </div>
+    </div>
+    <TitleRowComponent :dictionaryName="dictionaryName"
+                       :rowClass="rowClass"
+                       @show-form="showForm"
+    />
+    <DataRowSetComponent :dictionaryName="dictionaryName"
+                         :rowClass="rowClass"
+                         :searchString="searchString"
+                         :dictionaryOrder="order"
+                         :show="show"
+    />
+  </div>
+
+</template>
+
 <style scoped lang="scss">
 @import "@/assets/maket/scss/vars";
 @import "@/assets/maket/scss/mixins";
@@ -95,9 +95,9 @@ export default {
   flex-direction: column;
   overflow: hidden;
   box-shadow: 6px 6px 12px $colorPrimary800;
-  //height: 770px;
   max-height: calc(100vh - 120px);
   grid-row: span 4;
+  resize: both;
 
   &_adm {
     max-width: 100%;
@@ -106,20 +106,21 @@ export default {
   &__header {
     background-color: $colorPrimary600;
     border-radius: 10px;
-    @include d-flex-center(center);
-    //cursor: pointer;
+    @include d-flex-center(space-between);
     padding: 20px;
-    justify-content: space-between;
+    width: 100%;
   }
 
   &__search {
-    align-items: center;
-    @include d-flex-center('flex-end');
+    //align-items: center;
+    @include d-flex-center(flex-end);
     gap: 10px;
+    width: 80%;
   }
 
   &__form-input {
-    min-width: 260px;
+    width: 100%;
+    max-width: 400px;
   }
 
   &__section {
@@ -142,10 +143,6 @@ export default {
     &:not(.active):hover {
       background-color: $colorPrimary200;
     }
-
-    //&_hidden {
-    //  display: none;
-    //}
   }
 
   &__text {
@@ -163,11 +160,6 @@ export default {
     &_half {
       grid-column: span 2;
     }
-
-
-    //&[open] {
-    //  max-height: calc(100vh - 120px);
-    //}
   }
 }
 
