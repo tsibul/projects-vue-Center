@@ -54,7 +54,7 @@ export default {
             @click="totalChangeOrientation"
         >
           установить позицию по первой
-          <span class="tooltip-text">повернуть все ручки в соответствии с ориентацией первой ручки</span>
+          <span class="tooltip-text">повернуть все детали в соответствии с ориентацией первой детали</span>
         </button>
         &emsp;&emsp;
         <input type="checkbox"
