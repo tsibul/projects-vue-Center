@@ -63,6 +63,7 @@ export default {
   flex-direction: column;
   gap: 8px;
   margin: 16px 16px 8px 16px;
+  max-width: 297mm;
 
   &__heading {
     text-align: center;

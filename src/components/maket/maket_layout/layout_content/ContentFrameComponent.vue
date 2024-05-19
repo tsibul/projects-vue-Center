@@ -105,6 +105,7 @@ export default {
     top: -9px;
     width: 97%;
     padding-left: 80px;
+    max-width: 297mm;
   }
 
   &__header {

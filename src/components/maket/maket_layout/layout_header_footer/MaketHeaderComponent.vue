@@ -39,6 +39,7 @@ export default {
   flex-direction: column;
   gap: 8px;
   margin-bottom: 8px;
+  max-width: 297mm;
 }
 
 </style>

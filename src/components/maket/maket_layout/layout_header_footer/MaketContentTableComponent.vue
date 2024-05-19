@@ -75,6 +75,7 @@ export default {
   border-radius: 6px;
   font-size: 10px;
   padding: 8px;
+  max-width: 297mm;
 
   &__title {
     display: grid;
