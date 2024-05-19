@@ -190,15 +190,15 @@ export default {
     padding: 6px;
     position: absolute;
     z-index: 1;
-    left: 100%;
-    top: 28mm;
+    left: 0;
+    top: 22mm;
     @include d-flex-center(space-between);
     gap: 12px;
-    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
     background-color: $colorPrimary200;
     opacity: 0;
     visibility: hidden;
-    transition-delay: 0.2s;
+    transition-delay: 0.1s;
   }
 
   &__single-item {
