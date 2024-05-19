@@ -54,8 +54,8 @@ export default {
           'image_id': firstItem[index]['image_id']
         }
       }
-      for( let i = 1; i < this.currentGroupData.length; i++ ) {
-        for(let j = 0; j < orientationList.length; j++){
+      for (let i = 1; i < this.currentGroupData.length; i++) {
+        for (let j = 0; j < orientationList.length; j++) {
           this.currentGroupData[i].print_item[j]['position_id'] = orientationList[j]['position_id'];
           this.currentGroupData[i].print_item[j]['position'] = orientationList[j]['position'];
           this.currentGroupData[i].print_item[j]['image_id'] = orientationList[j]['image_id'];
@@ -127,7 +127,8 @@ export default {
 .pen-frame {
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  max-width: 297mm;
+  //width: 100%;
 
   &__big {
     padding: 12px 0;
