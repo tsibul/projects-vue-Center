@@ -70,6 +70,10 @@ export default {
           this.$emit('print-item-checked', [itemFromList.id, this.colorImages[itemFromList.image_id]])
         }
       });
+    },
+    changePrintItemColor(event, printItem, index){
+      printItem.color[index]['pantone'] = event.target.value;
+      // this.$emit('pen-data-changed', this.currentPenData)
     }
   },
   created() {
@@ -135,9 +139,13 @@ export default {
               v-for="(color, index) in printItem.color"
               :key="index"
               class="pen-small__color-set"
+              @keydown.enter="changePrintItemColor($event, printItem, index)"
           >
             <div>{{ index + 1 }}</div>
-            <input type="text" class="pen-small__color" :value="color['pantone']">
+            <input type="text"
+                   class="pen-small__color"
+                   :value="color['pantone']"
+            >
           </div>
           <ul class="image-list">
             <li class="image-list__nowrap"
