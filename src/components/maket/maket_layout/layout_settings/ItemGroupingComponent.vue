@@ -84,7 +84,7 @@ export default {
   flex-direction: column;
   width: fit-content;
   position: absolute;
-  z-index: 3;
+  z-index: 7;
   left: 22vw;
   gap: 20px;
 

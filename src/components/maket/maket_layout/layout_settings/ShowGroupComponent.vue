@@ -65,7 +65,7 @@ export default {
   border-color: $colorPrimary800;
   width: fit-content;
   position: absolute;
-  z-index: 3;
+  z-index: 7;
   background-color: $colorSecondary50;
   left: 30vw;
   box-shadow: 6px 6px 12px $colorPrimary800;
