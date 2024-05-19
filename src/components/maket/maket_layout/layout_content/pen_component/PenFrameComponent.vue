@@ -98,7 +98,8 @@ export default {
           <input
               type="text"
               class="pen-frame__big_input"
-              @change="changeColor($event, printItem.place, index)"
+              @keydown.enter="changeColor($event, printItem.place, index)"
+              :value="color.pantone"
           >
           <div class="pen-frame__big_square"></div>
         </div>
