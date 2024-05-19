@@ -66,20 +66,20 @@ export default {
         <input type="checkbox"
                class="check"
                :checked="currentGroupLayoutData['showMiniature']"
-               :id="groupName"
+               :id="groupName +'Miniature'"
                @change="toggleMiniature"
         >
         &nbsp;
-        <label :for="groupName">показывать миниатюры</label>
+        <label :for="groupName +'Miniature'">показывать миниатюры</label>
         &emsp;&emsp;
         <input type="checkbox"
                class="check"
-               :id="groupName"
+               :id="groupName +'selectAll'"
                :checked="currentGroupLayoutData['selectAll']"
                @change="selectAll"
         >
         &nbsp;
-        <label :for="groupName">выбрать все</label>
+        <label :for="groupName +'selectAll'">выбрать все</label>
       </div>
     </div>
     <component
