@@ -93,11 +93,13 @@ export default {
       >
         <div v-if="bigImages[item]" class="note-frame__big_center">
           <div
-               v-html="bigImages[item][0].replace('itemWidth', bigImages[item][3])"
+              v-html="bigImages[item][0].replace('itemWidth', bigImages[item][3])"
           ></div>
-          <div >расположение:&nbsp;{{ bigImages[item][2] }}</div>
+          <div>расположение:&nbsp;{{ bigImages[item][2] }}</div>
         </div>
       </div>
+    </div>
+    <div class="note-frame__big_footer">
       <div class="note-frame__big_footer"
            v-for="(printItem, index) in currentGroupData[0].print_item"
            :key="index">
