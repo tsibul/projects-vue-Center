@@ -1,6 +1,7 @@
 <script>
 export default {
   name: "BlankRowComponent",
+  emits: ['pressed'],
   methods: {
     addBlankRow(event) {
       const row = document.createElement('div');
@@ -13,6 +14,7 @@ export default {
       }
       const print = frame.closest('.maket-layout__print');
       print.insertBefore(row, frame);
+      this.$emit('pressed', 1);
       window.scrollBy(0, 16);
     },
     removeBlankRow(event) {
@@ -23,6 +25,7 @@ export default {
       const row = frame.previousElementSibling;
       if (row.classList.contains('empty-row')) {
         row.remove();
+        this.$emit('pressed', -1);
         window.scrollBy(0, -16);
       }
     },
