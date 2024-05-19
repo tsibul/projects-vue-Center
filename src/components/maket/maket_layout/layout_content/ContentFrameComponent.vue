@@ -11,30 +11,29 @@ export default {
     groupImages: Array,
     groupName: String,
     groupPatternName: String,
+    groupLayoutData: Object,
   },
   data() {
     return {
       selectedComponent: goodsLayout[this.groupPatternName] ? goodsLayout[this.groupPatternName] : null,
       currentGroupData: this.groupData,
-      showMiniature: true,
-      selectAllCheck: false,
       totalOrientation: false,
+      currentGroupLayoutData: this.groupLayoutData,
     }
   },
   methods: {
-    // positionSelected(groupData) {
-    //   this.currentGroupData = groupData;
-    //   this.$emit("position-selected", [this.groupName, this.currentGroupData]);
-    // },
     toggleMiniature() {
-      this.showMiniature = !this.showMiniature;
+      this.currentGroupLayoutData['showMiniature'] = !this.currentGroupLayoutData['showMiniature'];
     },
     selectAll() {
-      this.selectAllCheck = !this.selectAllCheck;
+      this.currentGroupLayoutData['selectAll'] = !this.currentGroupLayoutData['selectAll']
     },
     totalChangeOrientation() {
       this.totalOrientation = !this.totalOrientation;
-    }
+    },
+    blankRowPressed(number){
+      this.currentGroupLayoutData['spacesBefore'] = this.currentGroupLayoutData['spacesBefore'] + Number(number);
+    },
   },
 }
 </script>
@@ -43,7 +42,14 @@ export default {
   <div class="content-frame"
        v-if="selectedComponent"
   >
-    <BlankRowComponent/>
+    <BlankRowComponent
+        @pressed="blankRowPressed"
+    />
+    <div class="empty-row"
+         v-for="(n, index) in currentGroupLayoutData['spacesBefore']"
+         :key="index"
+    >
+    </div>
     <div class="content-frame__frame">
       <div class="content-frame__header active">{{ groupName.replace('()', ' ') }}</div>
       <div class="content-frame__header_end no-print">
@@ -59,7 +65,7 @@ export default {
         &emsp;&emsp;
         <input type="checkbox"
                class="check"
-               checked
+               :checked="currentGroupLayoutData['showMiniature']"
                :id="groupName"
                @change="toggleMiniature"
         >
@@ -69,6 +75,7 @@ export default {
         <input type="checkbox"
                class="check"
                :id="groupName"
+               :checked="currentGroupLayoutData['selectAll']"
                @change="selectAll"
         >
         &nbsp;
@@ -80,8 +87,8 @@ export default {
         :is="selectedComponent"
         :group-data="currentGroupData"
         :group-images="groupImages"
-        :show-miniature="showMiniature"
-        :select-all="selectAllCheck"
+        :show-miniature="currentGroupLayoutData['showMiniature']"
+        :select-all="currentGroupLayoutData['selectAll']"
         :total-orientation="totalOrientation"
     />
   </div>

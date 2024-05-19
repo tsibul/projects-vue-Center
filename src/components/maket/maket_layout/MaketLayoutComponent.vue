@@ -2,7 +2,6 @@
 import {fetchData} from "@/components/services/fetchData.js";
 import TechDataComponent from "@/components/maket/maket_layout/layout_settings/TechDataComponent.vue";
 import MaketHeaderComponent from "@/components/maket/maket_layout/layout_header_footer/MaketHeaderComponent.vue";
-import A4MarkingComponent from "@/components/maket/maket_layout/layout_settings/A4MarkingComponent.vue";
 import MaketFooterComponent from "@/components/maket/maket_layout/layout_header_footer/MaketFooterComponent.vue";
 import MaketContentTableComponent
   from "@/components/maket/maket_layout/layout_header_footer/MaketContentTableComponent.vue";
@@ -11,6 +10,7 @@ import ShowGroupComponent from "@/components/maket/maket_layout/layout_settings/
 import ContentFrameComponent from "@/components/maket/maket_layout/layout_content/ContentFrameComponent.vue";
 import {formatList} from "@/components/maket/maket_layout/layout_content/formatListData.js";
 import {defaultTechInfo} from "@/components/maket/maket_layout/layout_settings/defaultTechInfo.js";
+import {defaultGroupLayoutData} from "@/components/maket/maket_layout/layout_settings/defaultGroupLayoutData.js";
 
 export default {
   name: "MaketLayoutComponent",
@@ -24,7 +24,7 @@ export default {
     ShowGroupComponent,
     ItemGroupingComponent,
     MaketContentTableComponent,
-    MaketFooterComponent, A4MarkingComponent, MaketHeaderComponent, TechDataComponent
+    MaketFooterComponent, MaketHeaderComponent, TechDataComponent
   },
   inject: ["appUrl", "tokenName"],
   data() {
@@ -43,12 +43,12 @@ export default {
       const maketUrl = `${this.appUrl}maket_info/${this.maketId}/${this.orderId}`;
       this.maketData = await fetchData(maketUrl, this.tokenName);
     },
-    frameShow(data) {
-      this.showFrame = data;
-    },
-    tableShow() {
-      this.showTable = !this.showTable;
-    },
+    // frameShow(data) {
+    //   this.showFrame = data;
+    // },
+    // tableShow() {
+    //   this.showTable = !this.showTable;
+    // },
     contentShow() {
       this.showContent = !this.showContent;
     },
@@ -82,6 +82,9 @@ export default {
     },
     techInfoChanged(currentTechInfo) {
       this.maketData['techInfo'] = currentTechInfo;
+    },
+    beforeFooterAdded(number){
+      this.maketData['beforeFooter'] = number;
     }
   },
   created() {
@@ -93,6 +96,15 @@ export default {
       this.itemGroupsKeys = Object.keys(this.maketData['itemGroups']);
       if(!this.maketData['techInfo']){
         this.maketData['techInfo'] = defaultTechInfo;
+      }
+      if(!this.maketData['groupLayoutData']){
+        this.maketData['groupLayoutData'] = {};
+        Object.keys(this.maketData['showGroups']).forEach(key =>{
+          this.maketData['groupLayoutData'][key] = defaultGroupLayoutData;
+        });
+      }
+      if(!this.maketData['beforeFooter']){
+        this.maketData['beforeFooter'] = 0
       }
     })();
   },
@@ -157,10 +169,13 @@ export default {
         :group-name="group"
         :group-pattern-name="maketData['groupPatterns'][group]"
         :group-images="maketData['groupImages'][group]"
+        :group-layout-data="maketData['groupLayoutData'][group]"
     />
     <MaketFooterComponent
         v-if="maketData"
         :footer-info="maketData['footerInfo']"
+        :rows-before="maketData['beforeFooter']"
+        @rows-added="beforeFooterAdded"
     />
   </div>
 </template>
