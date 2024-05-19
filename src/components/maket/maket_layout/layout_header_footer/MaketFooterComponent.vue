@@ -5,24 +5,30 @@ import BlankRowComponent from "@/components/maket/maket_layout/layout_header_foo
 export default {
   name: "MaketFooterComponent",
   components: {BlankRowComponent},
+  emits: ['rows-added'],
   props: {
-    footerInfo: Object
+    footerInfo: Object,
+    rowsBefore: Number
   },
   data() {
     return {
-      modalPosition: null,
-      componentModal: null,
+      currentRowsBefore: this.rowsBefore,
     }
   },
-  mounted() {
-    this.componentModal = this.$refs.modalDraggable;
+  methods:{
+    blankRowPressed(number){
+      this.currentRowsBefore = this.currentRowsBefore + number;
+      this.$emit('rows-added', this.currentRowsBefore);
+    },
   }
 }
 </script>
 
 <template>
-  <div class="maket-footer" ref="modalDraggable">
-    <BlankRowComponent/>
+  <div class="maket-footer">
+    <BlankRowComponent
+        @pressed="blankRowPressed"
+    />
     <div class="maket-footer__heading">
       <div class="active maket-footer__text">
         Пожалуйста, ВНИМАТЕЛЬНО ПРОВЕРЯЙТЕ МАКЕТ!
