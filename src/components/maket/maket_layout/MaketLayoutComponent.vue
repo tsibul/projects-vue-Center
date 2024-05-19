@@ -208,6 +208,10 @@ export default {
   &__a3-h {
     width: 210mm;
   }
+
+  &__a3-h1 {
+    width: 420mm;
+  }
 }
 
 .height {
