@@ -43,9 +43,11 @@ export default {
     },
     printItemChecked(event, printItem) {
       if (event.checked) {
-        this.$emit('print-item-checked', [printItem.id, this.colorImages[printItem.image_id]])
+        this.$emit('print-item-checked', [printItem.id, this.colorImages[printItem.image_id]]);
+        printItem.checked = true;
       } else {
-        this.$emit('print-item-checked', [printItem.id, null])
+        this.$emit('print-item-checked', [printItem.id, null]);
+        printItem.checked = false;
       }
     },
     selectAllHandler() {
