@@ -95,12 +95,19 @@ export default {
       await this.getMaketData();
       this.itemGroupsKeys = Object.keys(this.maketData['itemGroups']);
       if(!this.maketData['techInfo']){
-        this.maketData['techInfo'] = defaultTechInfo;
+        this.maketData['techInfo'] = {};
+        Object.keys(defaultTechInfo).forEach(key => {
+          this.maketData['techInfo'][key] = defaultTechInfo[key];
+        });
       }
       if(!this.maketData['groupLayoutData']){
         this.maketData['groupLayoutData'] = {};
-        Object.keys(this.maketData['showGroups']).forEach(key =>{
-          this.maketData['groupLayoutData'][key] = defaultGroupLayoutData;
+        Object.keys(this.maketData['showGroups']).forEach(group =>{
+          this.maketData['groupLayoutData'][group] = {};
+          Object.keys(defaultGroupLayoutData).forEach(key =>{
+            this.maketData['groupLayoutData'][group][key] = defaultGroupLayoutData[key];
+          });
+
         });
       }
       if(!this.maketData['beforeFooter']){
