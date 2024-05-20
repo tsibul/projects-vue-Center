@@ -1,7 +1,7 @@
 <script>
 export default {
   name: "ItemSingleGroupComponent",
-  emits: ['item-drop', 'item-drag'],
+  emits: ['item-drop', 'item-drag', 'split-group'],
   props: {
     groupKey: String,
     groupData: Array
@@ -28,7 +28,10 @@ export default {
       if (item.groupKey !== this.groupKey) {
         this.$emit('item-drop', {'groupKey': this.groupKey, item});
       }
-    }
+    },
+    splitGroup(){
+      this.$emit('split-group', this.groupKey);
+    },
   }
 }
 </script>
@@ -37,7 +40,13 @@ export default {
   <div class="single-group">
     <div class="single-group__header">
       <div class="single-group__header_item active">
-        {{ groupName }}
+        <div>{{ groupName }}</div>
+        <button
+            type="button"
+            class="btn-sm font__normal"
+            @click="splitGroup"
+        >
+          разделить группу</button>
       </div>
     </div>
     <div class="single-group__content"
@@ -77,7 +86,7 @@ export default {
     position: absolute;
     top: -20px;
     left: 32px;
-    width: 700px;
+    width: 760px;
     grid-template-columns: 8fr 2fr;
 
     &_item {
@@ -86,7 +95,7 @@ export default {
       border-color: transparent;
       background-color: $colorSecondary50;
       padding: 8px;
-      width: fit-content;
+      width: 100%;
     }
   }
 
