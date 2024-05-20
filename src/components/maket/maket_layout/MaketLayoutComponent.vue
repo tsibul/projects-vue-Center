@@ -204,8 +204,30 @@ export default {
 </template>
 
 <style lang="scss">
+@import "@/assets/maket/scss/vars";
+@import "@/assets/maket/scss/mixins";
+
 * {
   font-family: 'Arial', sans-serif;
+}
+
+.btn-sm {
+  color: white;
+  padding: 1px 8px;
+  @include brd-standard;
+  background-color: $colorPrimary500;
+  transition: background-color 0.3s ease-out;
+  cursor: pointer;
+  z-index: 5;
+
+  &:hover {
+    color: $colorPrimary500;
+    background-color: white;
+  }
+
+  &:hover .tooltip-text {
+    visibility: visible;
+  }
 }
 
 </style>
