@@ -27,7 +27,7 @@ export default {
     },
     showImageList(event) {
       console.log()
-      event.target.closest('.pen-small__single-item').querySelector('.image-list').style.display = 'block';
+      event.target.closest('.note-small__single-item').querySelector('.image-list').style.display = 'block';
     },
     selectImage(event, image, printItem) {
       const printItemId = printItem.id;
@@ -37,7 +37,7 @@ export default {
       itemFromList['image_id'] = image;
       itemFromList['position_id'] = selectedImage[1];
       itemFromList['position'] = selectedImage[2];
-      if (event.target.closest('.pen-small__single-item').querySelector('.check').checked) {
+      if (event.target.closest('.note-small__single-item').querySelector('.check').checked) {
         this.$emit('print-item-checked', [itemFromList.id, this.colorImages[itemFromList.image_id]])
       }
     },
@@ -116,7 +116,7 @@ export default {
               @change="printItemChecked($event.target, printItem)"
           >&nbsp;
           <label :for="printItem.id"
-                 class="pen-small__wrap"
+                 class="note-small__wrap"
           >
             {{ article }}</label>
         </div>
