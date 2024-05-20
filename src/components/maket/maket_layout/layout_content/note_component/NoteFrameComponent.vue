@@ -27,7 +27,7 @@ export default {
     },
     async changeColor(event, place, index) {
       const pantone = event.target.value;
-      const square = event.target.closest('.pen-frame__big_footer').querySelector('.pen-frame__big_square');
+      const square = event.target.closest('.note-frame__big_footer').querySelector('.note-frame__big_square');
       const hexUrl = `${this.appUrl}hex_from_pantone/${pantone}`;
       const data = await fetchData(hexUrl, this.tokenName)
       const hexColor = data.hex;
