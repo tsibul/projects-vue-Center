@@ -75,7 +75,7 @@ export default {
 <template>
   <div class="note-frame">
     <div class="note-frame__small"
-         :class="!showMiniature ? 'id-hidden' : ''"
+         :class="!showMiniature ? 'hidden-block' : ''"
     >
       <SingleNoteSmallComponent
           v-for="(note, index) in currentGroupData"
@@ -171,6 +171,9 @@ export default {
     flex-wrap: wrap;
     margin-top: 8px
   }
+}
 
+.hidden-block{
+  display: none;
 }
 </style>
