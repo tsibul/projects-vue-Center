@@ -26,7 +26,6 @@ export default {
       }
     },
     showImageList(event) {
-      console.log()
       event.target.closest('.pen-small__single-item').querySelector('.image-list').style.display = 'block';
     },
     selectImage(event, image, printItem) {
