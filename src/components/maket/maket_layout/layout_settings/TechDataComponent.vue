@@ -6,6 +6,7 @@ export default {
   name: "TechDataComponent",
   components: {FontAwesomeIcon},
   emits: [
+    'save-maket',
     'show-sort',
     'window-print',
     'window-close',
@@ -24,6 +25,9 @@ export default {
     }
   },
   methods: {
+    saveMaket(){
+      this.$emit('save-maket');
+    },
     togglePictures() {
       this.currentTechInfo['pictureShow'] = !this.currentTechInfo['pictureShow'];
       this.$emit('tech-info-changed', this.currentTechInfo);
@@ -151,15 +155,23 @@ export default {
     >группы
     </button>
     <div></div>
-    <input type="number"
-           class="form-input"
-           placeholder="номер макета"
-           v-if="maketId === '0'">
-    <input type="text"
-           class="form-input long-input"
-           placeholder="комментарий к макету"
-           v-if="maketId === '0'">
-    <button class="btn btn-save">сохранить&nbsp;макет</button>
+    <input
+        v-if="currentTechInfo"
+        type="number"
+        class="form-input"
+        placeholder="номер макета"
+        v-model="currentTechInfo['maketNumber']"
+    >
+    <input
+        v-if="currentTechInfo"
+        type="text"
+        class="form-input long-input"
+        placeholder="комментарий к макету"
+        v-model="currentTechInfo['maketComment']">
+    <button
+        class="btn btn-save"
+        @click="saveMaket"
+    >сохранить&nbsp;макет</button>
     <button class="btn btn-neutral" v-if="maketId !== '0'">новый&nbsp;макет</button>
   </header>
 

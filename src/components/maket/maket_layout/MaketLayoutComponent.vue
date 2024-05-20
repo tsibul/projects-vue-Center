@@ -11,6 +11,7 @@ import ContentFrameComponent from "@/components/maket/maket_layout/layout_conten
 import {formatList} from "@/components/maket/maket_layout/layout_content/formatListData.js";
 import {defaultTechInfo} from "@/components/maket/maket_layout/layout_settings/defaultTechInfo.js";
 import {defaultGroupLayoutData} from "@/components/maket/maket_layout/layout_settings/defaultGroupLayoutData.js";
+import {submitForm} from "@/components/services/submitForm.js";
 
 export default {
   name: "MaketLayoutComponent",
@@ -42,6 +43,20 @@ export default {
     async getMaketData() {
       const maketUrl = `${this.appUrl}maket_info/${this.maketId}/${this.orderId}`;
       this.maketData = await fetchData(maketUrl, this.tokenName);
+    },
+    async saveMaket(){
+      const saveUrl = `${this.appUrl}maket_save`
+      const formData = {
+        'order_id': this.orderId,
+        'maket_id': this.maketId,
+        'item_data': this.maketData['itemGroups'],
+        'tech_info': this.maketData['techInfo'],
+        'group_layout': this.maketData['groupLayoutData'],
+        'show_groups': this.maketData['showGroups'],
+        'before_footer': this.maketData['beforeFooter'],
+      };
+      const response = await submitForm(saveUrl, this.tokenName, formData)
+      console.log(response)
     },
     // frameShow(data) {
     //   this.showFrame = data;
@@ -129,6 +144,7 @@ export default {
       @window-close="windowClose"
       @show-content="contentShow"
       @tech-info-changed="techInfoChanged"
+      @save-maket="saveMaket"
   />
   <ItemGroupingComponent
       v-if="showSort"
