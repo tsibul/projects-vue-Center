@@ -1,29 +1,3 @@
-<template>
-  <div class="single-group">
-    <div class="single-group__header">
-      <div class="single-group__header_item active">
-        {{ groupName }}
-      </div>
-    </div>
-    <div class="single-group__content"
-         @drop="itemDrop"
-    >
-      <div v-for="(item, index) in groupData"
-           :key="index"
-           draggable="true"
-           @dragstart="dragStart(item)"
-           @dragend="dragEnd"
-      >
-        <div class="single-group__item"
-        >
-          <div>{{ item.article }}</div>
-          <div>{{ item.print_name }}</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 export default {
   name: "ItemSingleGroupComponent",
@@ -59,6 +33,32 @@ export default {
 }
 </script>
 
+<template>
+  <div class="single-group">
+    <div class="single-group__header">
+      <div class="single-group__header_item active">
+        {{ groupName }}
+      </div>
+    </div>
+    <div class="single-group__content"
+         @drop="itemDrop"
+    >
+      <div v-for="(item, index) in groupData"
+           :key="index"
+           draggable="true"
+           @dragstart="dragStart(item)"
+           @dragend="dragEnd"
+      >
+        <div class="single-group__item"
+        >
+          <div>{{ item.article }}</div>
+          <div>{{ item.print_name }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
 <style scoped lang="scss">
 @import "@/assets/maket/scss/vars";
 @import "@/assets/maket/scss/mixins";
@@ -82,8 +82,7 @@ export default {
 
     &_item {
       @include brd-standard();
-      display: flex;
-      align-items: center;
+      @include d-flex-center(space-between);
       border-color: transparent;
       background-color: $colorSecondary50;
       padding: 8px;
