@@ -1,33 +1,3 @@
-<template>
-  <div class="item-grouping"
-       ref="modalDraggable"
-       @mouseup="stopDrag"
-       @mousemove="drag"
-       @dragover.prevent
-  >
-    <header class="item-grouping__header"
-            @mousedown="startDrag"
-    >
-      сортировать (перетащите между разделами)
-      <div class="item-grouping_btn-block">
-        <button type="button"
-                class="btn btn-save" @click="saveGrouping">сохранить группировку</button>
-        <button type="button"
-                class="btn btn-close"
-                @click="closeSort">закрыть</button>
-      </div>
-    </header>
-    <ItemSingleGroupComponent
-        v-for="group in Object.keys(itemGroup)"
-        :key="group.id"
-        :group-key="group"
-        :group-data="itemGroup[group]"
-        @item-drag="handleItemDrag"
-        @item-drop="handleItemDrop"
-    />
-  </div>
-</template>
-
 <script>
 import ItemSingleGroupComponent from "@/components/maket/maket_layout/layout_settings/ItemSingleGroupComponent.vue";
 import {modalDragAndDrop} from "@/components/modal_drag_drop/modalDragAndDrop.js";
@@ -70,6 +40,36 @@ export default {
   },
 }
 </script>
+
+<template>
+  <div class="item-grouping"
+       ref="modalDraggable"
+       @mouseup="stopDrag"
+       @mousemove="drag"
+       @dragover.prevent
+  >
+    <header class="item-grouping__header"
+            @mousedown="startDrag"
+    >
+      сортировать (перетащите между разделами)
+      <div class="item-grouping_btn-block">
+        <button type="button"
+                class="btn btn-save" @click="saveGrouping">сохранить группировку</button>
+        <button type="button"
+                class="btn btn-close"
+                @click="closeSort">закрыть</button>
+      </div>
+    </header>
+    <ItemSingleGroupComponent
+        v-for="group in Object.keys(itemGroup)"
+        :key="group.id"
+        :group-key="group"
+        :group-data="itemGroup[group]"
+        @item-drag="handleItemDrag"
+        @item-drop="handleItemDrop"
+    />
+  </div>
+</template>
 
 <style scoped lang="scss">
 @import "@/assets/maket/scss/vars";
