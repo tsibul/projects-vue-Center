@@ -47,7 +47,6 @@ export default {
         <div class="print-content">
           <div class="print-content__row"
                v-for="print in item.print_item"
-               v-show="print.printable"
                :key="print.id"
           >
             <div class="content-table__item">{{ print.place }}</div>
