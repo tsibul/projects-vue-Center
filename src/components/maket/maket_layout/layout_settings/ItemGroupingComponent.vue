@@ -14,6 +14,7 @@ export default {
   },
   data() {
     return {
+      currentItemGroup: this.itemGroup,
     }
   },
   methods: {
@@ -36,7 +37,10 @@ export default {
     closeSort() {
       this.$emit('close-sort');
     },
-
+    splitGroup(key){
+      const newKey = key + '/+';
+      this.currentItemGroup[newKey] = [];
+    }
   },
 }
 </script>
@@ -67,6 +71,7 @@ export default {
         :group-data="itemGroup[group]"
         @item-drag="handleItemDrag"
         @item-drop="handleItemDrop"
+        @split-group="splitGroup"
     />
   </div>
 </template>
