@@ -1,20 +1,20 @@
 <script>
-import {fetchData} from "@/components/services/fetchData.js";
-import TechDataComponent from "@/components/maket/maket_layout/layout_settings/TechDataComponent.vue";
-import MaketHeaderComponent from "@/components/maket/maket_layout/layout_header_footer/MaketHeaderComponent.vue";
-import MaketFooterComponent from "@/components/maket/maket_layout/layout_header_footer/MaketFooterComponent.vue";
+import { fetchData } from '@/components/services/fetchData.js'
+import TechDataComponent from '@/components/maket/maket_layout/layout_settings/TechDataComponent.vue'
+import MaketHeaderComponent from '@/components/maket/maket_layout/layout_header_footer/MaketHeaderComponent.vue'
+import MaketFooterComponent from '@/components/maket/maket_layout/layout_header_footer/MaketFooterComponent.vue'
 import MaketContentTableComponent
-  from "@/components/maket/maket_layout/layout_header_footer/MaketContentTableComponent.vue";
-import ItemGroupingComponent from "@/components/maket/maket_layout/layout_settings/ItemGroupingComponent.vue";
-import ShowGroupComponent from "@/components/maket/maket_layout/layout_settings/ShowGroupComponent.vue";
-import ContentFrameComponent from "@/components/maket/maket_layout/layout_content/ContentFrameComponent.vue";
-import {formatList} from "@/components/maket/maket_layout/layout_content/formatListData.js";
-import {defaultTechInfo} from "@/components/maket/maket_layout/layout_settings/defaultTechInfo.js";
-import {defaultGroupLayoutData} from "@/components/maket/maket_layout/layout_settings/defaultGroupLayoutData.js";
-import {submitForm} from "@/components/services/submitForm.js";
+  from '@/components/maket/maket_layout/layout_header_footer/MaketContentTableComponent.vue'
+import ItemGroupingComponent from '@/components/maket/maket_layout/layout_settings/ItemGroupingComponent.vue'
+import ShowGroupComponent from '@/components/maket/maket_layout/layout_settings/ShowGroupComponent.vue'
+import ContentFrameComponent from '@/components/maket/maket_layout/layout_content/ContentFrameComponent.vue'
+import { formatList } from '@/components/maket/maket_layout/layout_content/formatListData.js'
+import { defaultTechInfo } from '@/components/maket/maket_layout/layout_settings/defaultTechInfo.js'
+import { defaultGroupLayoutData } from '@/components/maket/maket_layout/layout_settings/defaultGroupLayoutData.js'
+import { submitForm } from '@/components/services/submitForm.js'
 
 export default {
-  name: "MaketLayoutComponent",
+  name: 'MaketLayoutComponent',
   computed: {
     formatList() {
       return formatList
@@ -27,7 +27,7 @@ export default {
     MaketContentTableComponent,
     MaketFooterComponent, MaketHeaderComponent, TechDataComponent
   },
-  inject: ["appUrl", "tokenName"],
+  inject: ['appUrl', 'tokenName'],
   data() {
     return {
       orderId: null,
@@ -36,15 +36,15 @@ export default {
       showSort: false,
       sourceGroupName: null,
       showContent: false,
-      itemGroupsKeys: null,
+      itemGroupsKeys: null
     }
   },
   methods: {
     async getMaketData() {
-      const maketUrl = `${this.appUrl}maket_info/${this.maketId}/${this.orderId}`;
-      this.maketData = await fetchData(maketUrl, this.tokenName);
+      const maketUrl = `${this.appUrl}maket_info/${this.maketId}/${this.orderId}`
+      this.maketData = await fetchData(maketUrl, this.tokenName)
     },
-    async saveMaket(){
+    async saveMaket() {
       const saveUrl = `${this.appUrl}maket_save`
       const formData = {
         'order_id': this.orderId,
@@ -53,10 +53,10 @@ export default {
         'tech_info': this.maketData['techInfo'],
         'group_layout': this.maketData['groupLayoutData'],
         'show_groups': this.maketData['showGroups'],
-        'before_footer': this.maketData['beforeFooter'],
-      };
+        'before_footer': this.maketData['beforeFooter']
+      }
       const response = await submitForm(saveUrl, this.tokenName, formData)
-      console.log(response)
+      this.maketId = response.toString()
     },
     // frameShow(data) {
     //   this.showFrame = data;
@@ -65,29 +65,29 @@ export default {
     //   this.showTable = !this.showTable;
     // },
     contentShow() {
-      this.showContent = !this.showContent;
+      this.showContent = !this.showContent
     },
     sortShow() {
-      this.showSort = !this.showSort;
+      this.showSort = !this.showSort
     },
     handleItemDrag(element) {
-      this.sourceGroupName = element.groupKey;
+      this.sourceGroupName = element.groupKey
     },
     handleItemDrop(element) {
-      this.draggingItem = element.item;
-      const targetGroupName = element.groupKey;
-      const targetGroup = this.maketData['itemGroups'][targetGroupName];
-      targetGroup.unshift(this.draggingItem.item);
+      this.draggingItem = element.item
+      const targetGroupName = element.groupKey
+      const targetGroup = this.maketData['itemGroups'][targetGroupName]
+      targetGroup.unshift(this.draggingItem.item)
       targetGroup.sort((a, b) => a.article.localeCompare(b.article))
-      const sourceGroup = this.maketData['itemGroups'][this.sourceGroupName];
+      const sourceGroup = this.maketData['itemGroups'][this.sourceGroupName]
       const itemIndex = sourceGroup.findIndex(el => el.id === element.item.item.id)
-      sourceGroup.splice(itemIndex, 1);
+      sourceGroup.splice(itemIndex, 1)
       sourceGroup.sort((a, b) => a.article.localeCompare(b.article))
-      this.sourceGroupName = null;
-      this.draggingItem = null;
+      this.sourceGroupName = null
+      this.draggingItem = null
     },
     toggleCheckGroup(group) {
-      this.maketData['showGroups'][group] = !this.maketData['showGroups'][group];
+      this.maketData['showGroups'][group] = !this.maketData['showGroups'][group]
     },
     windowClose() {
       window.close()
@@ -96,73 +96,73 @@ export default {
       window.print()
     },
     techInfoChanged(currentTechInfo) {
-      this.maketData['techInfo'] = currentTechInfo;
+      this.maketData['techInfo'] = currentTechInfo
     },
-    beforeFooterAdded(number){
-      this.maketData['beforeFooter'] = number;
+    beforeFooterAdded(number) {
+      this.maketData['beforeFooter'] = number
     }
   },
   created() {
     (async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      this.maketId = urlParams.get('maketId');
-      this.orderId = urlParams.get('orderId');
-      await this.getMaketData();
-      this.itemGroupsKeys = Object.keys(this.maketData['itemGroups']);
-      if(!this.maketData['techInfo']){
-        this.maketData['techInfo'] = {};
+      const urlParams = new URLSearchParams(window.location.search)
+      this.maketId = urlParams.get('maketId')
+      this.orderId = urlParams.get('orderId')
+      await this.getMaketData()
+      this.itemGroupsKeys = Object.keys(this.maketData['itemGroups'])
+      if (!this.maketData['techInfo']) {
+        this.maketData['techInfo'] = {}
         Object.keys(defaultTechInfo).forEach(key => {
-          this.maketData['techInfo'][key] = defaultTechInfo[key];
-        });
+          this.maketData['techInfo'][key] = defaultTechInfo[key]
+        })
       }
-      if(!this.maketData['groupLayoutData']){
-        this.maketData['groupLayoutData'] = {};
-        Object.keys(this.maketData['showGroups']).forEach(group =>{
-          this.maketData['groupLayoutData'][group] = {};
-          Object.keys(defaultGroupLayoutData).forEach(key =>{
-            this.maketData['groupLayoutData'][group][key] = defaultGroupLayoutData[key];
-          });
+      if (!this.maketData['groupLayoutData']) {
+        this.maketData['groupLayoutData'] = {}
+        Object.keys(this.maketData['showGroups']).forEach(group => {
+          this.maketData['groupLayoutData'][group] = {}
+          Object.keys(defaultGroupLayoutData).forEach(key => {
+            this.maketData['groupLayoutData'][group][key] = defaultGroupLayoutData[key]
+          })
 
-        });
+        })
       }
-      if(!this.maketData['beforeFooter']){
+      if (!this.maketData['beforeFooter']) {
         this.maketData['beforeFooter'] = 0
       }
-    })();
-  },
+    })()
+  }
 }
 </script>
 
 <template>
   <TechDataComponent
-      v-if="maketData"
-      :maket-id="maketId"
-      :format-list="formatList"
-      :tech-info="maketData['techInfo']"
-      @show-sort="sortShow"
-      @window-print="windowPrint"
-      @window-close="windowClose"
-      @show-content="contentShow"
-      @tech-info-changed="techInfoChanged"
-      @save-maket="saveMaket"
+    v-if="maketData"
+    :maket-id="maketId"
+    :format-list="formatList"
+    :tech-info="maketData['techInfo']"
+    @show-sort="sortShow"
+    @window-print="windowPrint"
+    @window-close="windowClose"
+    @show-content="contentShow"
+    @tech-info-changed="techInfoChanged"
+    @save-maket="saveMaket"
   />
   <ItemGroupingComponent
-      v-if="showSort"
-      :item-group="maketData['itemGroups']"
-      @item-drag="handleItemDrag"
-      @item-drop="handleItemDrop"
-      @close-sort="showSort=false"
+    v-if="showSort"
+    :item-group="maketData['itemGroups']"
+    @item-drag="handleItemDrag"
+    @item-drop="handleItemDrop"
+    @close-sort="showSort=false"
   />
   <ShowGroupComponent
-      v-if="showContent"
-      :show-group="maketData['showGroups']"
-      :item-group="maketData['itemGroups']"
-      @close-content="showContent=false"
-      @toggle-check="toggleCheckGroup"
+    v-if="showContent"
+    :show-group="maketData['showGroups']"
+    :item-group="maketData['itemGroups']"
+    @close-content="showContent=false"
+    @toggle-check="toggleCheckGroup"
   />
   <component
-      :is="formatList[maketData['techInfo']['formatSelected']][1]"
-      v-if="maketData && maketData['techInfo'] && maketData['techInfo']['frameShow']"
+    :is="formatList[maketData['techInfo']['formatSelected']][1]"
+    v-if="maketData && maketData['techInfo'] && maketData['techInfo']['frameShow']"
   />
   <div class="maket-layout__print"
        v-if="maketData && maketData['techInfo']"
@@ -171,34 +171,34 @@ export default {
     <div class="maket-layout__top"
     >
       <MaketHeaderComponent
-          v-if="maketData"
-          :header-info="maketData['headerInfo']"
-          class="maket-layout__content"
+        v-if="maketData"
+        :header-info="maketData['headerInfo']"
+        class="maket-layout__content"
       />
       <MaketContentTableComponent
-          v-if="maketData && maketData['techInfo']['tableShow']"
-          :table-content="maketData['itemGroups']"
-          :show-group="maketData['showGroups']"
-          class="maket-layout__content"
+        v-if="maketData && maketData['techInfo']['tableShow']"
+        :table-content="maketData['itemGroups']"
+        :show-group="maketData['showGroups']"
+        class="maket-layout__content"
       />
     </div>
     <ContentFrameComponent
-        v-for="group in itemGroupsKeys"
-        v-show="maketData['showGroups'][group] && maketData['techInfo']['pictureShow']"
-        :key="group.id"
-        :ref="'group_' + group"
-        class="maket-layout__content"
-        :group-data="maketData['itemGroups'][group]"
-        :group-name="group"
-        :group-pattern-name="maketData['groupPatterns'][group]"
-        :group-images="maketData['groupImages'][group]"
-        :group-layout-data="maketData['groupLayoutData'][group]"
+      v-for="group in itemGroupsKeys"
+      v-show="maketData['showGroups'][group] && maketData['techInfo']['pictureShow']"
+      :key="group.id"
+      :ref="'group_' + group"
+      class="maket-layout__content"
+      :group-data="maketData['itemGroups'][group]"
+      :group-name="group"
+      :group-pattern-name="maketData['groupPatterns'][group]"
+      :group-images="maketData['groupImages'][group]"
+      :group-layout-data="maketData['groupLayoutData'][group]"
     />
     <MaketFooterComponent
-        v-if="maketData"
-        :footer-info="maketData['footerInfo']"
-        :rows-before="maketData['beforeFooter']"
-        @rows-added="beforeFooterAdded"
+      v-if="maketData"
+      :footer-info="maketData['footerInfo']"
+      :rows-before="maketData['beforeFooter']"
+      @rows-added="beforeFooterAdded"
     />
   </div>
 </template>
