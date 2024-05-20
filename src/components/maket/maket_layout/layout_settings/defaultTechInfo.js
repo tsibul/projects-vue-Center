@@ -5,5 +5,7 @@ export const defaultTechInfo = {
     'tableShow': true,
     'pictureShow': false,
     'frameShow': true,
-    'maketId': 0
+    'maketId': 0,
+    'maketNumber': null,
+    'maketComment': '',
 }
