@@ -52,18 +52,11 @@ export default {
         'item_data': this.maketData['itemGroups'],
         'tech_info': this.maketData['techInfo'],
         'group_layout': this.maketData['groupLayoutData'],
-        'show_groups': this.maketData['showGroups'],
         'before_footer': this.maketData['beforeFooter']
       }
       const response = await submitForm(saveUrl, this.tokenName, formData)
       this.maketId = response.toString()
     },
-    // frameShow(data) {
-    //   this.showFrame = data;
-    // },
-    // tableShow() {
-    //   this.showTable = !this.showTable;
-    // },
     contentShow() {
       this.showContent = !this.showContent
     },
@@ -87,7 +80,7 @@ export default {
       this.draggingItem = null
     },
     toggleCheckGroup(group) {
-      this.maketData['showGroups'][group] = !this.maketData['showGroups'][group]
+      this.maketData['groupLayoutData'][group]['show'] = !this.maketData['groupLayoutData'][group]['show']
     },
     windowClose() {
       window.close()
@@ -117,7 +110,7 @@ export default {
       }
       if (!this.maketData['groupLayoutData']) {
         this.maketData['groupLayoutData'] = {}
-        Object.keys(this.maketData['showGroups']).forEach(group => {
+        Object.keys(this.maketData['itemGroups']).forEach(group => {
           this.maketData['groupLayoutData'][group] = {}
           Object.keys(defaultGroupLayoutData).forEach(key => {
             this.maketData['groupLayoutData'][group][key] = defaultGroupLayoutData[key]
@@ -155,7 +148,7 @@ export default {
   />
   <ShowGroupComponent
     v-if="showContent"
-    :show-group="maketData['showGroups']"
+    :show-group="maketData['groupLayoutData']"
     :item-group="maketData['itemGroups']"
     @close-content="showContent=false"
     @toggle-check="toggleCheckGroup"
@@ -178,13 +171,13 @@ export default {
       <MaketContentTableComponent
         v-if="maketData && maketData['techInfo']['tableShow']"
         :table-content="maketData['itemGroups']"
-        :show-group="maketData['showGroups']"
+        :show-group="maketData['groupLayoutData']"
         class="maket-layout__content"
       />
     </div>
     <ContentFrameComponent
       v-for="group in itemGroupsKeys"
-      v-show="maketData['showGroups'][group] && maketData['techInfo']['pictureShow']"
+      v-show="maketData['groupLayoutData'][group]['show'] && maketData['techInfo']['pictureShow']"
       :key="group.id"
       :ref="'group_' + group"
       class="maket-layout__content"

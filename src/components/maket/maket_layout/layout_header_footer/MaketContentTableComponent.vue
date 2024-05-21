@@ -37,7 +37,7 @@ export default {
       <div class="content-table__content"
            v-for="(item, index) in group"
            :key="index"
-           v-show="showGroup[item.itemGroup]"
+           v-show="showGroup[item.itemGroup]['show']"
       >
         <div class="content-table__item">{{ item.no }}</div>
         <div class="content-table__item content-table__wrap">{{ item.article }}</div>

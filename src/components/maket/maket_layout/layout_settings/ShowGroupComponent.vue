@@ -22,7 +22,7 @@
           <input type="checkbox"
                  class="check"
                  :id="group"
-                 :checked="showGroup[group]"
+                 :checked="showGroup[group]['show']"
                  @change="toggleCheck(group)"
           >
           &nbsp;
