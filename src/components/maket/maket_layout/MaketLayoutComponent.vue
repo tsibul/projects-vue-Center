@@ -129,6 +129,7 @@ export default {
   <TechDataComponent
     v-if="maketData"
     :maket-id="maketId"
+    :order-id="orderId"
     :format-list="formatList"
     :tech-info="maketData['techInfo']"
     @show-sort="sortShow"
