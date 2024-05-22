@@ -102,12 +102,12 @@ export default {
       this.orderId = urlParams.get('orderId')
       await this.getMaketData()
       this.itemGroupsKeys = Object.keys(this.maketData['itemGroups'])
-      if (!this.maketData['techInfo']) {
-        this.maketData['techInfo'] = {}
-        Object.keys(defaultTechInfo).forEach(key => {
-          this.maketData['techInfo'][key] = defaultTechInfo[key]
-        })
-      }
+      // if (!this.maketData['techInfo']) {
+      //   this.maketData['techInfo'] = {}
+      //   Object.keys(defaultTechInfo).forEach(key => {
+      //     this.maketData['techInfo'][key] = defaultTechInfo[key]
+      //   })
+      // }
       if (!this.maketData['groupLayoutData']) {
         this.maketData['groupLayoutData'] = {}
         Object.keys(this.maketData['itemGroups']).forEach(group => {
@@ -118,9 +118,9 @@ export default {
 
         })
       }
-      if (!this.maketData['beforeFooter']) {
-        this.maketData['beforeFooter'] = 0
-      }
+      // if (!this.maketData['beforeFooter']) {
+      //   this.maketData['beforeFooter'] = 0
+      // }
     })()
   }
 }
@@ -169,7 +169,7 @@ export default {
         class="maket-layout__content"
       />
       <MaketContentTableComponent
-        v-if="maketData && maketData['techInfo']['tableShow']"
+        v-if="maketData['groupLayoutData'] && maketData['techInfo']['tableShow']"
         :table-content="maketData['itemGroups']"
         :show-group="maketData['groupLayoutData']"
         class="maket-layout__content"
