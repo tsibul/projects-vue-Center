@@ -222,7 +222,7 @@ export default {
   position: fixed;
   top: 0;
   background-color: $colorPrimary100;
-  z-index: 3;
+  z-index: 7;
   width: 100%;
 }
 
@@ -266,7 +266,6 @@ export default {
     background-color: white;
     top: 2rem;
     left: -2px;
-    z-index: 5;
     width: 100%;
 
     & li {
