@@ -9,7 +9,6 @@ import ItemGroupingComponent from '@/components/maket/maket_layout/layout_settin
 import ShowGroupComponent from '@/components/maket/maket_layout/layout_settings/ShowGroupComponent.vue'
 import ContentFrameComponent from '@/components/maket/maket_layout/layout_content/ContentFrameComponent.vue'
 import { formatList } from '@/components/maket/maket_layout/layout_content/formatListData.js'
-import { defaultTechInfo } from '@/components/maket/maket_layout/layout_settings/defaultTechInfo.js'
 import { defaultGroupLayoutData } from '@/components/maket/maket_layout/layout_settings/defaultGroupLayoutData.js'
 import { submitForm } from '@/components/services/submitForm.js'
 
