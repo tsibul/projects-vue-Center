@@ -9,7 +9,6 @@ import ItemGroupingComponent from '@/components/maket/maket_layout/layout_settin
 import ShowGroupComponent from '@/components/maket/maket_layout/layout_settings/ShowGroupComponent.vue'
 import ContentFrameComponent from '@/components/maket/maket_layout/layout_content/ContentFrameComponent.vue'
 import { formatList } from '@/components/maket/maket_layout/layout_content/formatListData.js'
-import { defaultGroupLayoutData } from '@/components/maket/maket_layout/layout_settings/defaultGroupLayoutData.js'
 import { submitForm } from '@/components/services/submitForm.js'
 
 export default {
@@ -107,16 +106,16 @@ export default {
       //     this.maketData['techInfo'][key] = defaultTechInfo[key]
       //   })
       // }
-      if (!this.maketData['groupLayoutData']) {
-        this.maketData['groupLayoutData'] = {}
-        Object.keys(this.maketData['itemGroups']).forEach(group => {
-          this.maketData['groupLayoutData'][group] = {}
-          Object.keys(defaultGroupLayoutData).forEach(key => {
-            this.maketData['groupLayoutData'][group][key] = defaultGroupLayoutData[key]
-          })
-
-        })
-      }
+      // if (!this.maketData['groupLayoutData']) {
+      //   this.maketData['groupLayoutData'] = {}
+      //   Object.keys(this.maketData['itemGroups']).forEach(group => {
+      //     this.maketData['groupLayoutData'][group] = {}
+      //     Object.keys(defaultGroupLayoutData).forEach(key => {
+      //       this.maketData['groupLayoutData'][group][key] = defaultGroupLayoutData[key]
+      //     })
+      //
+      //   })
+      // }
       // if (!this.maketData['beforeFooter']) {
       //   this.maketData['beforeFooter'] = 0
       // }
