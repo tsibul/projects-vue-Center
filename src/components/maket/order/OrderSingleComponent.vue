@@ -65,7 +65,8 @@ export default {
       this.$emit('open-files', this.order.pk);
     },
     toMaket(orderId){
-      window.open(`http://localhost:5173/maket/layout?maketId=0&orderId=${orderId}`, '_blank');
+      const maketId = this.order.maketId ? this.order.maketId : 0;
+      window.open(`http://localhost:5173/maket/layout?maketId=${maketId}&orderId=${orderId}`, '_blank');
     },
   },
 }
