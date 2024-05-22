@@ -113,7 +113,8 @@ export default {
           <input
               type="text"
               class="note-frame__big_input"
-              @change="changeColor($event, printItem.place, index)"
+              @keydown="changeColor($event, printItem.place, index)"
+              :value="color.pantone"
           >
           <div class="note-frame__big_square"></div>
         </div>
