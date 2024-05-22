@@ -1,10 +1,10 @@
 <script>
 
-import BlankRowComponent from "@/components/maket/maket_layout/layout_header_footer/BlankRowComponent.vue";
+import BlankRowComponent from '@/components/maket/maket_layout/layout_header_footer/BlankRowComponent.vue'
 
 export default {
-  name: "MaketFooterComponent",
-  components: {BlankRowComponent},
+  name: 'MaketFooterComponent',
+  components: { BlankRowComponent },
   emits: ['rows-added'],
   props: {
     footerInfo: Object,
@@ -12,22 +12,27 @@ export default {
   },
   data() {
     return {
-      currentRowsBefore: this.rowsBefore,
+      currentRowsBefore: this.rowsBefore
     }
   },
-  methods:{
-    blankRowPressed(number){
-      this.currentRowsBefore = this.currentRowsBefore + number;
-      this.$emit('rows-added', this.currentRowsBefore);
-    },
+  methods: {
+    blankRowPressed(number) {
+      this.currentRowsBefore = this.currentRowsBefore + number
+      this.$emit('rows-added', this.currentRowsBefore)
+    }
   }
 }
 </script>
 
 <template>
+  <div class="empty-row"
+       style="height: 16px;"
+       v-for="(n,index) in rowsBefore"
+       :key="index">
+  </div>
   <div class="maket-footer">
     <BlankRowComponent
-        @pressed="blankRowPressed"
+      @pressed="blankRowPressed"
     />
     <div class="maket-footer__heading">
       <div class="active maket-footer__text">
