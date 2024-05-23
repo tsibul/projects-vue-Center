@@ -164,7 +164,7 @@ export default {
     <input
       v-if="currentTechInfo"
       type="number"
-      class="form-input"
+      class="form-input short-input"
       placeholder="номер макета"
       v-model="currentTechInfo['maketNumber']"
     >
@@ -179,6 +179,7 @@ export default {
       @click="saveMaket"
     >сохранить&nbsp;макет
     </button>
+    <div>выбрать&nbsp;макет:</div>
     <div class="btn btn-neutral maket-btn">
       <div class="maket-btn__title">
         <div>
@@ -229,6 +230,11 @@ export default {
 .long-input {
   width: 100%;
 }
+
+.short-input {
+  width: 60px;
+}
+
 
 .blank-header {
   height: 63px;
