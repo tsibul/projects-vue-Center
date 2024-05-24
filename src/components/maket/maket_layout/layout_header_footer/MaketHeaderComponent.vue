@@ -1,7 +1,10 @@
 <template>
   <div class="maket-header">
-    <div class="maket-header__title active">
-      МАКЕТ&nbsp;К&nbsp;ЗАКАЗУ&nbsp;{{ headerInfo.number }}&nbsp;от&nbsp;{{ headerInfo.date }}
+    <div class="maket-header__title">
+      <div class="active">
+        МАКЕТ&nbsp;К&nbsp;ЗАКАЗУ&nbsp;{{ headerInfo.number }}&nbsp;от&nbsp;{{ headerInfo.date }}
+      </div>
+      <div class="no-print">{{maketId}}</div>
     </div>
     <div>
       <strong>Поставщик&nbsp;</strong>
@@ -21,7 +24,8 @@ export default {
   name: "MaketHeaderComponent",
   inject: ['appUrl', 'tokenName'],
   props: {
-    headerInfo: Object
+    headerInfo: Object,
+    maketId: Number,
   },
   methods: {}
 }
@@ -29,6 +33,7 @@ export default {
 
 <style scoped lang="scss">
 @import '@/assets/maket/scss/vars';
+@import '@/assets/maket/scss/mixins';
 
 .maket-header {
   font-size: 14px;
@@ -40,6 +45,9 @@ export default {
   gap: 8px;
   margin-bottom: 8px;
   max-width: 297mm;
+  &__title{
+    @include d-flex-center(space-between);
+  }
 }
 
 </style>

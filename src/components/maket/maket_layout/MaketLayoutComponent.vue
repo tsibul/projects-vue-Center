@@ -165,6 +165,7 @@ export default {
       <MaketHeaderComponent
         v-if="maketData"
         :header-info="maketData['headerInfo']"
+        :maket-id="'макет ' + maketData['techInfo']['maketNumber'] + ' от ' + maketData['techInfo']['maketDate']"
         class="maket-layout__content"
       />
       <MaketContentTableComponent
