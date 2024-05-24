@@ -81,6 +81,13 @@ export default {
     (async () => {
       await this.setColorImages();
       this.setAllPositions();
+      this.currentNoteData.print_item.forEach(printItem => {
+        const checkbox = document.getElementById(printItem.id);
+        if(printItem.checked){
+          this.printItemChecked(checkbox, printItem);
+        }
+      });
+
     })();
   },
   watch: {
@@ -115,6 +122,7 @@ export default {
               type="checkbox"
               class="check"
               :id="printItem.id"
+              :checked="printItem.checked"
               @change="printItemChecked($event.target, printItem)"
           >&nbsp;
           <label :for="printItem.id"
