@@ -1,31 +1,3 @@
-<template>
-  <div class="files">
-    <ClauseHeadingComponent
-        :title="'Файлы шаблонов'"
-        :icon="'file'"
-        :font-class="{'font__normal': true}"
-        :check-box-deleted="true"
-        :check-box-deleted-text="'показать все'"
-        :check-box-status="showUnDeleted"
-        @search-string="search"
-        @hide-deleted-change="hideDeletedChange"
-    />
-    <FileSetComponent
-        :searchString="searchString"
-        :order="order"
-        :showUnDeleted="showUnDeleted"
-        :fieldList="fieldList"
-        :fileUrl="fileUrl"
-        :for-delete-url="deleteUrl"
-        :rowClass="rowClass"
-        :filePosition="filePosition"
-        :fileShow="fileShow"
-        :delete-all-url="deleteAllUrl"
-        @check-to-null="handleCheckToNull"
-    />
-  </div>
-</template>
-
 <script>
 import ClauseHeadingComponent from "@/components/maket/ClauseHeadingComponent.vue";
 import FileSetComponent from "@/components/maket/files/FileSetComponent.vue";
@@ -72,6 +44,34 @@ export default {
   },
 }
 </script>
+
+<template>
+  <div class="files">
+    <ClauseHeadingComponent
+        :title="'Файлы шаблонов'"
+        :icon="'file'"
+        :font-class="{'font__normal': true}"
+        :check-box-deleted="true"
+        :check-box-deleted-text="'показать все'"
+        :check-box-status="showUnDeleted"
+        @search-string="search"
+        @hide-deleted-change="hideDeletedChange"
+    />
+    <FileSetComponent
+        :searchString="searchString"
+        :order="order"
+        :showUnDeleted="showUnDeleted"
+        :fieldList="fieldList"
+        :fileUrl="fileUrl"
+        :for-delete-url="deleteUrl"
+        :rowClass="rowClass"
+        :filePosition="filePosition"
+        :fileShow="fileShow"
+        :delete-all-url="deleteAllUrl"
+        @check-to-null="handleCheckToNull"
+    />
+  </div>
+</template>
 
 <style scoped lang="scss">
 @import "@/assets/maket/scss/vars";
