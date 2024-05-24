@@ -1,37 +1,3 @@
-<template>
-  <details>
-    <summary class="order-summary"
-             :class="order.deleted ? 'deleted': order.maket_status"
-             :data-id="order.pk">
-      <div class="to-check">{{ order.to_check ? '?' : '' }}</div>
-      <div class="active">{{ order.maket_status }}</div>
-      <div class="mail">{{ order.order_number }}</div>
-      <div>{{ orderDateLocal }}</div>
-      <div>{{ order.our_company__code }}</div>
-      <div class="customer_name">{{ order.customer__name }}</div>
-      <div>{{ order.manager__name }}</div>
-      <div class="mail">{{ order.manager__phone }}&nbsp;{{ order.manager__mail }}</div>
-        <button class="btn btn-neutral"
-                v-if="!order.deleted"
-                @click="toMaket(order.pk)"
-        >макет
-        </button>
-      <button class="btn btn-save"
-              @click="handleOpenFiles">
-        <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" class="fa"/>&nbsp;0&nbsp;/&nbsp;{{order.files}}
-      </button>
-      <button class="btn btn-close"
-              @click="deleteAlert"
-              v-if="!order.deleted"
-      >удалить
-      </button>
-    </summary>
-    <OrderItemComponent
-        :orderId="order.pk"
-    />
-  </details>
-</template>
-
 <script>
 import OrderItemComponent from "@/components/maket/order/OrderItemComponent.vue";
 
@@ -71,6 +37,40 @@ export default {
   },
 }
 </script>
+
+<template>
+  <details>
+    <summary class="order-summary"
+             :class="order.deleted ? 'deleted': order.maket_status"
+             :data-id="order.pk">
+      <div class="to-check">{{ order.to_check ? '?' : '' }}</div>
+      <div class="active">{{ order.maket_status }}</div>
+      <div class="mail">{{ order.order_number }}</div>
+      <div>{{ orderDateLocal }}</div>
+      <div>{{ order.our_company__code }}</div>
+      <div class="customer_name">{{ order.customer__name }}</div>
+      <div>{{ order.manager__name }}</div>
+      <div class="mail">{{ order.manager__phone }}&nbsp;{{ order.manager__mail }}</div>
+        <button class="btn btn-neutral"
+                v-if="!order.deleted"
+                @click="toMaket(order.pk)"
+        >макет
+        </button>
+      <button class="btn btn-save"
+              @click="handleOpenFiles">
+        <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" class="fa"/>&nbsp;0&nbsp;/&nbsp;{{order.files}}
+      </button>
+      <button class="btn btn-close"
+              @click="deleteAlert"
+              v-if="!order.deleted"
+      >удалить
+      </button>
+    </summary>
+    <OrderItemComponent
+        :orderId="order.pk"
+    />
+  </details>
+</template>
 
 <style scoped lang="scss">
 @import "@/assets/maket/scss/vars";
