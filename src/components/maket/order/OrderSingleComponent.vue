@@ -51,16 +51,16 @@ export default {
       <div class="customer_name">{{ order.customer__name }}</div>
       <div>{{ order.manager__name }}</div>
       <div class="mail">{{ order.manager__phone }}&nbsp;{{ order.manager__mail }}</div>
-        <button class="btn btn-neutral"
+        <button class="btn btn-neutral-inverted"
                 v-if="!order.deleted"
                 @click="toMaket(order.pk)"
         >макет
         </button>
-      <button class="btn btn-save"
+      <button class="btn btn-save-inverted"
               @click="handleOpenFiles">
         <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" class="fa"/>&nbsp;0&nbsp;/&nbsp;{{order.files}}
       </button>
-      <button class="btn btn-close"
+      <button class="btn btn-close-inverted"
               @click="deleteAlert"
               v-if="!order.deleted"
       >удалить
