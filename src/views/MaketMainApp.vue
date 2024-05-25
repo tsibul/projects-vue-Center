@@ -12,8 +12,8 @@ export default {
     return {
       appUrl: 'http://127.0.0.1:5200/maket5_0/',
       tokenName: 'maketUserToken'
-    };
-  },
+    }
+  }
 }
 </script>
 
@@ -112,6 +112,7 @@ export default {
       background-color: transparent;
     }
   }
+
   &-neutral-inverted {
     color: $colorNeutral700;
     background-color: $colorNeutral100;
@@ -269,15 +270,18 @@ export default {
   cursor: pointer;
 }
 
-.tooltip{
+.tooltip {
   position: relative;
-  &:hover .tooltip-text{
+
+  &:hover .tooltip-text {
     visibility: visible;
+    opacity: 0;
+    transition-delay: 0s, 0.5s;
   }
 }
 
 
-.tooltip-text{
+.tooltip-text {
   font-size: 16px;
   position: absolute;
   visibility: hidden;
@@ -285,7 +289,8 @@ export default {
   background-color: $colorSecondary400;
   @include brd-standard;
   border-color: $colorSecondary400;
-  transition: visibility 0.1s ease-out;
+  opacity: 1;
+  transition: visibility 0.1s ease-out, opacity 0.5s ease-out;
   padding: 4px 8px;
   top: -2.5rem;
   z-index: 10;
