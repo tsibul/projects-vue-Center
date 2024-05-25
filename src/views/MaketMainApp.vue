@@ -74,7 +74,7 @@ export default {
   &-save-inverted {
     color: $colorPrimary500;
     background-color: $colorPrimary100;
-    border-color: $colorPrimary100;
+    border-color: $colorPrimary500;
 
     &:hover {
       color: $colorPrimary100;
@@ -95,7 +95,7 @@ export default {
   &-close-inverted {
     color: $colorSecondary600;
     background-color: $colorSecondary100;
-    border-color: $colorSecondary100;
+    border-color: $colorSecondary600;
 
     &:hover {
       color: $colorSecondary100;
@@ -111,7 +111,16 @@ export default {
       color: $colorNeutral700;
       background-color: transparent;
     }
+  }
+  &-neutral-inverted {
+    color: $colorNeutral700;
+    background-color: $colorNeutral100;
+    border-color: $colorNeutral700;
 
+    &:hover {
+      color: $colorNeutral100;
+      background-color: $colorNeutral700;
+    }
   }
 }
 
@@ -259,6 +268,14 @@ export default {
   accent-color: $colorPrimary500;
   cursor: pointer;
 }
+
+.tooltip{
+  position: relative;
+  &:hover .tooltip-text{
+    visibility: visible;
+  }
+}
+
 
 .tooltip-text{
   font-size: 16px;
