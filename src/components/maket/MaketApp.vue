@@ -32,6 +32,7 @@ import FilesAdditionalComponent from "@/components/maket/files/FilesAdditionalCo
 
 export default {
   name: 'MaketApp',
+  emits: ['header-title'],
   provide() {
     return {
       appUrl: 'http://127.0.0.1:5200/maket5_0/',
@@ -41,6 +42,7 @@ export default {
   data() {
     return {
       menuItems: {'Вход не выполнен': ['']},
+      headerTitle: 'Макеты',
       defaultItems: {
         'Заказы': [markRaw(OrderComponent)],
         'Макеты': [markRaw(MaketComponent)],
@@ -60,6 +62,7 @@ export default {
   },
   created() {
     (async () => {
+      this.$emit('header-title', this.headerTitle)
       await this.setUser();
       if (this.$store.getters.getUser) {
         this.menuItems = this.defaultItems;

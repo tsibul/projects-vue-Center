@@ -1,12 +1,24 @@
 <script setup>
-import {RouterLink} from 'vue-router'
+import { RouterLink } from 'vue-router'
 </script>
 <script>
 export default {
   name: 'HomeView',
   emits: ['header-title'],
-  created() {
-    this.$emit('header-title', 'Центр управления')
+  data() {
+    return {
+      currentTitle: null
+    }
+  }, methods: {
+    selectLink(name) {
+      this.currentTitle = name
+      this.$emit('header-title', this.currentTitle)
+    }
+  },
+  mounted() {
+    if (!this.currentTitle) {
+      this.selectLink('Центр управления')
+    }
   }
 }
 </script>
@@ -22,8 +34,9 @@ export default {
       <RouterLink
         to="/maket"
         class="link-box__element link-box__element_maket"
-        @click="this.$emit('header-title', 'Макеты')"
-      >Макет</RouterLink>
+        @click="selectLink('Макеты')"
+      >Макет
+      </RouterLink>
       <a href="http://10.0.1.17/production" class="link-box__element link-box__element_plan">
         <div>Производство</div>
       </a>
@@ -41,11 +54,11 @@ export default {
       </a>
     </nav>
   </div>
-<!--  <nav>-->
-<!--    <RouterLink to="/">Home</RouterLink>-->
-<!--    <RouterLink to="/maket">Maket</RouterLink>-->
-<!--  </nav>-->
-<!--  <RouterView hidden/>-->
+  <!--  <nav>-->
+  <!--    <RouterLink to="/">Home</RouterLink>-->
+  <!--    <RouterLink to="/maket">Maket</RouterLink>-->
+  <!--  </nav>-->
+  <!--  <RouterView hidden/>-->
   </body>
 </template>
 

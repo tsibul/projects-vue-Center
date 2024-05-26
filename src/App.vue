@@ -6,7 +6,7 @@ import { RouterLink, RouterView } from 'vue-router'
 export default {
   data() {
     return {
-      headerTitle: 'Центр управления',
+      headerTitle: null,
       icons: {
         'Центр управления': '/center.svg',
         'Макеты': '/maket.ico'
