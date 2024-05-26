@@ -1,13 +1,39 @@
 <script setup>
-import {RouterLink, RouterView} from 'vue-router'
+import { RouterLink, RouterView } from 'vue-router'
 // import HelloWorld from './components/HelloWorld.vue'
+</script>
+<script>
+export default {
+  data() {
+    return {
+      headerTitle: 'Центр управления',
+      icons: {
+        'Центр управления': '/center.svg',
+        'Макеты': '/maket.ico'
+      }
+    }
+  },
+  methods: {
+    receiveTitle(name) {
+      this.headerTitle = name
+      document.querySelector('head').querySelector('title').textContent = this.headerTitle
+      document.querySelector('head').querySelector('link[rel="icon"]').href = this.icons[this.headerTitle]
+    }
+  },
+  created() {
+    document.querySelector('head').querySelector('title').textContent = this.headerTitle
+    document.querySelector('head').querySelector('link[rel="icon"]').href = this.icons[this.headerTitle]
+  }
+}
 </script>
 
 <template>
-  <title>Center</title>
+  <title>{{headerTitle}}</title>
 
 
-  <RouterView/>
+  <RouterView
+    @header-title="receiveTitle"
+  />
 </template>
 
 <style lang="scss">

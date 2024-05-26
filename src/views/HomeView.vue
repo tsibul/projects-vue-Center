@@ -1,7 +1,16 @@
 <script setup>
 import {RouterLink} from 'vue-router'
-// import HelloWorld from './components/HelloWorld.vue'
 </script>
+<script>
+export default {
+  name: 'HomeView',
+  emits: ['header-title'],
+  created() {
+    this.$emit('header-title', 'Центр управления')
+  }
+}
+</script>
+
 
 <template>
   <body>
@@ -10,7 +19,11 @@ import {RouterLink} from 'vue-router'
       <a href="http://10.0.1.17/rzv" class="link-box__element link-box__element_razvozka">
         <div>Развозка</div>
       </a>
-      <RouterLink to="/maket" class="link-box__element link-box__element_maket">Макет</RouterLink>
+      <RouterLink
+        to="/maket"
+        class="link-box__element link-box__element_maket"
+        @click="this.$emit('header-title', 'Макеты')"
+      >Макет</RouterLink>
       <a href="http://10.0.1.17/production" class="link-box__element link-box__element_plan">
         <div>Производство</div>
       </a>
