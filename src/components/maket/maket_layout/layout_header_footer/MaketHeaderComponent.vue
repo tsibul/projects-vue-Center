@@ -4,7 +4,7 @@
       <div class="active">
         МАКЕТ&nbsp;К&nbsp;ЗАКАЗУ&nbsp;{{ headerInfo.number }}&nbsp;от&nbsp;{{ headerInfo.date }}
       </div>
-      <div class="no-print">{{maketId}}</div>
+      <div>{{maketId}}</div>
     </div>
     <div>
       <strong>Поставщик&nbsp;</strong>
@@ -25,7 +25,7 @@ export default {
   inject: ['appUrl', 'tokenName'],
   props: {
     headerInfo: Object,
-    maketId: Number,
+    maketId: String,
   },
   methods: {}
 }
