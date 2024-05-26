@@ -275,8 +275,8 @@ export default {
 
   &:hover .tooltip-text {
     visibility: visible;
-    opacity: 0;
-    transition-delay: 0s, 0.5s;
+    //opacity: 0;
+    //transition-delay: 0s, 0.5s;
   }
 }
 
@@ -289,8 +289,9 @@ export default {
   background-color: $colorSecondary400;
   @include brd-standard;
   border-color: $colorSecondary400;
-  opacity: 1;
-  transition: visibility 0.1s ease-out, opacity 0.5s ease-out;
+  //opacity: 1;
+  transition: visibility 0.1s ease-out;
+  //opacity 0.5s ease-out;
   padding: 4px 8px;
   top: -2.5rem;
   z-index: 10;
