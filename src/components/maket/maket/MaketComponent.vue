@@ -77,15 +77,18 @@ export default {
     },
     async maketImported(success) {
       if (success) {
-        const orderUrl = `${this.appUrl}maket_file_save/${this.maketIdToUpload}`;
-        const fileName = await fetchData(orderUrl, this.tokenName);
-        const order = this.orderList.find((el) => el.id === this.orderIdToUpload);
-        const maket = order.maketList.find(el => el.id === this.maketIdToUpload);
-        maket['file'] = fileName;
-        order['maketStatus'] = 'R';
-        order['maketQuantity'] += 1;
-        this.maketIdToUpload = null;
-        this.orderIdToUpload = null;
+        const orderUrl = `${this.appUrl}maket_file_save/${this.maketIdToUpload}`
+        const fileName = await fetchData(orderUrl, this.tokenName)
+        const order = this.orderList.find((el) => el.id === this.orderIdToUpload)
+        const maket = order.maketList.find(el => el.id === this.maketIdToUpload)
+        const prevFileName = maket['file'] === ''
+        maket['file'] = fileName
+        order['maketStatus'] = 'R'
+        if (prevFileName) {
+          order['maketQuantity'] += 1
+        }
+        this.maketIdToUpload = null
+        this.orderIdToUpload = null
       }
     },
     beginLoadingMaketFile(data) {
