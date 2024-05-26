@@ -114,14 +114,12 @@ export default {
       @hide-deleted-change="hideDeletedChange"
     />
     <div class="maket__row active ">
-      <div></div>
       <div>номер&nbsp;</div>
       <div>дата</div>
       <div>клиент</div>
+      <div></div>
       <div class="maket__row_right">
-        <div>#</div>
-        <div></div>
-        <div></div>
+        <div>макет</div>
         <div>создан</div>
         <div>прим.</div>
         <div>файл</div>
@@ -168,18 +166,18 @@ export default {
     display: grid;
     align-items: center;
     gap: 4px;
-    padding: 4px 12px;
+    padding: 4px 0 4px 12px;
     border-radius: 10px;
     flex-wrap: nowrap;
-    grid-template-columns: 0.5fr 1.5fr 0.6fr 3fr 8.5fr;
+    grid-template-columns: 1.5fr 0.6fr 3fr 0.7fr 8.5fr;
     margin-right: 19px;
 
     &_right {
       display: grid;
       align-items: center;
-      padding: 4px 12px;
+      padding: 4px 0 4px 12px;
       gap: 4px;
-      grid-template-columns: 0.3fr 0.4fr 0.4fr 0.6fr 1fr 3fr repeat(2, 0.4fr);
+      grid-template-columns: 1.2fr  0.6fr 1fr 3fr repeat(2, 0.4fr);
     }
   }
 
