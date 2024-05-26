@@ -51,19 +51,22 @@ export default {
       <div class="customer_name">{{ order.customer__name }}</div>
       <div>{{ order.manager__name }}</div>
       <div class="mail">{{ order.manager__phone }}&nbsp;{{ order.manager__mail }}</div>
-        <button class="btn btn-neutral-inverted"
+        <button class="btn btn-neutral-inverted tooltip"
                 v-if="!order.deleted"
                 @click="toMaket(order.pk)"
         >макет
+          <div class="tooltip-text">перейти&nbsp;в&nbsp;макет</div>
         </button>
-      <button class="btn btn-save-inverted"
+      <button class="btn btn-save-inverted tooltip"
               @click="handleOpenFiles">
         <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" class="fa"/>&nbsp;0&nbsp;/&nbsp;{{order.files}}
+        <div class="tooltip-text">связанные&nbsp;файлы</div>
       </button>
-      <button class="btn btn-close-inverted"
+      <button class="btn btn-close-inverted tooltip"
               @click="deleteAlert"
               v-if="!order.deleted"
       >удалить
+        <div class="tooltip-text">удалить&nbsp;заказ</div>
       </button>
     </summary>
     <OrderItemComponent
@@ -125,5 +128,10 @@ details[open] {
 .deleted {
   opacity: 0.5;
   background-color: $colorPrimary200;
+}
+
+.tooltip-text{
+  right: 0;
+  top: 2.5rem;
 }
 </style>
