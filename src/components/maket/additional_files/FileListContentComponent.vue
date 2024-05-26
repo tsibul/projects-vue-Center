@@ -1,27 +1,3 @@
-<template>
-  <div class="content" v-if="content.length > 0">
-    <div class="content__header">{{ titleList[contentType] }}</div>
-    <div class="content__item"
-         v-for="file in content"
-         :key="file.id">
-      <div>{{ file.name }}</div>
-      <div
-          class="file-name"
-          @click="fileShow(file.id, file.file_type, file.additional_file_name)"
-      >
-        {{ file.additional_file_name }}
-      </div>
-      <button class="btn"
-              :class="buttonList[contentType]['class']"
-              @click="buttonList[contentType]['function'](file.id)"
-      >
-        {{ buttonList[contentType]['title'] }}
-      </button>
-    </div>
-  </div>
-
-</template>
-
 <script>
 import {fetchData} from "@/components/services/fetchData.js";
 
@@ -43,11 +19,11 @@ export default {
     deleteFile(fileId) {
       const fileUrl = `${this.appUrl}delete_additional_file/${fileId}`;
       fetchData(fileUrl, this.tokenName)
-          .then(response => {
-            if (response) {
-              this.$emit('delete-file', fileId);
-            }
-          })
+        .then(response => {
+          if (response) {
+            this.$emit('delete-file', fileId);
+          }
+        })
     },
     reconnectFile(fileId) {
       this.$emit('reconnect-file', fileId);
@@ -93,6 +69,29 @@ export default {
 }
 </script>
 
+<template>
+  <div class="content" v-if="content.length > 0">
+    <div class="content__header">{{ titleList[contentType] }}</div>
+    <div class="content__item"
+         v-for="file in content"
+         :key="file.id">
+      <div>{{ file.name }}</div>
+      <div
+          class="file-name"
+          @click="fileShow(file.id, file.file_type, file.additional_file_name)"
+      >
+        {{ file.additional_file_name }}
+      </div>
+      <button class="btn"
+              :class="buttonList[contentType]['class']"
+              @click="buttonList[contentType]['function'](file.id)"
+      >
+        {{ buttonList[contentType]['title'] }}
+      </button>
+    </div>
+  </div>
+
+</template>
 
 <style scoped lang="scss">
 @import "@/assets/maket/scss/vars";
