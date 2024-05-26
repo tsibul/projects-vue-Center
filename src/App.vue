@@ -9,8 +9,7 @@ export default {
       headerTitle: null,
       icons: {
         'Центр управления': '/center.svg',
-        'Макеты': '/maket.ico',
-        'Шаблон макета': '/maket_layout.svg'
+        'Макеты': '/maket.ico'
       }
     }
   },
@@ -18,12 +17,16 @@ export default {
     receiveTitle(name) {
       this.headerTitle = name
       document.querySelector('head').querySelector('title').textContent = this.headerTitle
-      document.querySelector('head').querySelector('link[rel="icon"]').href = this.icons[this.headerTitle]
+      if (this.icons[this.headerTitle]) {
+        document.querySelector('head').querySelector('link[rel="icon"]').href = this.icons[this.headerTitle]
+      }
     }
   },
   created() {
     document.querySelector('head').querySelector('title').textContent = this.headerTitle
-    document.querySelector('head').querySelector('link[rel="icon"]').href = this.icons[this.headerTitle]
+    if (this.icons[this.headerTitle]) {
+      document.querySelector('head').querySelector('link[rel="icon"]').href = this.icons[this.headerTitle]
+    }
   }
 }
 </script>
