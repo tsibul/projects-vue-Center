@@ -36,7 +36,7 @@ export default {
       sourceGroupName: null,
       showContent: false,
       itemGroupsKeys: null,
-      headerTitle: 'Шаблон макета',
+      headerTitle: null,
     }
   },
   methods: {
@@ -97,31 +97,13 @@ export default {
   },
   created() {
     (async () => {
-      this.$emit('header-title', this.headerTitle)
-      const urlParams = new URLSearchParams(window.location.search)
-      this.maketId = urlParams.get('maketId')
-      this.orderId = urlParams.get('orderId')
-      await this.getMaketData()
-      this.itemGroupsKeys = Object.keys(this.maketData['itemGroups'])
-      // if (!this.maketData['techInfo']) {
-      //   this.maketData['techInfo'] = {}
-      //   Object.keys(defaultTechInfo).forEach(key => {
-      //     this.maketData['techInfo'][key] = defaultTechInfo[key]
-      //   })
-      // }
-      // if (!this.maketData['groupLayoutData']) {
-      //   this.maketData['groupLayoutData'] = {}
-      //   Object.keys(this.maketData['itemGroups']).forEach(group => {
-      //     this.maketData['groupLayoutData'][group] = {}
-      //     Object.keys(defaultGroupLayoutData).forEach(key => {
-      //       this.maketData['groupLayoutData'][group][key] = defaultGroupLayoutData[key]
-      //     })
-      //
-      //   })
-      // }
-      // if (!this.maketData['beforeFooter']) {
-      //   this.maketData['beforeFooter'] = 0
-      // }
+      const urlParams = new URLSearchParams(window.location.search);
+      this.maketId = urlParams.get('maketId');
+      this.orderId = urlParams.get('orderId');
+      await this.getMaketData();
+      this.itemGroupsKeys = Object.keys(this.maketData['itemGroups']);
+      this.headerTitle = `Макет ${this.maketData['headerInfo']['number']} ${this.maketData['headerInfo']['customer']} `;
+      this.$emit('header-title', this.headerTitle);
     })()
   }
 }
