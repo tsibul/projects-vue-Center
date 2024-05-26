@@ -1,3 +1,50 @@
+<script>
+import axios from "axios";
+import {authMixin} from "@/components/auth/authMixin.js";
+import {modalDragAndDrop} from "@/components/modal_drag_drop/modalDragAndDrop.js";
+
+export default {
+  name: "FileImportComponent",
+  mixins: [authMixin, modalDragAndDrop],
+  inject: ['appUrl', 'tokenName'],
+  emits: ['closeForm', 'file-loaded'],
+  props: {
+    fileType: String,
+  },
+  methods: {
+    async importFile() {
+      try {
+        const inputElement = this.$refs.fileInput;
+        const formData = new FormData();
+        formData.append('tmp_file', inputElement.files[0]);
+        const token = localStorage.getItem(this.tokenName);
+        const response = await axios.post(
+          `${this.appUrl}import_file`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              'Authorization': `Bearer ${token}`
+            },
+          }
+        );
+        const importResult = response.data.result;
+        if (importResult) {
+          console.log(importResult, 'file imported');
+          this.$emit('file-loaded', true)
+        } else {
+          this.$emit('file-loaded', false)
+        }
+      } catch (error) {
+        this.$emit('file-loaded', false)
+      } finally {
+        this.closeForm();
+      }
+    },
+  }
+}
+</script>
+
 <template>
   <div class="import__content" ref="modalDraggable"
        @mousedown="startDrag"
@@ -22,52 +69,6 @@
   </div>
 
 </template>
-<script>
-import axios from "axios";
-import {authMixin} from "@/components/auth/authMixin.js";
-import {modalDragAndDrop} from "@/components/modal_drag_drop/modalDragAndDrop.js";
-
-export default {
-  name: "FileImportComponent",
-  mixins: [authMixin, modalDragAndDrop],
-  inject: ['appUrl', 'tokenName'],
-  emits: ['closeForm', 'file-loaded'],
-  props: {
-    fileType: String,
-  },
-  methods: {
-    async importFile() {
-      try {
-        const inputElement = this.$refs.fileInput;
-        const formData = new FormData();
-        formData.append('tmp_file', inputElement.files[0]);
-        const token = localStorage.getItem(this.tokenName);
-        const response = await axios.post(
-            `${this.appUrl}import_file`,
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': `Bearer ${token}`
-              },
-            }
-        );
-        const importResult = response.data.result;
-        if (importResult) {
-          console.log(importResult, 'file imported');
-          this.$emit('file-loaded', true)
-        } else {
-          this.$emit('file-loaded', false)
-        }
-      } catch (error) {
-        this.$emit('file-loaded', false)
-      } finally {
-        this.closeForm();
-      }
-    },
-  }
-}
-</script>
 
 <style scoped lang="scss">
 @import "@/assets/maket/scss/vars";
@@ -90,7 +91,7 @@ export default {
     padding: 16px;
     border: 1px solid $colorPrimary800;
     border-radius: 10px;
-    background-color: $colorSecondary200;
+    background-color: $colorSecondary100;
     box-shadow: 6px 6px 12px $colorPrimary800;
     position: absolute;
     left: 70vw;
