@@ -9,7 +9,8 @@ export default {
       headerTitle: null,
       icons: {
         'Центр управления': '/center.svg',
-        'Макеты': '/maket.ico'
+        'Макеты': '/maket.ico',
+        'Шаблон макета': '/maket_layout.svg'
       }
     }
   },

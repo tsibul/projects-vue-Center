@@ -13,6 +13,7 @@ import { submitForm } from '@/components/services/submitForm.js'
 
 export default {
   name: 'MaketLayoutComponent',
+  emits: ['header-title'],
   computed: {
     formatList() {
       return formatList
@@ -34,7 +35,8 @@ export default {
       showSort: false,
       sourceGroupName: null,
       showContent: false,
-      itemGroupsKeys: null
+      itemGroupsKeys: null,
+      headerTitle: 'Шаблон макета',
     }
   },
   methods: {
@@ -95,6 +97,7 @@ export default {
   },
   created() {
     (async () => {
+      this.$emit('header-title', this.headerTitle)
       const urlParams = new URLSearchParams(window.location.search)
       this.maketId = urlParams.get('maketId')
       this.orderId = urlParams.get('orderId')
