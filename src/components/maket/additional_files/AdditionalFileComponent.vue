@@ -1,3 +1,92 @@
+<script>
+import {authMixin} from "@/components/auth/authMixin.js";
+import {fetchData} from "@/components/services/fetchData.js";
+import {modalDragAndDrop} from "@/components/modal_drag_drop/modalDragAndDrop.js";
+import FileListContentComponent from "@/components/maket/additional_files/FileListContentComponent.vue";
+import axios from "axios";
+
+export default {
+  name: "AdditionalFileComponent",
+  components: {FileListContentComponent},
+  mixins: [authMixin, modalDragAndDrop],
+  inject: ['appUrl', 'tokenName'],
+  emits: ['close-files', 'one-file-deleted', 'one-file-imported', 'file-reconnected'],
+  data() {
+    return {
+      fileList: null,
+    }
+  },
+  props: {
+    orderId: Number,
+  },
+  created() {
+    (async () => {
+      await this.importFiles();
+    })();
+  },
+  methods: {
+    async importFiles() {
+      const fileUrl = `${this.appUrl}additional_file/${this.orderId}`;
+      this.fileList = await fetchData(fileUrl, this.tokenName);
+    },
+    closeFiles() {
+      this.$emit('close-files')
+    },
+    async downloadFile() {
+      try {
+        const inputElement = this.$refs.fileInput;
+        const fileType = this.$refs.fileType.value;
+        const formData = new FormData();
+        formData.append('file', inputElement.files[0]);
+        formData.append('file_name', inputElement.files[0].name);
+        formData.append('file_type', fileType);
+        const token = localStorage.getItem(this.tokenName);
+        const response = await axios.post(
+          `${this.appUrl}import_additional_file/${this.orderId}`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              'Authorization': `Bearer ${token}`
+            },
+          }
+        );
+        const importResult = response.data;
+        if (importResult) {
+          this.fileList['main'].push({
+            'id': importResult.id,
+            'name': importResult.name,
+            'additional_file_name': importResult.additional_file_name,
+            'file_type': importResult.file_type,
+            'order__id': importResult.order__id,
+          });
+          this.$emit('one-file-imported')
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    fileDeleted(fileType, id) {
+      const index = this.fileList[fileType].findIndex(file => file.id === id);
+      this.fileList[fileType].splice(index, 1);
+      this.$emit('one-file-deleted');
+    },
+    async reconnectFile(id) {
+      const reconnectUrl = `${this.appUrl}reconnect_additional_file/${id}/${this.orderId}`;
+      const response = await fetchData(reconnectUrl, this.tokenName);
+      if (response) {
+        const reconnectedFileData = this.fileList['deleted'].find(file => file.id === id);
+        const deletedIndex = this.fileList['deleted'].findIndex(file => file.id === id);
+        const oldOrderId = reconnectedFileData['order__id'];
+        reconnectedFileData['order__id'] = response['orderId'];
+        this.fileList['deleted'].splice(deletedIndex, 1);
+        this.fileList['main'].push(reconnectedFileData);
+        this.$emit('file-reconnected', oldOrderId)
+      }
+    }
+  },
+}
+</script>
 <template>
   <div class="file-list" ref="modalDraggable"
        @mousedown="startDrag"
@@ -46,96 +135,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import {authMixin} from "@/components/auth/authMixin.js";
-import {fetchData} from "@/components/services/fetchData.js";
-import {modalDragAndDrop} from "@/components/modal_drag_drop/modalDragAndDrop.js";
-import FileListContentComponent from "@/components/maket/additional_files/FileListContentComponent.vue";
-import axios from "axios";
-
-export default {
-  name: "AdditionalFileComponent",
-  components: {FileListContentComponent},
-  mixins: [authMixin, modalDragAndDrop],
-  inject: ['appUrl', 'tokenName'],
-  emits: ['close-files', 'one-file-deleted', 'one-file-imported', 'file-reconnected'],
-  data() {
-    return {
-      fileList: null,
-    }
-  },
-  props: {
-    orderId: Number,
-  },
-  created() {
-    (async () => {
-      await this.importFiles();
-    })();
-  },
-  methods: {
-    async importFiles() {
-      const fileUrl = `${this.appUrl}additional_file/${this.orderId}`;
-      this.fileList = await fetchData(fileUrl, this.tokenName);
-    },
-    closeFiles() {
-      this.$emit('close-files')
-    },
-    async downloadFile() {
-      try {
-        const inputElement = this.$refs.fileInput;
-        const fileType = this.$refs.fileType.value;
-        const formData = new FormData();
-        formData.append('file', inputElement.files[0]);
-        formData.append('file_name', inputElement.files[0].name);
-        formData.append('file_type', fileType);
-        const token = localStorage.getItem(this.tokenName);
-        const response = await axios.post(
-            `${this.appUrl}import_additional_file/${this.orderId}`,
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': `Bearer ${token}`
-              },
-            }
-        );
-        const importResult = response.data;
-        if (importResult) {
-          this.fileList['main'].push({
-            'id': importResult.id,
-            'name': importResult.name,
-            'additional_file_name': importResult.additional_file_name,
-            'file_type': importResult.file_type,
-            'order__id': importResult.order__id,
-          });
-          this.$emit('one-file-imported')
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    fileDeleted(fileType, id) {
-      const index = this.fileList[fileType].findIndex(file => file.id === id);
-      this.fileList[fileType].splice(index, 1);
-      this.$emit('one-file-deleted');
-    },
-    async reconnectFile(id) {
-      const reconnectUrl = `${this.appUrl}reconnect_additional_file/${id}/${this.orderId}`;
-      const response = await fetchData(reconnectUrl, this.tokenName);
-      if (response) {
-        const reconnectedFileData = this.fileList['deleted'].find(file => file.id === id);
-        const deletedIndex = this.fileList['deleted'].findIndex(file => file.id === id);
-        const oldOrderId = reconnectedFileData['order__id'];
-        reconnectedFileData['order__id'] = response['orderId'];
-        this.fileList['deleted'].splice(deletedIndex, 1);
-        this.fileList['main'].push(reconnectedFileData);
-        this.$emit('file-reconnected', oldOrderId)
-      }
-    }
-  },
-}
-</script>
 
 <style scoped lang="scss">
 @import "@/assets/maket/scss/vars";
