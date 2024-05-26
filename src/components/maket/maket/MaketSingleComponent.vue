@@ -14,7 +14,8 @@ export default {
   data() {
     return {
       deleteUrl: null,
-      showDeleteAlert: false
+      showDeleteAlert: false,
+      currentOrder: this.order,
     }
   },
   methods: {
@@ -35,6 +36,28 @@ export default {
           window.open(fileUrl, '_blank', 'noopener');
       } else {
         alert('ошибка загрузки')
+      }
+    },
+    async deleteMaket(maketId){
+      const deleteUrl = `${this.appUrl}maket_delete/${maketId}`;
+      const response = await fetchData(deleteUrl, this.tokenName);
+      if(response){
+        const deletedIndex = this.order.maketList.findIndex(el => el.id === Number(maketId));
+        if(this.order.maketList[deletedIndex].file){
+          this.currentOrder.maketQuantity -= 1;
+        }
+        this.currentOrder.maketList.splice(deletedIndex, 1);
+      }
+    },
+    async restoreMaket(maketId){
+      const restoreUrl = `${this.appUrl}maket_restore/${maketId}`;
+      const response = await fetchData(restoreUrl, this.tokenName);
+      if(response){
+        // const restoreIndex = this.order.maketList.findIndex(el => el.id === Number(maketId));
+        // if(this.order.maketList[deletedIndex].file){
+        //   this.currentOrder.maketQuantity -= 1;
+        // }
+        // this.currentOrder.maketList.splice(deletedIndex, 1);
       }
     },
   }
@@ -87,9 +110,21 @@ export default {
             <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" />
             <div class="tooltip-text">загрузить&nbsp;макет</div>
           </button>
-          <button class="btn btn-close-inverted tooltip">
+          <button
+            v-if="!maket.maketDeleted"
+            class="btn btn-close-inverted tooltip"
+            @click="deleteMaket(maket.id)"
+          >
             <font-awesome-icon :icon="['fas', 'x']" />
             <div class="tooltip-text">удалить</div>
+          </button>
+          <button
+            v-else
+            class="btn btn-neutral-inverted tooltip"
+            @click="restoreMaket(maket.id)"
+          >
+            <font-awesome-icon :icon="['fas', 'check']" />
+            <div class="tooltip-text">восстановить</div>
           </button>
         </summary>
         <div class="maket-single__item active">
