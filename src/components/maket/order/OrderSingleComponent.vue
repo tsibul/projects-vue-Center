@@ -59,8 +59,8 @@ export default {
         </button>
       <button class="btn btn-save-inverted tooltip"
               @click="handleOpenFiles">
-        <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" class="fa"/>&nbsp;0&nbsp;/&nbsp;{{order.files}}
-        <div class="tooltip-text">связанные&nbsp;файлы</div>
+        <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" class="fa"/>&nbsp;{{ order.maketQuantity}}&nbsp;/&nbsp;{{order.files}}
+        <div class="tooltip-text">связанные&nbsp;файлы макеты/файлы</div>
       </button>
       <button class="btn btn-close-inverted tooltip"
               @click="deleteAlert"
@@ -114,7 +114,7 @@ details[open] {
 }
 
 .R {
-  color: $colorNeutral600;
+  color: $colorNeutral400;
 }
 
 .mail {
