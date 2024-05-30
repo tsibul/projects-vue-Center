@@ -36,35 +36,28 @@ export default {
       }
     },
     hideDeletedChange(checked) {
-      this.showUnDeleted = checked
-    },
-    handleCheckToNull() {
-      this.showUnDeleted = false
+      this.showDeleted = checked
     },
     async allOrders() {
       const maketListUrl = `${this.appUrl}maket_list/${this.searchString}/${this.showDeleted ? 1 : 0}/${this.idLast}`
       return await fetchData(maketListUrl, this.tokenName)
     },
-    async addNextRecords() {
-      const newData = await this.allOrders()
-      if (newData.length) {
-        this.idLast = this.idLast + 20
-        if (this.orderList) {
-          this.orderList = [...this.orderList, ...newData]
-        } else {
-          this.orderList = newData
+    addNextRecords() {
+      this.allOrders().then(newData => {
+        if (newData.length) {
+          this.idLast = this.idLast + 20
+          if (this.orderList) {
+            this.orderList = [...this.orderList, ...newData]
+          } else {
+            this.orderList = newData
+          }
         }
-      }
+      })
     },
     async hideDeletedChecked() {
       this.idLast = 0
       this.orderList = []
-      if (this.showDeleted) {
-        this.showDeleted = 0
-      } else {
-        this.showDeleted = 1
-      }
-      await this.addNextRecords()
+      this.addNextRecords()
     },
     handleDeleteAlert(url) {
       this.deleteUrl = url
@@ -98,9 +91,15 @@ export default {
     }
   },
   created() {
-    (async () => {
-      await this.addNextRecords()
-    })()
+    this.addNextRecords()
+    // (async () => {
+    //   await this.addNextRecords()
+    // })()
+  },
+  watch: {
+    showDeleted: {
+      handler: 'hideDeletedChecked'
+    }
   }
 }
 </script>
