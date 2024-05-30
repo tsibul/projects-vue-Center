@@ -1,13 +1,14 @@
 <script>
-import {fetchData} from "@/components/services/fetchData.js";
+import { fetchData } from '@/components/services/fetchData.js'
 
 export default {
-  name: "FileListContentComponent",
+  name: 'FileListContentComponent',
   inject: ['appUrl', 'tokenName'],
   emits: ['delete-file', 'reconnect-file'],
   props: {
     content: Array,
-    contentType: String
+    contentType: String,
+    orderId: Number
   },
   data() {
     return {
@@ -17,42 +18,63 @@ export default {
   },
   methods: {
     deleteFile(fileId) {
-      const fileUrl = `${this.appUrl}delete_additional_file/${fileId}`;
+      const fileUrl = `${this.appUrl}delete_additional_file/${fileId}`
       fetchData(fileUrl, this.tokenName)
         .then(response => {
           if (response) {
-            this.$emit('delete-file', fileId);
+            this.$emit('delete-file', fileId)
           }
         })
     },
     reconnectFile(fileId) {
-      this.$emit('reconnect-file', fileId);
+      this.$emit('reconnect-file', fileId)
     },
-    async fileShow(fileId, fileType, additionalFileName) {
-      const fileUrl = `${this.appUrl}additional_file_show/${fileId}/${additionalFileName}`;
-      const response = await fetchData(fileUrl, this.tokenName);
-      if (response) {
-        if (fileType === '.pdf') {
-          window.open(fileUrl, '_blank', 'noopener');
+    async fileShow(fileId, fileType, additionalFileName, contentType) {
+      if (!contentType.includes('макет')) {
+        const fileUrl = `${this.appUrl}additional_file_show/${fileId}/${additionalFileName}`
+        const response = await fetchData(fileUrl, this.tokenName)
+        if (response) {
+          if (fileType === '.pdf') {
+            window.open(fileUrl, '_blank', 'noopener')
+          } else {
+            window.location.href = fileUrl
+          }
         } else {
-          window.location.href = fileUrl;
+          alert('ошибка загрузки')
         }
       } else {
-        alert('ошибка загрузки')
+        const fileUrl = `${this.appUrl}maket_show/${fileId}`
+        const response = await fetchData(fileUrl, this.tokenName)
+        if (response) {
+          window.open(fileUrl, '_blank', 'noopener')
+        } else {
+          alert('ошибка загрузки')
+
+        }
       }
     },
+    toMaket(id) {
+      window.open(`http://localhost:5173/maket/layout?maketId=${id}&orderId=${this.orderId}`, '_blank')
+
+    }
   },
   created() {
     this.titleList = {
       'maket': 'макеты',
       'main': 'текущие',
-      'deleted': 'удаленные'
+      'deleted': 'удаленные',
+      'maket_deleted': 'удаленные макеты'
     }
     this.buttonList = {
       'maket': {
-        'title': 'удалить',
-        'class': 'btn-close',
-        'function': this.deleteFile
+        'title': 'в макет',
+        'class': 'btn-neutral',
+        'function': this.toMaket
+      },
+      'maket_deleted': {
+        'title': 'в макет',
+        'class': 'btn-neutral',
+        'function': this.toMaket
       },
       'main': {
         'title': 'удалить',
@@ -63,9 +85,9 @@ export default {
         'title': 'привязать',
         'class': 'btn-save',
         'function': this.reconnectFile
-      },
+      }
     }
-  },
+  }
 }
 </script>
 
@@ -77,8 +99,8 @@ export default {
          :key="file.id">
       <div>{{ file.name }}</div>
       <div
-          class="file-name"
-          @click="fileShow(file.id, file.file_type, file.additional_file_name)"
+        class="file-name"
+        @click="fileShow(file.id, file.file_type, file.additional_file_name, titleList[contentType])"
       >
         {{ file.additional_file_name }}
       </div>
