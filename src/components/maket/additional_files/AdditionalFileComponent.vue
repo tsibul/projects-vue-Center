@@ -105,6 +105,7 @@ export default {
           v-for="fileType in Object.keys(fileList)"
           :key="fileType"
           :content="fileList[fileType]"
+          :orderId="orderId"
           :contentType="fileType"
           @delete-file="fileDeleted(fileType)"
           @reconnect-file="reconnectFile"
