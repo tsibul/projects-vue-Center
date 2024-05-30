@@ -28,12 +28,15 @@ export default {
     }
   },
   methods: {
-    search() {
-      if (this.searchInput !== '') {
-        this.searchString = this.searchInput.replace(' ', '_')
+    search(searchInput) {
+      if (searchInput !== '') {
+        this.searchString = searchInput.replace(' ', '_')
       } else {
         this.searchString = 'default'
       }
+      this.idLast = 0
+      this.orderList = []
+      this.addNextRecords()
     },
     hideDeletedChange(checked) {
       this.showDeleted = checked
