@@ -15,7 +15,7 @@ export default {
     return {
       deleteUrl: null,
       showDeleteAlert: false,
-      currentOrder: this.order,
+      currentOrder: this.order
     }
   },
   methods: {
@@ -30,36 +30,37 @@ export default {
 
     },
     async maketShow(maketId) {
-      const fileUrl = `${this.appUrl}maket_show/${maketId}`;
-      const response = await fetchData(fileUrl, this.tokenName);
+      const fileUrl = `${this.appUrl}maket_show/${maketId}`
+      const response = await fetchData(fileUrl, this.tokenName)
       if (response) {
-          window.open(fileUrl, '_blank', 'noopener');
+        window.open(fileUrl, '_blank', 'noopener')
       } else {
         alert('ошибка загрузки')
       }
     },
-    async deleteMaket(maketId){
-      const deleteUrl = `${this.appUrl}maket_delete/${maketId}`;
-      const response = await fetchData(deleteUrl, this.tokenName);
-      if(response){
-        const deletedIndex = this.order.maketList.findIndex(el => el.id === Number(maketId));
-        if(this.order.maketList[deletedIndex].file){
-          this.currentOrder.maketQuantity -= 1;
+    async deleteMaket(maketId) {
+      const deleteUrl = `${this.appUrl}maket_delete/${maketId}`
+      const response = await fetchData(deleteUrl, this.tokenName)
+      if (response) {
+        const deletedIndex = this.order.maketList.findIndex(el => el.id === Number(maketId))
+        if (this.order.maketList[deletedIndex].file) {
+          this.currentOrder.maketQuantity -= 1
         }
-        this.currentOrder.maketList.splice(deletedIndex, 1);
+        this.currentOrder.maketList[deletedIndex].maketDeleted = true;
+        // this.currentOrder.maketList.splice(deletedIndex, 1)
       }
     },
-    async restoreMaket(maketId){
-      const restoreUrl = `${this.appUrl}maket_restore/${maketId}`;
-      const response = await fetchData(restoreUrl, this.tokenName);
-      if(response){
-        // const restoreIndex = this.order.maketList.findIndex(el => el.id === Number(maketId));
-        // if(this.order.maketList[deletedIndex].file){
-        //   this.currentOrder.maketQuantity -= 1;
+    async restoreMaket(maketId) {
+      const restoreUrl = `${this.appUrl}maket_restore/${maketId}`
+      const response = await fetchData(restoreUrl, this.tokenName)
+      if (response) {
+        const restoredIndex = this.order.maketList.findIndex(el => el.id === Number(maketId))
+        // if (this.order.maketList[restoredIndex].file) {
+        //   this.currentOrder.maketQuantity += 1
         // }
-        // this.currentOrder.maketList.splice(deletedIndex, 1);
+        this.currentOrder.maketList[restoredIndex].maketDeleted = false
       }
-    },
+    }
   }
 }
 </script>
@@ -82,8 +83,14 @@ export default {
       <details v-for="maket in order.maketList"
                :key="maket.id"
       >
-        <summary class="maket-summary">
-          <div>{{ maket.maketNumber }}</div>
+        <summary
+          class="maket-summary"
+        >
+          <div
+            :class="maket.maketDeleted ? 'inactive' : ''"
+          >
+            {{ maket.maketNumber }}
+          </div>
           <button
             class="btn btn-save-inverted tooltip"
             @click="goToMaket($event, order.id, maket.id)"
@@ -100,9 +107,21 @@ export default {
             <font-awesome-icon :icon="['fas', 'folder-open']" />
             <div class="tooltip-text">открыть&nbsp;файл&nbsp;макета</div>
           </button>
-          <div>{{ maket.dateCreate }}</div>
-          <div class="maket-summary__wrap">{{ maket.comment }}</div>
-          <div class="maket-summary__wrap">{{ maket.file }}</div>
+          <div
+            :class="maket.maketDeleted ? 'inactive' : ''"
+          >
+            {{ maket.dateCreate }}
+          </div>
+          <div
+            class="maket-summary__wrap"
+            :class="maket.maketDeleted ? 'inactive' : ''"
+          >{{ maket.comment }}
+          </div>
+          <div
+            class="maket-summary__wrap"
+            :class="maket.maketDeleted ? 'inactive' : ''"
+          >{{ maket.file }}
+          </div>
           <button
             class="btn btn-save-inverted tooltip"
             @click="loadMaketFile(maket.id, order.id)"
@@ -176,7 +195,7 @@ export default {
   grid-template-columns: 1.5fr 0.6fr 3fr 0.7fr 8.5fr;
   gap: 4px;
 
-  &__details{
+  &__details {
     @include brd-standard;
     border-color: transparent;
 
@@ -185,7 +204,8 @@ export default {
   &:hover {
     background-color: $colorPrimary200;
   }
-  &:hover .maket-single__details{
+
+  &:hover .maket-single__details {
     background-color: $colorSecondary100;
   }
 
