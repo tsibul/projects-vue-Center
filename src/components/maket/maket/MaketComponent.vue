@@ -66,9 +66,13 @@ export default {
       this.deleteUrl = url
       this.showDeleteAlert = true
     },
-    handleDeleted(orderDeleted) {
-      const order = this.orderList.find((order) => order.pk === orderDeleted.id)
-      order.deleted = true
+    handleDeleted(maketDeleted) {
+      const order = this.orderList.find((order) => order.maketList.some(el => el.id === maketDeleted))
+      const deletedIndex = order.maketList.findIndex(el => el.id === Number(maketDeleted))
+      if (order.maketList[deletedIndex].file) {
+        order.maketQuantity -= 1
+      }
+      order.maketList[deletedIndex].maketDeleted = true
       this.showDeleteAlert = false
     },
     async maketImported(success) {
@@ -86,7 +90,8 @@ export default {
         this.maketIdToUpload = null
         this.orderIdToUpload = null
       }
-    },
+    }
+    ,
     beginLoadingMaketFile(data) {
       this.hideUploadForm = false
       this.maketIdToUpload = data[0]
