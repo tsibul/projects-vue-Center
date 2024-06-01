@@ -4,10 +4,12 @@ import DeleteAlertComponent from '@/components/delete_alert/DeleteAlertComponent
 import MaketSingleComponent from '@/components/maket/maket/MaketSingleComponent.vue'
 import { fetchData } from '@/components/services/fetchData.js'
 import FileImportComponent from '@/components/file_import/FileImportComponent.vue'
+import AdditionalFileComponent from '@/components/maket/additional_files/AdditionalFileComponent.vue'
 
 export default {
   name: 'MaketComponent',
   components: {
+    AdditionalFileComponent,
     FileImportComponent,
     MaketSingleComponent,
     DeleteAlertComponent,
@@ -24,7 +26,9 @@ export default {
       deleteUrl: null,
       hideUploadForm: true,
       maketIdToUpload: null,
-      orderIdToUpload: null
+      orderIdToUpload: null,
+      openFiles: false,
+      filesId: null
     }
   },
   methods: {
@@ -96,6 +100,28 @@ export default {
       this.hideUploadForm = false
       this.maketIdToUpload = data[0]
       this.orderIdToUpload = data[1]
+    },
+    handleCloseFiles() {
+      this.openFiles = false
+      this.filesId = null
+    },
+    handleOpenFiles(orderId) {
+      this.openFiles = true
+      this.filesId = orderId
+    },
+    handleFileDeleted(orderId) {
+      const order = this.orderList.find((order) => order.pk === orderId)
+      order.files -= 1
+    },
+    handleFileImported(orderId) {
+      const order = this.orderList.find((order) => order.pk === orderId)
+      order.files += 1
+    },
+    handleFileReconnected(reconnectData, orderId) {
+      const orderNew = this.orderList.find((order) => order.pk === orderId)
+      orderNew.files += 1
+      const orderOld = this.orderList.find((order) => order.pk === reconnectData)
+      orderOld.files -= 1
     }
   },
   created() {
@@ -129,7 +155,7 @@ export default {
       <div>номер&nbsp;</div>
       <div>дата</div>
       <div>клиент</div>
-      <div></div>
+      <div>файлы</div>
       <div class="maket__row_right">
         <div>макет</div>
         <div>создан</div>
@@ -148,6 +174,7 @@ export default {
         @mouseover="index + 1 === orderList.length ? addNextRecords() : null"
         @delete-alert="handleDeleteAlert"
         @load-maket-file="beginLoadingMaketFile"
+        @open-files="handleOpenFiles(order.id)"
       />
     </div>
   </div>
@@ -162,7 +189,14 @@ export default {
     @closeForm="hideUploadForm=true"
     @file-loaded="maketImported"
   />
-
+  <AdditionalFileComponent
+    v-if="openFiles"
+    @close-files="handleCloseFiles"
+    :orderId="filesId"
+    @one-file-deleted="handleFileDeleted(filesId)"
+    @one-file-imported="handleFileImported(filesId)"
+    @file-reconnected="handleFileReconnected($event, filesId)"
+  />
 
 </template>
 
