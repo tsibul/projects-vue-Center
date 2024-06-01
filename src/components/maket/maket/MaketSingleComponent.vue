@@ -39,26 +39,17 @@ export default {
       }
     },
     async deleteMaket(maketId) {
-      const deleteUrl = `maket_delete/${maketId}`;
+      const deleteUrl = `maket_delete/${maketId}`
       this.$emit('delete-alert', deleteUrl)
-      // const response = await fetchData(deleteUrl, this.tokenName)
-      // if (response) {
-      //   const deletedIndex = this.order.maketList.findIndex(el => el.id === Number(maketId))
-      //   if (this.order.maketList[deletedIndex].file) {
-      //     this.currentOrder.maketQuantity -= 1
-      //   }
-      //   this.currentOrder.maketList[deletedIndex].maketDeleted = true;
-      //   // this.currentOrder.maketList.splice(deletedIndex, 1)
-      // }
     },
     async restoreMaket(maketId) {
       const restoreUrl = `${this.appUrl}maket_restore/${maketId}`
       const response = await fetchData(restoreUrl, this.tokenName)
       if (response) {
         const restoredIndex = this.order.maketList.findIndex(el => el.id === Number(maketId))
-        // if (this.order.maketList[restoredIndex].file) {
-        //   this.currentOrder.maketQuantity += 1
-        // }
+        if (this.order.maketList[restoredIndex].file) {
+          this.currentOrder.maketQuantity += 1
+        }
         this.currentOrder.maketList[restoredIndex].maketDeleted = false
       }
     }
