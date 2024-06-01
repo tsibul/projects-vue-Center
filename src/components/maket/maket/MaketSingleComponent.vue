@@ -1,10 +1,11 @@
 <script>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { fetchData } from '@/components/services/fetchData.js'
+import ToFilmComponent from '@/components/maket/maket/ToFilmComponent.vue'
 
 export default {
   name: 'MaketSingleComponent',
-  components: { FontAwesomeIcon },
+  components: { ToFilmComponent, FontAwesomeIcon },
   inject: ['appUrl', 'tokenName'],
   emits: ['delete-alert', 'load-maket-file', 'open-files'],
   props: {
@@ -15,7 +16,10 @@ export default {
     return {
       deleteUrl: null,
       showDeleteAlert: false,
-      currentOrder: this.order
+      currentOrder: this.order,
+      currentGroup: null,
+      connected: null,
+      showToFilm: false,
     }
   },
   methods: {
@@ -43,15 +47,28 @@ export default {
       this.$emit('delete-alert', deleteUrl)
     },
     async restoreMaket(maketId) {
-      const restoreUrl = `${this.appUrl}maket_restore/${maketId}`
-      const response = await fetchData(restoreUrl, this.tokenName)
+      const restoreUrl = `${this.appUrl}maket_restore/${maketId}`;
+      const response = await fetchData(restoreUrl, this.tokenName);
       if (response) {
-        const restoredIndex = this.order.maketList.findIndex(el => el.id === Number(maketId))
+        const restoredIndex = this.order.maketList.findIndex(el => el.id === Number(maketId));
         if (this.order.maketList[restoredIndex].file) {
-          this.currentOrder.maketQuantity += 1
+          this.currentOrder.maketQuantity += 1;
         }
-        this.currentOrder.maketList[restoredIndex].maketDeleted = false
+        this.currentOrder.maketList[restoredIndex].maketDeleted = false;
       }
+    },
+    selectFilm(group, connected){
+      this.connected = connected;
+      this.currentGroup = group;
+      this.showToFilm = true;
+    },
+    filmSelected(film){
+      this.currentGroup = null;
+      this.showToFilm = false;
+    },
+    closeForm(){
+      this.currentGroup = null;
+      this.showToFilm = false;
     }
   }
 }
@@ -148,9 +165,19 @@ export default {
           class="maket-single__item"
           v-for="(group, index) in maket.groups"
           :key="index">
-          <div>{{ group.replaceAll('()', ' ') }}</div>
+          <ToFilmComponent
+            :connected="connected"
+            :group="currentGroup"
+            v-if="showToFilm"
+            @film-selected="filmSelected"
+            @close-form="closeForm"
+          />
+          <div>{{ group.name.replaceAll('()', ' ') }}</div>
           <div></div>
-          <button class="btn btn-save-inverted tooltip">
+          <button
+            class="btn btn-save-inverted tooltip"
+            @click="selectFilm(group, true)"
+          >
             <font-awesome-icon :icon="['fas', 'pencil']" />
             &nbsp;
             <font-awesome-icon :icon="['fas', 'angle-right']" />
@@ -158,14 +185,16 @@ export default {
             <font-awesome-icon :icon="['fas', 'film']" />
             <div class="tooltip-text">на&nbsp;пленку</div>
           </button>
-          <button class="btn btn-close-inverted tooltip">
+          <button
+            class="btn btn-close-inverted tooltip btn-dropdown"
+            @click="selectFilm(group, false)"
+          >
             <font-awesome-icon :icon="['fas', 'film']" />
             &nbsp;
             <font-awesome-icon :icon="['fas', 'angle-right']" />
             &nbsp;
             <font-awesome-icon :icon="['fas', 'trash']" />
             <div class="tooltip-text">ошибка&nbsp;в&nbsp;пленке</div>
-
           </button>
         </div>
       </details>
@@ -212,6 +241,7 @@ export default {
   }
 
   &__item {
+    position: relative;
     display: grid;
     align-items: center;
     grid-template-columns: 2fr 3.2fr 0.7fr 0.7fr;
