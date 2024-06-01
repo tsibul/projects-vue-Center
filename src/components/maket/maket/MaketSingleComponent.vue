@@ -6,7 +6,7 @@ export default {
   name: 'MaketSingleComponent',
   components: { FontAwesomeIcon },
   inject: ['appUrl', 'tokenName'],
-  emits: ['delete-alert', 'load-maket-file'],
+  emits: ['delete-alert', 'load-maket-file', 'open-files'],
   props: {
     order: Object,
     index: Number
@@ -27,7 +27,7 @@ export default {
       this.$emit('load-maket-file', [maketId, orderId])
     },
     handleOpenFiles() {
-
+      this.$emit('open-files');
     },
     async maketShow(maketId) {
       const fileUrl = `${this.appUrl}maket_show/${maketId}`
