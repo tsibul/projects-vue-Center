@@ -1,40 +1,37 @@
-<template>
-  <div class="login__content">
-      <div class="login__header">
-        <p class="active">Выход</p>
-        <span class="login__close" @click="closeForm">&times;</span>
-      </div>
-      <p class="login__text">Вы уверены, что хотите удалить?</p>
-      <div class="login__buttons">
-        <button type="button" class="btn btn-save" @click="deleteRecord">удалить</button>
-        <button type="button" class="btn btn-close" @click="closeForm">закрыть</button>
-      </div>
-  </div>
-</template>
-
 <script>
-import {fetchData} from "@/components/services/fetchData.js";
+import { fetchData } from '@/components/services/fetchData.js'
 
 export default {
-  name: "DeleteAlertComponent",
+  name: 'DeleteAlertComponent',
   inject: ['appUrl', 'tokenName'],
   emits: ['closeForm', 'deleted'],
-  props:{
-    deleteUrl: String,
+  props: {
+    deleteUrl: String
   },
   methods: {
     closeForm() {
-      this.$emit('closeForm');
+      this.$emit('closeForm')
     },
     async deleteRecord() {
-      const deletedId = await fetchData(`${this.appUrl}${this.deleteUrl}`, this.tokenName);
-      this.$emit('deleted', deletedId);
-    },
+      const deletedId = await fetchData(`${this.appUrl}${this.deleteUrl}`, this.tokenName)
+      this.$emit('deleted', deletedId)
+    }
   }
-
-
 }
 </script>
+<template>
+  <div class="login__content">
+    <div class="login__header">
+      <p class="active">Выход</p>
+      <span class="login__close" @click="closeForm">&times;</span>
+    </div>
+    <p class="login__text">Вы уверены, что хотите удалить?</p>
+    <div class="login__buttons">
+      <button type="button" class="btn btn-save" @click="deleteRecord">удалить</button>
+      <button type="button" class="btn btn-close" @click="closeForm">закрыть</button>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="scss">
 @import "@/assets/maket/scss/vars";
@@ -65,6 +62,7 @@ export default {
     gap: 6px;
     width: 100%;
   }
+
   &__content {
     margin: 15% auto;
     padding: 16px;
@@ -77,6 +75,7 @@ export default {
     left: 40vw;
     top: 10vh;
   }
+
   &__close {
     color: $colorPrimary800;
     float: right;
