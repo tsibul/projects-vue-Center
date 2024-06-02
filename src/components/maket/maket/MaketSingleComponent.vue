@@ -1,11 +1,11 @@
 <script>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { fetchData } from '@/components/services/fetchData.js'
-import ToFilmComponent from '@/components/maket/maket/ToFilmComponent.vue'
+import MaketGroupComponent from '@/components/maket/maket/MaketGroupComponent.vue'
 
 export default {
   name: 'MaketSingleComponent',
-  components: { ToFilmComponent, FontAwesomeIcon },
+  components: { MaketGroupComponent, FontAwesomeIcon },
   inject: ['appUrl', 'tokenName'],
   emits: ['delete-alert', 'load-maket-file', 'open-files'],
   props: {
@@ -17,9 +17,6 @@ export default {
       deleteUrl: null,
       showDeleteAlert: false,
       currentOrder: this.order,
-      currentGroup: null,
-      connected: null,
-      showToFilm: false,
     }
   },
   methods: {
@@ -57,19 +54,6 @@ export default {
         this.currentOrder.maketList[restoredIndex].maketDeleted = false;
       }
     },
-    selectFilm(group, connected){
-      this.connected = connected;
-      this.currentGroup = group;
-      this.showToFilm = true;
-    },
-    filmSelected(film){
-      this.currentGroup = null;
-      this.showToFilm = false;
-    },
-    closeForm(){
-      this.currentGroup = null;
-      this.showToFilm = false;
-    }
   }
 }
 </script>
@@ -161,42 +145,12 @@ export default {
           <div></div>
           <div></div>
         </div>
-        <div
-          class="maket-single__item"
+        <MaketGroupComponent
           v-for="(group, index) in maket.groups"
-          :key="index">
-          <ToFilmComponent
-            :connected="connected"
-            :group="currentGroup"
-            v-if="showToFilm"
-            @film-selected="filmSelected"
-            @close-form="closeForm"
-          />
-          <div>{{ group.name.replaceAll('()', ' ') }}</div>
-          <div></div>
-          <button
-            class="btn btn-save-inverted tooltip"
-            @click="selectFilm(group, true)"
-          >
-            <font-awesome-icon :icon="['fas', 'pencil']" />
-            &nbsp;
-            <font-awesome-icon :icon="['fas', 'angle-right']" />
-            &nbsp;
-            <font-awesome-icon :icon="['fas', 'film']" />
-            <div class="tooltip-text">на&nbsp;пленку</div>
-          </button>
-          <button
-            class="btn btn-close-inverted tooltip btn-dropdown"
-            @click="selectFilm(group, false)"
-          >
-            <font-awesome-icon :icon="['fas', 'film']" />
-            &nbsp;
-            <font-awesome-icon :icon="['fas', 'angle-right']" />
-            &nbsp;
-            <font-awesome-icon :icon="['fas', 'trash']" />
-            <div class="tooltip-text">ошибка&nbsp;в&nbsp;пленке</div>
-          </button>
-        </div>
+          :key="index"
+          :group="group"
+        />
+
       </details>
     </div>
   </div>
