@@ -33,6 +33,11 @@ export default {
     (async () => {
       await this.filmListCreate()
     })()
+  },
+  watch:{
+    async connected() {
+      await this.filmListCreate();
+    }
   }
 }
 </script>
