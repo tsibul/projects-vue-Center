@@ -16,17 +16,17 @@ export default {
   },
   methods: {
     selectFilm(group, connected) {
-      this.connected = connected;
-      this.currentGroup = group;
-      this.showToFilm = true;
+      this.connected = connected
+      this.currentGroup = group
+      this.showToFilm = true
     },
-    filmSelected(film) {
-      this.currentGroup = null;
-      this.showToFilm = false;
+    filmSelected() {
+      this.currentGroup = null
+      this.showToFilm = false
     },
     closeFilm() {
-      this.currentGroup = null;
-      this.showToFilm = false;
+      this.currentGroup = null
+      this.showToFilm = false
     }
   }
 }
@@ -44,7 +44,15 @@ export default {
       @close-form="closeFilm"
     />
     <div>{{ group.name.replaceAll('()', ' ') }}</div>
-    <div></div>
+    <div class="film-list">
+      <div
+        v-for="(film, index) in group.films"
+        :key="index"
+        :class="!film.dateSent ? 'film-list_red' : ''"
+      >
+        {{ film.film_number }}&nbsp;от&nbsp;{{ film.dateSent ? film.dateSent : film.dateCreate }},&nbsp;
+      </div>
+    </div>
     <button
       class="btn btn-save-inverted tooltip"
       @click="selectFilm(group, true)"
@@ -57,7 +65,7 @@ export default {
       <div class="tooltip-text">на&nbsp;пленку</div>
     </button>
     <button
-      class="btn btn-close-inverted tooltip btn-dropdown"
+      class="btn btn-close-inverted tooltip"
       @click="selectFilm(group, false)"
     >
       <font-awesome-icon :icon="['fas', 'film']" />
@@ -94,4 +102,11 @@ export default {
   top: -2.0rem;
 }
 
+.film-list {
+  @include d-flex-center(flex-start);
+
+  &_red {
+    color: red;
+  }
+}
 </style>
