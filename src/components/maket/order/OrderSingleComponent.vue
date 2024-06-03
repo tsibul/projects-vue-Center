@@ -122,7 +122,7 @@ details[open] {
 }
 
 .customer_name {
-  text-wrap: normal;
+  text-wrap: balance;
 }
 
 .deleted {
