@@ -13,39 +13,53 @@ export default {
     return {
       currentGroup: this.group,
       currentFilm: null,
-      filmList: null
+      filmList: null,
+      currentFilmList: null
     }
   },
   methods: {
     async filmListCreate() {
-      const url = `${this.appUrl}film_list_for_group/${this.group.id}/${this.connected ? 1 : 0}`
-      this.filmList = await fetchData(url, this.tokenName)
+      const url = `${this.appUrl}film_list_for_group/${this.group.id}/${this.connected ? 1 : 0}`;
+      this.filmList = await fetchData(url, this.tokenName);
+      this.currentFilmList = this.filmList;
     },
     async selectFilm(filmId) {
-      if(this.connected){
+      if (this.connected) {
         const url = `${this.appUrl}group_to_film/${this.currentGroup.id}/${filmId}`;
         const response = await fetchData(url, this.tokenName);
         this.currentGroup.films.push(response);
-        this.$emit('close-form')
+        this.$emit('close-form');
+      } else {
+        const url = `${this.appUrl}group_from_film/${this.currentGroup.id}/${filmId}`;
+        const response = await fetchData(url, this.tokenName);
+        const deletedIndex = this.currentGroup.films.findIndex(el => el.id === response.id);
+        this.currentGroup.films.splice(deletedIndex, 1);
+        this.$emit('close-form');
       }
-
     },
-    closeForm(event){
+    closeForm(event) {
       event.stopPropagation();
       this.$emit('close-form');
     }
   },
   created() {
     (async () => {
-      await this.filmListCreate()
+      await this.filmListCreate();
     })()
   },
-  watch:{
+  watch: {
     async connected() {
       await this.filmListCreate();
     },
-    async currentGroup(){
+    async currentGroup() {
       await this.filmListCreate();
+    },
+    currentFilm(newValue) {
+      this.currentFilmList = this.filmList.filter(el => (
+        el.film_number.toString().includes(newValue.toString()) ||
+        el.dateCreate.includes(newValue.toString()) ||
+        (el.dateSent ? el.dateSent.includes(newValue.toString()) : false)
+      ));
     }
   }
 }
@@ -69,7 +83,7 @@ export default {
         @click="selectFilm(0)"
       >новая
       </li>
-      <li v-for="(film, index) in filmList"
+      <li v-for="(film, index) in currentFilmList"
           :key="index"
           :class="!film.dateSent ? 'to-film__list_red' : ''"
           @click="selectFilm(film.id)"
