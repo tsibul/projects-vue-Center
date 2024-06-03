@@ -21,7 +21,13 @@ export default {
       const url = `${this.appUrl}film_list_for_group/${this.group.id}/${this.connected ? 1 : 0}`
       this.filmList = await fetchData(url, this.tokenName)
     },
-    selectFilm(filmId) {
+    async selectFilm(filmId) {
+      if(this.connected){
+        const url = `${this.appUrl}group_to_film/${this.currentGroup.id}/${filmId}`;
+        const response = await fetchData(url, this.tokenName);
+        this.currentGroup.films.push(response);
+        this.$emit('close-form')
+      }
 
     },
     closeForm(event){
@@ -36,6 +42,9 @@ export default {
   },
   watch:{
     async connected() {
+      await this.filmListCreate();
+    },
+    async currentGroup(){
       await this.filmListCreate();
     }
   }
@@ -56,6 +65,7 @@ export default {
       v-model="currentFilm">
     <ul class="to-film__list">
       <li
+        v-if="connected"
         @click="selectFilm(0)"
       >новая
       </li>
@@ -64,7 +74,7 @@ export default {
           :class="!film.dateSent ? 'to-film__list_red' : ''"
           @click="selectFilm(film.id)"
       >
-        {{ film.number }}&nbsp;от&nbsp;{{ film.dateSent ? film.dateSent : film.dateCreate }}
+        {{ film.film_number }}&nbsp;от&nbsp;{{ film.dateSent ? film.dateSent : film.dateCreate }}
       </li>
     </ul>
   </div>
