@@ -54,8 +54,8 @@ export default {
         <button class="btn btn-neutral-inverted tooltip"
                 v-if="!order.deleted"
                 @click="toMaket(order.pk)"
-        >макет
-          <div class="tooltip-text">перейти&nbsp;в&nbsp;макет</div>
+        >в&nbsp;шаблон
+          <div class="tooltip-text">перейти&nbsp;в&nbsp;шаблон&nbsp;макета</div>
         </button>
       <button class="btn btn-save-inverted tooltip"
               @click="handleOpenFiles">

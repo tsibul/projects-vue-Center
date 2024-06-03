@@ -67,7 +67,7 @@ export default {
     }
     this.buttonList = {
       'maket': {
-        'title': 'в макет',
+        'title': 'в шаблон',
         'class': 'btn-neutral',
         'function': this.toMaket
       },
