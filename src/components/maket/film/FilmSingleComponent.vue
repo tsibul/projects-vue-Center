@@ -39,6 +39,7 @@ export default {
         v-for="(group, index) in film.groups"
         :key="index"
         :group="group"
+        :film-id="film.id"
       />
     </div>
   </details>

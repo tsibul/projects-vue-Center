@@ -7,6 +7,7 @@ export default {
   components: { FilmGroupCommentComponent },
   inject: ['appUrl', 'tokenName'],
   props: {
+    filmId: Number,
     group: Object
   },
   data() {
@@ -28,6 +29,20 @@ export default {
     },
     showComment(){
       this.commentShow = true
+    },
+    async restoreGroup(){
+      const url = `${this.appUrl}film_group_to_film/${this.group.id}/${this.filmId}`;
+      const response = await fetchData(url, this.tokenName);
+      if(response.id === this.filmId){
+        this.currentGroup.deleted = false
+      }
+    },
+    async deleteGroup(){
+      const url = `${this.appUrl}film_group_from_film/${this.group.id}/${this.filmId}`;
+      const response = await fetchData(url, this.tokenName);
+      if(response.id === this.filmId){
+        this.currentGroup.deleted = true
+      }
     },
   }
 }
@@ -74,12 +89,14 @@ export default {
     </button>
     <button
       v-if="!group.deleted"
+      @click="deleteGroup"
       class="btn btn-close-inverted font__14  tooltip">
       <font-awesome-icon :icon="['fas', 'x']" />
       <div class="tooltip-text">убрать&nbsp;с&nbsp;пленки</div>
     </button>
     <button
       v-else
+      @click="restoreGroup"
       class="btn btn-save-inverted font__14  tooltip">
       <font-awesome-icon :icon="['fas', 'check']" />
       <div class="tooltip-text">вернуть&nbsp;на&nbsp;пленку</div>
