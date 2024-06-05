@@ -87,8 +87,9 @@ export default {
         <div>формат</div>
         <div>файл</div>
         <div>статус</div>
-        <div></div>
-        <button type="button" class="btn btn-save">новая&nbsp;пленка</button>
+        <div class="film__buttons">
+          <button type="button" class="btn btn-save">новая&nbsp;пленка</button>
+        </div>
       </div>
       <FilmSingleComponent
         v-for="(film, index) in filmList"
@@ -113,13 +114,20 @@ export default {
     padding: 4px 0 4px 12px;
     border-radius: 10px;
     flex-wrap: nowrap;
-    grid-template-columns: 1fr 2fr 2fr 2fr 6fr 1fr 2fr 2fr;
+    grid-template-columns: 1fr 2fr 2fr 2fr 6fr 1fr 3fr;
     margin-right: 19px;
   }
 
   &__list {
     max-height: calc(100vh - 170px);
     overflow-y: auto;
+  }
+
+  &__buttons{
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr;
+
   }
 }
 </style>
