@@ -1,4 +1,6 @@
 <script>
+import { submitForm } from '@/components/services/submitForm.js'
+
 export default {
   name: 'FilmGroupCommentComponent',
   inject: ['appUrl', 'tokenName'],
@@ -8,13 +10,23 @@ export default {
   },
   data() {
     return {
-      currentGroup: this.group
+      currentGroup: this.group,
+      comment: this.group.comment,
     }
   },
   methods: {
-    closeForm(event) {
-      event.stopPropagation()
+    closeForm() {
+      // event.stopPropagation()
       this.$emit('close-form')
+    },
+    async setComment(){
+      const url = `${this.appUrl}set_film_comment/${this.group.id}`
+      const formData = {'comment': this.comment}
+      const response = await submitForm(url,this.tokenName,formData)
+      if(response === this.group.id){
+        this.currentGroup.comment = this.comment
+        this.closeForm()
+      }
     }
   }
 }
@@ -25,20 +37,25 @@ export default {
     <div class="comment__header">
       <div>{{ group.item }}&nbsp;{{ group.printName }}&nbsp;(комментарий)</div>
       <span class="import__close"
-            @click="closeForm($event)">&times;</span>
+            @click="closeForm">&times;</span>
     </div>
     <input
       type="text"
       class="form-input comment__input"
-      v-model="currentGroup.comment">
+      v-model="comment">
     <div class="comment__buttons">
       <button
         class="btn btn-close"
-        @click="closeForm($event)"
+        @click="closeForm"
       >
         отменить
       </button>
-      <button class="btn btn-save">сохранить</button>
+      <button
+        class="btn btn-save"
+        @click="setComment"
+      >
+        сохранить
+      </button>
     </div>
   </div>
 </template>

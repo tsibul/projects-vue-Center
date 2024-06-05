@@ -25,7 +25,10 @@ export default {
     },
     closeComment(){
       this.commentShow = false
-    }
+    },
+    showComment(){
+      this.commentShow = true
+    },
   }
 }
 </script>
@@ -59,7 +62,7 @@ export default {
     </button>
     <button
       class="btn btn-neutral-inverted font__14 tooltip comment"
-      @click="commentShow=!commentShow"
+      @click="showComment"
     >
       <font-awesome-icon :icon="['far', 'comment']" />
       <div class="tooltip-text">поменять&nbsp;/&nbsp;добавить&nbsp;комментарий</div>
