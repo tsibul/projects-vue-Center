@@ -1,27 +1,45 @@
 <script>
 import FilmGroupSingleComponent from '@/components/maket/film/FilmGroupSingleComponent.vue'
 import { fetchData } from '@/components/services/fetchData.js'
+import FileImportComponent from '@/components/file_import/FileImportComponent.vue'
 
 export default {
   name: 'FilmSingleComponent',
-  components: { FilmGroupSingleComponent },
+  components: { FileImportComponent, FilmGroupSingleComponent },
   inject: ['appUrl', 'tokenName'],
   props: {
     film: Object
   },
-  data(){
-    return{
+  data() {
+    return {
       currentFilm: this.film,
       filmEditShow: false,
       loadFileShow: false
     }
   },
   methods: {
-    async filmToggleDeleted(){
+    async filmToggleDeleted() {
       const url = `${this.appUrl}film_delete/${this.film.id}`
       const response = await fetchData(url, this.tokenName)
-      if(response.id === this.film.id){
+      if (response.id === this.film.id) {
         this.currentFilm.deleted = !this.currentFilm.deleted
+      }
+    },
+    async saveFilmFile() {
+      const url = `${this.appUrl}film_file_save/${this.film.id}`
+      const response = await fetchData(url, this.tokenName)
+      if (response) {
+        this.currentFilm.file = response
+      }
+    },
+    async downloadFilm(event){
+      event.preventDefault()
+      const fileUrl = `${this.appUrl}film_load/${this.film.id}`
+      const response = await fetchData(fileUrl, this.tokenName)
+      if (response) {
+        window.location.href = fileUrl
+      } else {
+        alert('ошибка загрузки')
       }
     },
   }
@@ -35,7 +53,12 @@ export default {
       <div :class="film.deleted ? 'inactive' : ''">{{ film.dateCreate }}</div>
       <div :class="film.deleted ? 'inactive' : ''">{{ film.dateSent }}</div>
       <div :class="film.deleted ? 'inactive' : ''">{{ film.format }}</div>
-      <div :class="film.deleted ? 'inactive' : ''">{{ film.file }}</div>
+      <div
+        class="film-summary__file"
+        :class="film.deleted ? 'inactive' : ''"
+        @click="downloadFilm($event)"
+      >{{ film.file }}
+      </div>
       <div :class="film.deleted ? 'inactive' : ''">{{ film.status ? 'ok' : 'ошибка' }}</div>
       <div class="film-summary__buttons">
         <button
@@ -45,7 +68,9 @@ export default {
           <div class="tooltip-text">редактировать&nbsp;пленку</div>
         </button>
         <button
-          class="btn btn-neutral-inverted tooltip">
+          class="btn btn-neutral-inverted tooltip"
+          @click="loadFileShow=true"
+        >
           <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" />
           <div class="tooltip-text">загрузить&nbsp;файл</div>
         </button>
@@ -87,6 +112,12 @@ export default {
       />
     </div>
   </details>
+  <FileImportComponent
+    v-if="loadFileShow"
+    :file-type="'.cdr'"
+    @close-form="loadFileShow=false"
+    @file-loaded="saveFilmFile"
+  />
 
 </template>
 
@@ -119,7 +150,14 @@ export default {
     align-items: center;
     grid-template-columns: repeat(3, 1fr);
     gap: 4px;
+  }
 
+  &__file {
+    &:hover {
+      color: $colorPrimary600;
+      font-weight: 700;
+      text-decoration: underline;
+    }
   }
 }
 
