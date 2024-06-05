@@ -15,17 +15,17 @@ export default {
     }
   },
   methods: {
-    closeForm() {
-      // event.stopPropagation()
+    closeForm(event) {
+      event.stopPropagation()
       this.$emit('close-form')
     },
-    async setComment(){
+    async setComment(event){
       const url = `${this.appUrl}set_film_comment/${this.group.id}`
       const formData = {'comment': this.comment}
       const response = await submitForm(url,this.tokenName,formData)
       if(response === this.group.id){
         this.currentGroup.comment = this.comment
-        this.closeForm()
+        this.closeForm(event)
       }
     }
   }
@@ -37,7 +37,7 @@ export default {
     <div class="comment__header">
       <div>{{ group.item }}&nbsp;{{ group.printName }}&nbsp;(комментарий)</div>
       <span class="import__close"
-            @click="closeForm">&times;</span>
+            @click="closeForm($event)">&times;</span>
     </div>
     <input
       type="text"
@@ -46,13 +46,13 @@ export default {
     <div class="comment__buttons">
       <button
         class="btn btn-close"
-        @click="closeForm"
+        @click="closeForm($event)"
       >
         отменить
       </button>
       <button
         class="btn btn-save"
-        @click="setComment"
+        @click="setComment($event)"
       >
         сохранить
       </button>
