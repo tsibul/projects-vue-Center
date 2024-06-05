@@ -96,6 +96,7 @@ export default {
     position: absolute;
     left: 70vw;
     top: 25vh;
+    z-index: 10;
   }
 
   &__input-frame {
