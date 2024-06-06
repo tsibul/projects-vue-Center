@@ -1,5 +1,4 @@
 <script>
-import { authMixin } from '@/components/auth/authMixin.js'
 import { modalDragAndDrop } from '@/components/modal_drag_drop/modalDragAndDrop.js'
 import { stringToDate } from '@/components/services/reformatDate.js'
 
