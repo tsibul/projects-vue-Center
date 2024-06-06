@@ -2,10 +2,11 @@
 import FilmGroupSingleComponent from '@/components/maket/film/FilmGroupSingleComponent.vue'
 import { fetchData } from '@/components/services/fetchData.js'
 import FileImportComponent from '@/components/file_import/FileImportComponent.vue'
+import FilmUpdateComponent from '@/components/maket/film/FilmUpdateComponent.vue'
 
 export default {
   name: 'FilmSingleComponent',
-  components: { FileImportComponent, FilmGroupSingleComponent },
+  components: { FilmUpdateComponent, FileImportComponent, FilmGroupSingleComponent },
   inject: ['appUrl', 'tokenName'],
   props: {
     film: Object
@@ -63,6 +64,7 @@ export default {
       <div class="film-summary__buttons">
         <button
           class="btn btn-save-inverted tooltip"
+          @click="filmEditShow=true"
         >
           <font-awesome-icon :icon="['far', 'pen-to-square']" />
           <div class="tooltip-text">редактировать&nbsp;пленку</div>
@@ -117,6 +119,11 @@ export default {
     :file-type="'.cdr'"
     @close-form="loadFileShow=false"
     @file-loaded="saveFilmFile"
+  />
+  <FilmUpdateComponent
+    v-if="filmEditShow"
+    :film="film"
+    @close-film="filmEditShow=false"
   />
 
 </template>
