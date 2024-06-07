@@ -1,6 +1,7 @@
 <script>
 import { modalDragAndDrop } from '@/components/modal_drag_drop/modalDragAndDrop.js'
 import { stringToDate } from '@/components/services/reformatDate.js'
+import { submitForm } from '@/components/services/submitForm.js'
 
 export default {
   name: 'FilmUpdateComponent',
@@ -16,12 +17,14 @@ export default {
       showStatus: false,
       showFormat: false,
       format: this.film.format,
-      status: this.film.status
+      status: this.film.status,
+      filmNumber: this.film.filmNumber,
+      dateSent: stringToDate(this.film.dateSent)
     }
   },
   methods: {
     stringToDate,
-    closeForm() {
+    closeFilm() {
       this.$emit('close-film')
     },
     selectFormat(format) {
@@ -31,21 +34,43 @@ export default {
     selectStatus(status) {
       this.status = status
       this.showStatus = false
-    }
-
+    },
+    updateFilm() {
+      const formData = {
+        'format': this.format,
+        'status': this.status,
+        'film_number': this.filmNumber,
+        'date_sent': this.dateSent
+      }
+      const filmId = this.film ? this.film.id : 0
+      const url = `${this.appUrl}film_update/${filmId}`
+      submitForm(url, this.tokenName, formData).then(response => {
+        if (response) {
+          if (!filmId) {
+            this.currentFilm = {}
+          }
+          this.currentFilm.status = response.status
+          this.currentFilm.format = response.format
+          this.currentFilm.filmNumber = response.filmNumber
+          this.currentFilm.dateSent = response.dateSent
+          this.currentFilm.dateCreate = response.dateCreate
+          this.currentFilm.id = response.id
+          this.closeFilm()
+        }})
+      }
+    },
   }
-}
 </script>
 
 <template>
   <div class="film-update" ref="modalDraggable"
-       @mousedown="startDrag"
-       @mouseup="stopDrag"
-       @mousemove="drag">
+        @mousedown="startDrag"
+        @mouseup="stopDrag"
+        @mousemove="drag">
     <div class="film-update__header">
       <div>{{ film ? 'редактировать пленку' : 'создать пленку' }}</div>
       <span class="import__close"
-            @click="closeForm($event)">&times;</span>
+            @click="closeFilm($event)">&times;</span>
     </div>
     <div class="film-update__content">
       <div class="film-update__row">
@@ -55,7 +80,7 @@ export default {
             type="number"
             class="form-input input-small"
             id="film-number"
-            :value="film.filmNumber"
+            v-model="filmNumber"
           >
         </div>
         <div class="film-update__row-block">
@@ -65,6 +90,7 @@ export default {
             class="form-input"
             id="film-date"
             :value="stringToDate(film.dateCreate)"
+            readonly
           >
         </div>
       </div>
@@ -76,7 +102,7 @@ export default {
           type="date"
           class="form-input"
           id="film-date"
-          :value="stringToDate(film.dateSent)"
+          v-model="dateSent"
         >
         </span>
       </div>
@@ -162,10 +188,12 @@ export default {
       <div class="film-update__buttons">
         <button
           class="btn btn-close"
-          @click="closeForm($event)">закрыть
+          @click="closeFilm($event)">закрыть
         </button>
         <button
-          class="btn btn-save">
+          class="btn btn-save"
+          @click="updateFilm"
+        >
           сохранить
         </button>
       </div>
