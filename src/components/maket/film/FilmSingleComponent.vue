@@ -3,10 +3,11 @@ import FilmGroupSingleComponent from '@/components/maket/film/FilmGroupSingleCom
 import { fetchData } from '@/components/services/fetchData.js'
 import FileImportComponent from '@/components/file_import/FileImportComponent.vue'
 import FilmUpdateComponent from '@/components/maket/film/FilmUpdateComponent.vue'
+import FilmUpdateWithListComponent from '@/components/maket/film/FilmUpdateWithListComponent.vue'
 
 export default {
   name: 'FilmSingleComponent',
-  components: { FilmUpdateComponent, FileImportComponent, FilmGroupSingleComponent },
+  components: { FilmUpdateWithListComponent, FilmUpdateComponent, FileImportComponent, FilmGroupSingleComponent },
   inject: ['appUrl', 'tokenName'],
   props: {
     film: Object
@@ -43,7 +44,11 @@ export default {
       } else {
         alert('ошибка загрузки')
       }
-    }
+    },
+    listUpdated(data){
+      this.currentFilm.groups = this.currentFilm.groups.concat(data)
+      this.loadGroupsShow = false
+    },
   }
 }
 </script>
@@ -134,6 +139,13 @@ export default {
     v-if="filmEditShow"
     :film="film"
     @close-film="filmEditShow=false"
+  />
+  <FilmUpdateWithListComponent
+    v-if="loadGroupsShow"
+    :film="film"
+    :groups="film.groups"
+    @close-list="loadGroupsShow=false"
+    @update-list="listUpdated"
   />
 
 </template>
