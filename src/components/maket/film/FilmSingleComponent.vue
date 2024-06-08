@@ -15,7 +15,8 @@ export default {
     return {
       currentFilm: this.film,
       filmEditShow: false,
-      loadFileShow: false
+      loadFileShow: false,
+      loadGroupsShow: false
     }
   },
   methods: {
@@ -33,7 +34,7 @@ export default {
         this.currentFilm.file = response
       }
     },
-    async downloadFilm(event){
+    async downloadFilm(event) {
       event.preventDefault()
       const fileUrl = `${this.appUrl}film_load/${this.film.id}`
       const response = await fetchData(fileUrl, this.tokenName)
@@ -42,7 +43,7 @@ export default {
       } else {
         alert('ошибка загрузки')
       }
-    },
+    }
   }
 }
 </script>
@@ -54,11 +55,13 @@ export default {
       <div :class="film.deleted ? 'inactive' : ''">{{ film.dateCreate }}</div>
       <div :class="film.deleted ? 'inactive' : ''">{{ film.dateSent }}</div>
       <div :class="film.deleted ? 'inactive' : ''">{{ film.format }}</div>
-      <div
-        class="film-summary__file"
-        :class="film.deleted ? 'inactive' : ''"
-        @click="downloadFilm($event)"
-      >{{ film.file }}
+      <div>
+        <div
+          class="film-summary__file"
+          :class="film.deleted ? 'inactive' : ''"
+          @click="downloadFilm($event)"
+        >{{ film.file }}
+        </div>
       </div>
       <div :class="film.deleted ? 'inactive' : ''">{{ film.status ? 'ok' : 'ошибка' }}</div>
       <div class="film-summary__buttons">
@@ -68,6 +71,13 @@ export default {
         >
           <font-awesome-icon :icon="['far', 'pen-to-square']" />
           <div class="tooltip-text">редактировать&nbsp;пленку</div>
+        </button>
+        <button
+          class="btn btn-save-inverted tooltip"
+          @click="loadGroupsShow=true"
+        >
+          <font-awesome-icon :icon="['fas', 'list-check']" />
+          <div class="tooltip-text">несколько&nbsp;нанесений&nbsp;на&nbsp;пленку</div>
         </button>
         <button
           class="btn btn-neutral-inverted tooltip"
@@ -149,17 +159,18 @@ export default {
   padding: 4px 0 4px 12px;
   border-radius: 10px;
   flex-wrap: nowrap;
-  grid-template-columns: 1fr 2fr 2fr 2fr 6fr 1fr 3fr;
+  grid-template-columns: 1fr 2fr 2fr 2fr 6fr 1fr 4fr;
   margin-right: 19px;
 
   &__buttons {
     display: grid;
     align-items: center;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 4px;
   }
 
   &__file {
+    width: fit-content;
     &:hover {
       color: $colorPrimary600;
       font-weight: 700;
