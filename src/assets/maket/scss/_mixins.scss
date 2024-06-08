@@ -1,7 +1,5 @@
 @import "vars";
 
-@import "vars";
-
 @mixin brd-standard() {
   border: 1px solid $colorPrimary800;
   border-radius: 10px;
@@ -11,4 +9,8 @@
   display: flex;
   align-items: center;
   justify-content: $position;
+}
+
+@mixin modal-shadow() {
+  box-shadow: 6px 6px 12px $colorPrimary800;
 }
