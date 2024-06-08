@@ -96,6 +96,12 @@ export default {
         <div>файл</div>
         <div>статус</div>
         <div class="film__buttons">
+          <FilmUpdateComponent
+            v-if="showNewFilm"
+            :film="newFilm"
+            @close-film="showNewFilm = false"
+            @update-film="updateFilm"
+          />
           <button
             type="button"
             class="btn btn-save"
@@ -103,12 +109,6 @@ export default {
 
           >
             новая&nbsp;пленка
-            <FilmUpdateComponent
-              v-if="showNewFilm"
-              :film="newFilm"
-              @close-film="showNewFilm = false"
-              @update-film="updateFilm"
-            />
           </button>
         </div>
       </div>
