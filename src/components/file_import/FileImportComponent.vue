@@ -97,6 +97,7 @@ export default {
     left: 70vw;
     top: 25vh;
     z-index: 10;
+    @include modal-shadow;
   }
 
   &__input-frame {
