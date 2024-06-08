@@ -268,6 +268,7 @@ export default {
 .check {
   accent-color: $colorPrimary500;
   cursor: pointer;
+  max-height: 0.8rem;
 }
 
 .tooltip {
