@@ -56,20 +56,21 @@ export default {
           this.currentFilm.dateCreate = response.dateCreate
           this.currentFilm.id = response.id
           this.closeFilm()
-          if(filmId === 0){
+          if (filmId === 0) {
             this.$emit('update-film', this.currentFilm)
           }
-        }})
-      }
-    },
+        }
+      })
+    }
   }
+}
 </script>
 
 <template>
   <div class="film-update" ref="modalDraggable"
-        @mousedown="startDrag"
-        @mouseup="stopDrag"
-        @mousemove="drag">
+       @mousedown="startDrag"
+       @mouseup="stopDrag"
+       @mousemove="drag">
     <div class="film-update__header">
       <div>{{ film ? 'редактировать пленку' : 'создать пленку' }}</div>
       <span class="import__close"
@@ -216,7 +217,7 @@ export default {
   left: 40%;
   top: 30%;
   padding: 12px;
-  //min-width: 480px;
+  @include modal-shadow;
   background-color: $colorSecondary50;
 
   &__header {
