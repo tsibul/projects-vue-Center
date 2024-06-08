@@ -2,11 +2,14 @@
 import ClauseHeadingComponent from '@/components/maket/ClauseHeadingComponent.vue'
 import { fetchData } from '@/components/services/fetchData.js'
 import FilmSingleComponent from '@/components/maket/film/FilmSingleComponent.vue'
+import FilmUpdateComponent from '@/components/maket/film/FilmUpdateComponent.vue'
+import { currentDateToString } from '@/components/services/currentDateToString.js'
 
 export default {
   name: 'FilmComponent',
   inject: ['appUrl', 'tokenName'],
   components: {
+    FilmUpdateComponent,
     FilmSingleComponent,
     ClauseHeadingComponent
   },
@@ -17,7 +20,9 @@ export default {
       searchString: 'default',
       idLast: 0,
       showDeleteAlert: false,
-      deleteUrl: null
+      deleteUrl: null,
+      showNewFilm: false,
+      newFilm: { 'id': 0, 'dateCreate': currentDateToString(), 'format': 'A5', 'status': true }
     }
   },
   methods: {
@@ -54,6 +59,9 @@ export default {
       this.idLast = 0
       this.filmList = []
       this.addNextRecords()
+    },
+    updateFilm(data) {
+      this.filmList.unshift(data)
     }
   },
   watch: {
@@ -88,7 +96,20 @@ export default {
         <div>файл</div>
         <div>статус</div>
         <div class="film__buttons">
-          <button type="button" class="btn btn-save">новая&nbsp;пленка</button>
+          <button
+            type="button"
+            class="btn btn-save"
+            @click="showNewFilm = true"
+
+          >
+            новая&nbsp;пленка
+            <FilmUpdateComponent
+              v-if="showNewFilm"
+              :film="newFilm"
+              @close-film="showNewFilm = false"
+              @update-film="updateFilm"
+            />
+          </button>
         </div>
       </div>
       <FilmSingleComponent
@@ -114,7 +135,7 @@ export default {
     padding: 4px 0 4px 12px;
     border-radius: 10px;
     flex-wrap: nowrap;
-    grid-template-columns: 1fr 2fr 2fr 2fr 6fr 1fr 3fr;
+    grid-template-columns: 1fr 2fr 2fr 2fr 6fr 1fr 4fr;
     margin-right: 19px;
   }
 
@@ -123,7 +144,7 @@ export default {
     overflow-y: auto;
   }
 
-  &__buttons{
+  &__buttons {
     display: grid;
     align-items: center;
     grid-template-columns: 1fr;

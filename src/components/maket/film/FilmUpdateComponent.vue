@@ -6,7 +6,7 @@ import { submitForm } from '@/components/services/submitForm.js'
 export default {
   name: 'FilmUpdateComponent',
   inject: ['appUrl', 'tokenName'],
-  emits: ['close-film'],
+  emits: ['close-film', 'update-film'],
   mixins: [modalDragAndDrop],
   props: {
     film: Object
@@ -56,6 +56,9 @@ export default {
           this.currentFilm.dateCreate = response.dateCreate
           this.currentFilm.id = response.id
           this.closeFilm()
+          if(filmId === 0){
+            this.$emit('update-film', this.currentFilm)
+          }
         }})
       }
     },
