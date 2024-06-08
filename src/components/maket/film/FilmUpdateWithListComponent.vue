@@ -9,11 +9,11 @@ export default {
   emits: ['close-list', 'update-list'],
   mixins: [modalDragAndDrop],
   props: {
-    film: Object,
+    film: Object
   },
   data() {
     return {
-      groupList: null,
+      groupList: null
       // currentGroups: this.groups,
     }
   },
@@ -43,10 +43,6 @@ export default {
       submitForm(url, this.tokenName, { 'checked': groupsChecked }).then(response => {
         if (response) {
           this.$emit('update-list', response)
-          // const prevGroups = this.currentGroups.copyWithin(0,0)
-          // this.currentGroups = prevGroups.concat(response)
-          // this.createGroupList()
-          // this.closeFilm(
         }
       })
     }
@@ -138,7 +134,7 @@ export default {
   &__content {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    //gap: 12px;
     max-height: calc(100vh - 250px);
     overflow-y: auto;
   }
@@ -147,7 +143,14 @@ export default {
     display: grid;
     align-items: center;
     grid-template-columns: 1fr 1.5fr 5fr 5fr 4fr 3fr;
+    padding: 5px 0;
     gap: 20px;
+    @include brd-standard;
+    border-color: transparent;
+
+    &:hover {
+      background-color: $colorPrimary200;
+    }
   }
 
   &__buttons {
