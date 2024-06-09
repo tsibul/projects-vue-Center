@@ -46,7 +46,7 @@ export default {
         printItem.checked = true;
       } else {
         this.$emit('print-item-checked', [printItem.id, null]);
-        printItem.checked = true;
+        printItem.checked = false;
       }
     },
     selectAllHandler() {
