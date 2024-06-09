@@ -85,7 +85,9 @@ export default {
             {{ maket.maketNumber }}
           </div>
           <button
-            class="btn btn-save-inverted tooltip"
+            :disabled="maket.maketDeleted"
+            :class="!maket.maketDeleted ? 'tooltip' : 'inactive'"
+            class="btn btn-save-inverted"
             @click="goToMaket($event, order.id, maket.id)"
           >
             <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
