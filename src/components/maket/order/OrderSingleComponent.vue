@@ -4,7 +4,7 @@ import OrderItemComponent from "@/components/maket/order/OrderItemComponent.vue"
 export default {
   name: "OrderSingleComponent",
   components: {OrderItemComponent},
-  emits: ['delete-alert', 'open-files'],
+  emits: ['delete-alert', 'open-files', 'to-check'],
   props: {
     order: Object
   },
@@ -32,6 +32,10 @@ export default {
       const maketId = this.order.maketId ? this.order.maketId : 0;
       window.open(`http://localhost:5173/maket/layout?maketId=${maketId}&orderId=${orderId}`, '_blank');
     },
+    toCheck(event){
+      event.preventDefault()
+      this.$emit('to-check', this.order.pk)
+    }
   },
 }
 </script>
@@ -41,7 +45,10 @@ export default {
     <summary class="order-summary"
              :class="order.deleted ? 'deleted': order.maket_status"
              :data-id="order.pk">
-      <div class="to-check">{{ order.to_check ? '?' : '' }}</div>
+      <div
+        class="to-check"
+        @click="toCheck($event)"
+      >{{ order.to_check ? '?' : '' }}</div>
       <div class="active">{{ order.maket_status }}</div>
       <div class="mail">{{ order.order_number }}</div>
       <div>{{ reformatDate(order.order_date) }}</div>

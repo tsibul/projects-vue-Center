@@ -6,6 +6,7 @@ import OrderSingleComponent from "@/components/maket/order/OrderSingleComponent.
 import FileImportComponent from "@/components/file_import/FileImportComponent.vue";
 import DeleteAlertComponent from "@/components/delete_alert/DeleteAlertComponent.vue";
 import AdditionalFileComponent from "@/components/maket/additional_files/AdditionalFileComponent.vue";
+import OrderErrorComponent from '@/components/maket/order/OrderErrorComponent.vue'
 
 const currentComponent = ref(markRaw(null));
 const showImportForm = () => {
@@ -38,6 +39,8 @@ export default {
       deleteUrl: null,
       openFiles: false,
       filesId: null,
+      openErrors: 0,
+      itemsForErrors: []
     }
   },
   created() {
@@ -127,6 +130,23 @@ export default {
       const orderOld = this.orderList.find((order) => order.pk === reconnectData);
       orderOld.files -= 1;
     },
+    handleCloseError(){
+      this.openErrors = 0;
+      this.itemsForErrors = []
+    },
+    handleSaveConfig(data){
+      const order = this.orderList.filter(el => el.id === this.openErrors)
+      order['items'] = data
+      order['to_check'] = false
+      this.openErrors = 0
+      this.itemsForErrors = []
+    },
+    handleToCheck(id){
+      this.openErrors = id
+      const order = this.orderList.find(el => el.pk === this.openErrors)
+      this.itemsForErrors = order['items']
+
+    }
   },
 }
 </script>
@@ -169,6 +189,7 @@ export default {
           @mouseover="index + 1 === idLast && idLast >= 20 ? addNextRecords() : null"
           @delete-alert="handleDeleteAlert"
           @open-files="handleOpenFiles"
+          @to-check="handleToCheck"
       />
     </div>
   </div>
@@ -190,6 +211,12 @@ export default {
       @one-file-deleted="handleFileDeleted(filesId)"
       @one-file-imported="handleFileImported(filesId)"
       @file-reconnected="handleFileReconnected($event, filesId)"
+  />
+  <OrderErrorComponent
+    v-if="openErrors"
+    :items="itemsForErrors"
+    @close-error="handleCloseError"
+    @save-config="handleSaveConfig"
   />
 </template>
 
