@@ -54,8 +54,10 @@ export default {
         'group_layout': this.maketData['groupLayoutData'],
         'before_footer': this.maketData['beforeFooter']
       }
-      const response = await submitForm(saveUrl, this.tokenName, formData)
-      this.maketId = response.toString()
+      submitForm(saveUrl, this.tokenName, formData).then(response => {
+        this.maketId = response.maketId
+        this.maketData = response
+      })
     },
     contentShow() {
       this.showContent = !this.showContent
