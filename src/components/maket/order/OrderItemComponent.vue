@@ -45,35 +45,12 @@
 </template>
 
 <script>
-import {fetchData} from "@/components/services/fetchData.js";
 
 export default {
   name: "OrderItemComponent",
-  inject: ['appUrl', 'tokenName'],
-  data() {
-    return {
-      items: [],
-    }
-  },
   props: {
-    orderId: Number
+    items: Array
   },
-  methods: {
-    async itemsList() {
-      const itemsUrl = `${this.appUrl}item_list/${this.orderId}`;
-      this.items = await fetchData(itemsUrl, this.tokenName);
-    }
-  },
-  created() {
-    (async () => {
-      await this.itemsList();
-    })();
-  },
-  watch: {
-    async orderId() {
-      await this.itemsList();
-    }
-  }
 }
 </script>
 

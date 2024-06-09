@@ -5,23 +5,21 @@ export default {
   name: "OrderSingleComponent",
   components: {OrderItemComponent},
   emits: ['delete-alert', 'open-files'],
+  props: {
+    order: Object
+  },
   data() {
     return {
-      orderDateLocal: null,
       deleteUrl: null,
       showDeleteAlert: false,
     }
   },
   created() {
-    this.orderDateLocal = this.reformatDate();
     this.deleteUrl = `delete_order/${this.order.pk}`;
   },
-  props: {
-    order: Object
-  },
   methods: {
-    reformatDate() {
-      const date = this.order.order_date.split('-')
+    reformatDate(dateIn) {
+      const date = dateIn.split('-')
       return `${date[2]}.${date[1]}.${date[0].slice(-2)}`
     },
     deleteAlert() {
@@ -46,7 +44,7 @@ export default {
       <div class="to-check">{{ order.to_check ? '?' : '' }}</div>
       <div class="active">{{ order.maket_status }}</div>
       <div class="mail">{{ order.order_number }}</div>
-      <div>{{ orderDateLocal }}</div>
+      <div>{{ reformatDate(order.order_date) }}</div>
       <div>{{ order.our_company__code }}</div>
       <div class="customer_name">{{ order.customer__name }}</div>
       <div>{{ order.manager__name }}</div>
@@ -70,7 +68,7 @@ export default {
       </button>
     </summary>
     <OrderItemComponent
-        :orderId="order.pk"
+        :items="order.items"
     />
   </details>
 </template>
