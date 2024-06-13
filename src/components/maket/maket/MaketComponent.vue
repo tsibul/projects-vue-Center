@@ -207,6 +207,7 @@ export default {
 
 .maket {
   @include brd-standard;
+  border-color: transparent;
 
   &__row {
     display: grid;

@@ -62,7 +62,7 @@ export default {
 .dict-block {
 
   &__header {
-    background-color: $colorPrimary600;
+    background-color: $colorPrimary300;
     border-radius: 10px;
     @include d-flex-center(center);
     padding: 20px;

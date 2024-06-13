@@ -226,9 +226,10 @@ export default {
 
 .order {
   @include brd-standard;
+  border-color: transparent;
 
   &__header {
-    background-color: $colorPrimary600;
+    background-color: $colorPrimary300;
     border-radius: 10px;
     @include d-flex-center(center);
     padding: 12px 20px;

@@ -127,6 +127,7 @@ export default {
 
 .film {
   @include brd-standard;
+  border-color: transparent;
 
   &__row {
     display: grid;
