@@ -14,7 +14,7 @@ export default {
   },
   data() {
     return {
-      currentItems: this.items,
+      currentItems: JSON.parse(JSON.stringify(this.items)),
       draggedItem: null
     }
   },
@@ -27,10 +27,10 @@ export default {
       this.closeError()
     },
     handleItemDrag(id){
-      this.draggedItem = this.items.find(el => el.id === id)
+      this.draggedItem = this.currentItems.find(el => el.id === id)
     },
     handleItemDrop(id){
-      const replacedItem = this.items.find(el => el.id === id)
+      const replacedItem = this.currentItems.find(el => el.id === id)
       const movingData = this.draggedItem.prints
       this.draggedItem.prints = replacedItem.prints
       replacedItem.prints = JSON.parse(JSON.stringify(movingData))
