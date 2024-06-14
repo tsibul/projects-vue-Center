@@ -14,7 +14,8 @@ export default {
   },
   data() {
     return {
-      currentItems: this.items
+      currentItems: this.items,
+      draggedItem: null
     }
   },
   methods: {
@@ -25,13 +26,16 @@ export default {
       this.$emit('save-config')
       this.closeError()
     },
-    handleItemDrag(item){
-
+    handleItemDrag(id){
+      this.draggedItem = this.items.find(el => el.id === id)
     },
-    handleItemDrop(item){
-
+    handleItemDrop(id){
+      const replacedItem = this.items.find(el => el.id === id)
+      const movingData = this.draggedItem.prints
+      this.draggedItem.prints = replacedItem.prints
+      replacedItem.prints = JSON.parse(JSON.stringify(movingData))
+      this.draggedItem = null
     },
-
   }
 }
 </script>

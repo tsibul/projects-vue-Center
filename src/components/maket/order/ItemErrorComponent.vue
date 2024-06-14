@@ -7,25 +7,14 @@ export default {
   },
   data() {
     return {
-      draggedItem: null
     }
   },
   methods: {
-    dragStart(item) {
-      this.draggedItem = item
-      const data = JSON.stringify({ groupKey: this.groupKey, item })
-      event.dataTransfer.setData('text/plain', data)
-      this.$emit('item-drag', { item: this.draggedItem })
+    dragStart(id) {
+      this.$emit('item-drag', id)
     },
-    dragEnd() {
-      this.draggedItem = null
-    },
-    itemDrop(event) {
-      const data = event.dataTransfer.getData('text/plain')
-      const item = JSON.parse(data)
-      if (item.groupKey !== this.groupKey) {
-        this.$emit('item-drop', { item })
-      }
+    itemDrop() {
+        this.$emit('item-drop', this.item.id)
     }
   }
 }
@@ -45,8 +34,7 @@ export default {
     <div
       class="order-item__prints"
       draggable="true"
-      @dragstart="dragStart(item)"
-      @dragend="dragEnd"
+      @dragstart="dragStart(item.id)"
     >
       <div
         class="order-item__print"
