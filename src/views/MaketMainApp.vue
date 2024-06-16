@@ -44,7 +44,7 @@ export default {
 .full-content {
   background-color: $colorSecondary100;
   min-height: calc(100vh);
-  padding-top: 80px;
+  //padding-top: 2px;
 }
 
 .btn {
