@@ -65,7 +65,7 @@ export default {
     background-color: $colorPrimary300;
     border-radius: 10px;
     @include d-flex-center(center);
-    padding: 20px;
+    padding: 12px 20px;
     justify-content: space-between;
   }
 
