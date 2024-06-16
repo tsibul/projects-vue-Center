@@ -72,7 +72,7 @@ export default {
         'function': this.toMaket
       },
       'maket_deleted': {
-        'title': 'в макет',
+        'title': 'в шаблон',
         'class': 'btn-neutral',
         'function': this.toMaket
       },
