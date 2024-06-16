@@ -1,25 +1,24 @@
-
 <script setup>
-import {markRaw, ref} from "vue";
-import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
-import OrderSingleComponent from "@/components/maket/order/OrderSingleComponent.vue";
-import FileImportComponent from "@/components/file_import/FileImportComponent.vue";
-import DeleteAlertComponent from "@/components/delete_alert/DeleteAlertComponent.vue";
-import AdditionalFileComponent from "@/components/maket/additional_files/AdditionalFileComponent.vue";
+import { markRaw, ref } from 'vue'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import OrderSingleComponent from '@/components/maket/order/OrderSingleComponent.vue'
+import FileImportComponent from '@/components/file_import/FileImportComponent.vue'
+import DeleteAlertComponent from '@/components/delete_alert/DeleteAlertComponent.vue'
+import AdditionalFileComponent from '@/components/maket/additional_files/AdditionalFileComponent.vue'
 import OrderErrorComponent from '@/components/maket/order/OrderErrorComponent.vue'
 
-const currentComponent = ref(markRaw(null));
+const currentComponent = ref(markRaw(null))
 const showImportForm = () => {
-  currentComponent.value = markRaw(FileImportComponent);
-};
+  currentComponent.value = markRaw(FileImportComponent)
+}
 const hideImportForm = () => {
-  currentComponent.value = markRaw(null);
-};
+  currentComponent.value = markRaw(null)
+}
 
 </script>
 
 <script>
-import {fetchData} from "@/components/services/fetchData.js";
+import { fetchData } from '@/components/services/fetchData.js'
 import { submitForm } from '@/components/services/submitForm.js'
 
 export default {
@@ -37,107 +36,120 @@ export default {
       showDeleted: 0,
       orderList: [],
       showDeleteAlert: false,
+      showResetAlert: false,
       deleteUrl: null,
       openFiles: false,
       filesId: null,
-      openErrors: 0,
+      openErrors: 0
     }
   },
   created() {
     (async () => {
-      await this.addNextRecords();
-    })();
+      await this.addNextRecords()
+    })()
   },
   methods: {
     async search() {
-      this.idLast = 0;
-      this.orderList = [];
+      this.idLast = 0
+      this.orderList = []
       if (this.searchInput !== '') {
-        this.searchString = this.searchInput;//.replace(' ', '_');
+        this.searchString = this.searchInput//.replace(' ', '_');
       } else {
-        this.searchString = 'default';
+        this.searchString = 'default'
       }
       await this.addNextRecords()
     },
     clearInput() {
-      this.searchInput = '';
+      this.searchInput = ''
     },
     async orderImported(success) {
       if (success) {
-        const orderUrl = `${this.appUrl}import_order`;
-        this.orderData = await fetchData(orderUrl, this.tokenName);
-        const index = this.orderList.findIndex((el) => el.order_number === this.orderData.order_number);
+        const orderUrl = `${this.appUrl}import_order`
+        this.orderData = await fetchData(orderUrl, this.tokenName)
+        const index = this.orderList.findIndex((el) => el.order_number === this.orderData.order_number)
         if (index !== -1) {
-          this.orderList[index] = this.orderData;
+          this.orderList[index] = this.orderData
         } else {
-          this.orderList.unshift(this.orderData);
+          this.orderList.unshift(this.orderData)
         }
       }
     },
     async allOrders() {
-      const ordersUrl = `${this.appUrl}order/${this.idLast}/${this.orderOrder}/${this.searchString}/${this.showDeleted}`;
-      return await fetchData(ordersUrl, this.tokenName);
+      const ordersUrl = `${this.appUrl}order/${this.idLast}/${this.orderOrder}/${this.searchString}/${this.showDeleted}`
+      return await fetchData(ordersUrl, this.tokenName)
     },
     async addNextRecords() {
-      const newData = await this.allOrders();
+      const newData = await this.allOrders()
       if (this.orderList) {
-        this.orderList = [...this.orderList, ...newData];
+        this.orderList = [...this.orderList, ...newData]
       } else {
-        this.orderList = newData;
+        this.orderList = newData
       }
       if (this.orderList.length) {
-        this.idLast = this.orderList.length;
+        this.idLast = this.orderList.length
       }
     },
     async hideDeletedChecked() {
-      this.idLast = 0;
+      this.idLast = 0
       this.orderList = []
       if (this.showDeleted) {
-        this.showDeleted = 0;
+        this.showDeleted = 0
       } else {
-        this.showDeleted = 1;
+        this.showDeleted = 1
       }
-      await this.addNextRecords();
+      await this.addNextRecords()
     },
     handleDeleteAlert(url) {
-      this.deleteUrl = url;
-      this.showDeleteAlert = true;
+      this.deleteUrl = url
+      this.showDeleteAlert = true
+    },
+    handleResetAlert(url) {
+      this.deleteUrl = url
+      this.showResetAlert = true
     },
     handleDeleted(orderDeleted) {
-      const order = this.orderList.find((order) => order.pk === orderDeleted.id);
-      order.deleted = true;
-      this.showDeleteAlert = false;
+      const order = this.orderList.find((order) => order.pk === orderDeleted.id)
+      if (this.showDeleteAlert) {
+        order.deleted = true
+        this.showDeleteAlert = false
+      } else if (this.showResetAlert){
+        order.maket_status = 'N'
+        order.maketQuantity = 0
+        order.maketId = null
+        this.showResetAlert = false
+      }
+      this.deleteUrl = null
     },
     handleCloseFiles() {
-      this.openFiles = false;
-      this.filesId = null;
+      this.openFiles = false
+      this.filesId = null
     },
     handleOpenFiles(orderId) {
-      this.openFiles = true;
-      this.filesId = orderId;
+      this.openFiles = true
+      this.filesId = orderId
     },
-    handleFileDeleted(orderId){
-      const order = this.orderList.find((order) => order.pk === orderId);
-      order.files -= 1;
+    handleFileDeleted(orderId) {
+      const order = this.orderList.find((order) => order.pk === orderId)
+      order.files -= 1
     },
-    handleFileImported(orderId){
-      const order = this.orderList.find((order) => order.pk === orderId);
-      order.files += 1;
+    handleFileImported(orderId) {
+      const order = this.orderList.find((order) => order.pk === orderId)
+      order.files += 1
     },
-    handleFileReconnected(reconnectData, orderId){
-      const orderNew = this.orderList.find((order) => order.pk === orderId);
-      orderNew.files += 1;
-      const orderOld = this.orderList.find((order) => order.pk === reconnectData);
-      orderOld.files -= 1;
+    handleFileReconnected(reconnectData, orderId) {
+      const orderNew = this.orderList.find((order) => order.pk === orderId)
+      orderNew.files += 1
+      const orderOld = this.orderList.find((order) => order.pk === reconnectData)
+      orderOld.files -= 1
     },
-    handleCloseError(){
-      this.openErrors = 0;
+    handleCloseError() {
+      this.openErrors = 0
     },
-    handleSaveConfig(changes, data){
-      const formData =  changes
+    handleSaveConfig(changes, data) {
+      const formData = changes
       const url = `${this.appUrl}fix_order_errors`
       submitForm(url, this.tokenName, formData).then(response => {
-        if(response){
+        if (response) {
           const order = this.orderList.find(el => el.pk === this.openErrors)
           order['items'] = data
           order['items'].forEach(item => {
@@ -148,13 +160,13 @@ export default {
         }
       })
     },
-    handleToCheck(id){
+    handleToCheck(id) {
       this.openErrors = id
       const order = this.orderList.find(el => el.pk === this.openErrors)
       this.itemsForErrors = order['items']
 
     }
-  },
+  }
 }
 </script>
 
@@ -162,7 +174,7 @@ export default {
   <div class="order">
     <div class="order__header active">
       <div>
-        <font-awesome-icon :icon="['far', 'handshake']" class="fa"/>
+        <font-awesome-icon :icon="['far', 'handshake']" class="fa" />
         Заказы
       </div>
       <div class="order__search">
@@ -171,7 +183,7 @@ export default {
                  @change="hideDeletedChecked">
           <label for="hideDeleted">скрыть удаленные</label>
         </div>
-        <font-awesome-icon :icon="['fas', 'magnifying-glass']"/>
+        <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
         <input v-model="searchInput" type="text" class="form-input order__search-input"
                placeholder="искать...">
         <button class="btn btn-save" type="button" @click="search">поиск</button>
@@ -190,34 +202,35 @@ export default {
     </div>
     <div class="order__content">
       <OrderSingleComponent
-          v-for="(order, index) in orderList"
-          :key="order.id"
-          :order="order"
-          @mouseover="index + 1 === idLast && idLast >= 20 ? addNextRecords() : null"
-          @delete-alert="handleDeleteAlert"
-          @open-files="handleOpenFiles"
-          @to-check="handleToCheck"
+        v-for="(order, index) in orderList"
+        :key="order.id"
+        :order="order"
+        @mouseover="index + 1 === idLast && idLast >= 20 ? addNextRecords() : null"
+        @delete-alert="handleDeleteAlert"
+        @open-files="handleOpenFiles"
+        @to-check="handleToCheck"
+        @reset-alert="handleResetAlert"
       />
     </div>
   </div>
   <component
-      :is="currentComponent"
-      :fileType="'.html'"
-      @closeForm="hideImportForm"
-      @file-loaded="orderImported"
+    :is="currentComponent"
+    :fileType="'.html'"
+    @closeForm="hideImportForm"
+    @file-loaded="orderImported"
   />
   <DeleteAlertComponent
-      v-if="showDeleteAlert"
-      @closeForm="showDeleteAlert=false"
-      @deleted="handleDeleted"
-      :deleteUrl="deleteUrl"/>
+    v-if="showDeleteAlert || showResetAlert"
+    @closeForm="showDeleteAlert=false; showResetAlert=false; this.deleteUrl=null"
+    @deleted="handleDeleted"
+    :deleteUrl="deleteUrl" />
   <AdditionalFileComponent
-      v-if="openFiles"
-      @close-files="handleCloseFiles"
-      :orderId="filesId"
-      @one-file-deleted="handleFileDeleted(filesId)"
-      @one-file-imported="handleFileImported(filesId)"
-      @file-reconnected="handleFileReconnected($event, filesId)"
+    v-if="openFiles"
+    @close-files="handleCloseFiles"
+    :orderId="filesId"
+    @one-file-deleted="handleFileDeleted(filesId)"
+    @one-file-imported="handleFileImported(filesId)"
+    @file-reconnected="handleFileReconnected($event, filesId)"
   />
   <OrderErrorComponent
     v-if="openErrors"
