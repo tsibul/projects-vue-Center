@@ -1,9 +1,9 @@
 <script>
-import OrderItemComponent from "@/components/maket/order/OrderItemComponent.vue";
+import OrderItemComponent from '@/components/maket/order/OrderItemComponent.vue'
 
 export default {
-  name: "OrderSingleComponent",
-  components: {OrderItemComponent},
+  name: 'OrderSingleComponent',
+  components: { OrderItemComponent },
   emits: ['delete-alert', 'open-files', 'to-check'],
   props: {
     order: Object
@@ -11,11 +11,11 @@ export default {
   data() {
     return {
       deleteUrl: null,
-      showDeleteAlert: false,
+      showDeleteAlert: false
     }
   },
   created() {
-    this.deleteUrl = `delete_order/${this.order.pk}`;
+    this.deleteUrl = `delete_order/${this.order.pk}`
   },
   methods: {
     reformatDate(dateIn) {
@@ -23,20 +23,20 @@ export default {
       return `${date[2]}.${date[1]}.${date[0].slice(-2)}`
     },
     deleteAlert() {
-      this.$emit('delete-alert', this.deleteUrl);
+      this.$emit('delete-alert', this.deleteUrl)
     },
     handleOpenFiles() {
-      this.$emit('open-files', this.order.pk);
+      this.$emit('open-files', this.order.pk)
     },
-    toMaket(orderId){
-      const maketId = this.order.maketId ? this.order.maketId : 0;
-      window.open(`http://localhost:5173/maket/layout?maketId=${maketId}&orderId=${orderId}`, '_blank');
+    toMaket(orderId) {
+      const maketId = this.order.maketId ? this.order.maketId : 0
+      window.open(`http://localhost:5173/maket/layout?maketId=${maketId}&orderId=${orderId}`, '_blank')
     },
-    toCheck(event){
+    toCheck(event) {
       event.preventDefault()
       this.$emit('to-check', this.order.pk)
     }
-  },
+  }
 }
 </script>
 
@@ -46,9 +46,10 @@ export default {
              :class="order.deleted ? 'deleted': order.maket_status"
              :data-id="order.pk">
       <div
-        class="to-check"
+        :class="order.to_check ? 'to-check' : 'to-check__ok'"
         @click="toCheck($event)"
-      >{{ order.to_check ? '?' : '' }}</div>
+      >{{ order.to_check ? '?' : 'V' }}
+      </div>
       <div class="active">{{ order.maket_status }}</div>
       <div class="mail">{{ order.order_number }}</div>
       <div>{{ reformatDate(order.order_date) }}</div>
@@ -56,15 +57,16 @@ export default {
       <div class="customer_name">{{ order.customer__name }}</div>
       <div>{{ order.manager__name }}</div>
       <div class="mail">{{ order.manager__phone }}&nbsp;{{ order.manager__mail }}</div>
-        <button class="btn btn-neutral-inverted tooltip"
-                v-if="!order.deleted"
-                @click="toMaket(order.pk)"
-        >в&nbsp;шаблон
-          <div class="tooltip-text">перейти&nbsp;в&nbsp;шаблон&nbsp;макета</div>
-        </button>
+      <button class="btn btn-neutral-inverted tooltip"
+              v-if="!order.deleted"
+              @click="toMaket(order.pk)"
+      >в&nbsp;шаблон
+        <div class="tooltip-text">перейти&nbsp;в&nbsp;шаблон&nbsp;макета</div>
+      </button>
       <button class="btn btn-save-inverted tooltip"
               @click="handleOpenFiles">
-        <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" class="fa"/>&nbsp;{{ order.maketQuantity}}&nbsp;/&nbsp;{{order.files}}
+        <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" class="fa" />&nbsp;{{ order.maketQuantity }}&nbsp;/&nbsp;{{ order.files
+        }}
         <div class="tooltip-text">связанные&nbsp;файлы макеты/файлы</div>
       </button>
       <button class="btn btn-close-inverted tooltip"
@@ -75,7 +77,7 @@ export default {
       </button>
     </summary>
     <OrderItemComponent
-        :items="order.items"
+      :items="order.items"
     />
   </details>
 </template>
@@ -104,13 +106,19 @@ details[open] {
   & .btn {
     font-size: 14px;
   }
+}
 
+.to-check {
+  color: red;
+  font-weight: bold;
+  font-size: 18px;
+  padding-left: 8px;
 
-  .to-check {
-    color: red;
-    font-weight: bold;
+  &__ok{
+    //font-weight: bold;
     font-size: 18px;
     padding-left: 8px;
+
   }
 }
 
@@ -135,7 +143,7 @@ details[open] {
   background-color: $colorPrimary200;
 }
 
-.tooltip-text{
+.tooltip-text {
   right: 0;
   top: 2.5rem;
 }
