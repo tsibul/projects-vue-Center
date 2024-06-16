@@ -65,13 +65,15 @@ export default {
 
 .dict-right {
   position: relative;
+  left: 246px;
   display: flex;
+  //align-items: flex-end;
   flex-wrap: wrap;
   //display: grid;
   //grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   //grid-auto-flow: dense;
   gap: 12px;
-  width: 100%;
+  width: calc(100% - 246px);
 }
 
 .hidden{

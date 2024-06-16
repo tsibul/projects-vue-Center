@@ -59,6 +59,8 @@ export default {
   width: 240px;
   margin-right: 20px;
   height: fit-content;
+  position: fixed;
+  top: 2px;
 
   &__details {
     max-height: 64px;
