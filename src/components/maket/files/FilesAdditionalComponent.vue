@@ -80,9 +80,10 @@ export default {
 .files {
   @include brd-standard;
   display: flex;
+  border-color: transparent;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 6px 6px 12px $colorPrimary800;
+  //box-shadow: 6px 6px 12px $colorPrimary800;
   max-height: calc(100vh - 120px);
   grid-row: span 4;
   max-width: 1600px;
