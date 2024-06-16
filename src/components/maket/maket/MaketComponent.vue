@@ -1,5 +1,5 @@
 <script>
-import ClauseHeadingComponent from '@/components/maket/ClauseHeadingComponent.vue'
+import ClauseHeadingComponent from '@/components/menu/ClauseHeadingComponent.vue'
 import DeleteAlertComponent from '@/components/delete_alert/DeleteAlertComponent.vue'
 import MaketSingleComponent from '@/components/maket/maket/MaketSingleComponent.vue'
 import { fetchData } from '@/components/services/fetchData.js'

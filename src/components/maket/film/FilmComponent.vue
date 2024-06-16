@@ -1,5 +1,5 @@
 <script>
-import ClauseHeadingComponent from '@/components/maket/ClauseHeadingComponent.vue'
+import ClauseHeadingComponent from '@/components/menu/ClauseHeadingComponent.vue'
 import { fetchData } from '@/components/services/fetchData.js'
 import FilmSingleComponent from '@/components/maket/film/FilmSingleComponent.vue'
 import FilmUpdateComponent from '@/components/maket/film/FilmUpdateComponent.vue'

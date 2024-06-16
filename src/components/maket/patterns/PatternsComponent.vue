@@ -21,7 +21,7 @@
 <script>
 import TitlePatternComponent from "@/components/maket/patterns/TitlePatternomponent.vue";
 import PatternSetComponent from "@/components/maket/patterns/PatternSetComponent.vue";
-import ClauseHeadingComponent from "@/components/maket/ClauseHeadingComponent.vue";
+import ClauseHeadingComponent from "@/components/menu/ClauseHeadingComponent.vue";
 
 export default {
   name: "PatternsComponent",

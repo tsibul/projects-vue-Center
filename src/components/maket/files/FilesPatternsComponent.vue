@@ -1,5 +1,5 @@
 <script>
-import ClauseHeadingComponent from "@/components/maket/ClauseHeadingComponent.vue";
+import ClauseHeadingComponent from "@/components/menu/ClauseHeadingComponent.vue";
 import FileSetComponent from "@/components/maket/files/FileSetComponent.vue";
 
 export default {
