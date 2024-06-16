@@ -46,6 +46,7 @@ export default {
         <div>{{ print.print_place__name }}</div>
         <div>{{ print.colors }}</div>
         <div>{{ print.second_pass ? 'V' : ''}}</div>
+        <div>{{ print.print_price }}</div>
       </div>
     </div>
   </div>
@@ -90,7 +91,7 @@ export default {
     padding: 2px 0;
     display: grid;
     gap: 2px;
-    grid-template-columns: 2.5fr 3fr 0.3fr 0.3fr;
+    grid-template-columns: 2.5fr 3fr 0.3fr 0.3fr 0.5fr;
     align-items: center;
   }
 }
