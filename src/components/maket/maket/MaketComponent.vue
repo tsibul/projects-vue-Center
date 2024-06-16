@@ -230,7 +230,7 @@ export default {
 
 
   &__content {
-    max-height: calc(100vh - 210px);
+    max-height: calc(100vh - 136px);
     overflow-y: scroll;
     font-size: 15px;
   }
