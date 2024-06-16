@@ -4,18 +4,20 @@ import OrderItemComponent from '@/components/maket/order/OrderItemComponent.vue'
 export default {
   name: 'OrderSingleComponent',
   components: { OrderItemComponent },
-  emits: ['delete-alert', 'open-files', 'to-check'],
+  emits: ['delete-alert', 'open-files', 'to-check', 'reset-alert'],
   props: {
     order: Object
   },
   data() {
     return {
       deleteUrl: null,
+      resetUrl: null,
       showDeleteAlert: false
     }
   },
   created() {
     this.deleteUrl = `delete_order/${this.order.pk}`
+    this.resetUrl = `reset_order/${this.order.pk}`
   },
   methods: {
     reformatDate(dateIn) {
@@ -24,6 +26,9 @@ export default {
     },
     deleteAlert() {
       this.$emit('delete-alert', this.deleteUrl)
+    },
+    resetAlert() {
+      this.$emit('reset-alert', this.resetUrl, this.order.pk)
     },
     handleOpenFiles() {
       this.$emit('open-files', this.order.pk)
@@ -45,11 +50,31 @@ export default {
     <summary class="order-summary"
              :class="order.deleted ? 'deleted': order.maket_status"
              :data-id="order.pk">
-      <div
-        :class="order.to_check ? 'to-check' : 'to-check__ok'"
+      <button
+        class="btn tooltip"
+        :class="order.to_check ? 'close-inverted' : 'save-inverted'"
         @click="toCheck($event)"
-      >{{ order.to_check ? '?' : 'V' }}
-      </div>
+        v-if="order.maket_status === 'N'"
+      >
+        <span
+          v-if="order.to_check"
+          class="tooltip-text tooltip-text__left">
+          проверить и исправить ошибки импорта
+        </span>
+        <span
+          v-else
+          class="tooltip-text tooltip-text__left">
+          поменять соответствие нанесения на детали
+        </span>
+        <font-awesome-icon
+          v-if="order.to_check"
+          class="to-check"
+          :icon="['fas', 'exclamation']" />
+        <font-awesome-icon
+          v-else
+          :icon="['fas', 'check']" />
+      </button>
+      <div v-else></div>
       <div class="active">{{ order.maket_status }}</div>
       <div class="mail">{{ order.order_number }}</div>
       <div>{{ reformatDate(order.order_date) }}</div>
@@ -60,20 +85,36 @@ export default {
       <button class="btn btn-neutral-inverted tooltip"
               v-if="!order.deleted"
               @click="toMaket(order.pk)"
-      >в&nbsp;шаблон
+      >
+        <font-awesome-icon :icon="['fas', 'paintbrush']" />
         <div class="tooltip-text">перейти&nbsp;в&nbsp;шаблон&nbsp;макета</div>
       </button>
       <button class="btn btn-save-inverted tooltip"
               @click="handleOpenFiles">
-        <font-awesome-icon :icon="['fas', 'arrow-up-from-bracket']" class="fa" />&nbsp;{{ order.maketQuantity }}&nbsp;/&nbsp;{{ order.files
+        <font-awesome-icon
+          :icon="['fas', 'arrow-up-from-bracket']"
+          class="fa"
+        />&nbsp;{{ order.maketQuantity }}&nbsp;/&nbsp;{{ order.files
         }}
         <div class="tooltip-text">связанные&nbsp;файлы макеты/файлы</div>
       </button>
       <button class="btn btn-close-inverted tooltip"
               @click="deleteAlert"
               v-if="!order.deleted"
-      >удалить
+      >
+        <font-awesome-icon :icon="['fas', 'x']" />
         <div class="tooltip-text">удалить&nbsp;заказ</div>
+      </button>
+      <button
+        v-if="order.maket_status !== 'N'"
+        class="btn btn-close-inverted tooltip"
+        @click="resetAlert"
+      >
+        <font-awesome-icon
+          :icon="['fas', 'arrows-rotate']" />
+        <div class="tooltip-text">
+          сбросить&nbsp;состояние, при этом все макеты и пленки будут удалены без возможности восстановления
+        </div>
       </button>
     </summary>
     <OrderItemComponent
@@ -97,7 +138,7 @@ details[open] {
   padding: 8px 8px;
   border-radius: 10px;
   flex-wrap: nowrap;
-  grid-template-columns: repeat(2, 0.3fr) 2fr 0.8fr 0.4fr 3fr 1.5fr 2fr repeat(3, 0.7fr);
+  grid-template-columns: repeat(2, 0.3fr) 2fr 0.8fr 0.4fr 3fr 1.5fr 2fr repeat(2, 0.6fr) repeat(2, 0.4fr);
 
   &:hover {
     background-color: $colorPrimary200;
@@ -111,10 +152,9 @@ details[open] {
 .to-check {
   color: red;
   font-weight: bold;
-  font-size: 18px;
-  padding-left: 8px;
+  font-size: 16px;
 
-  &__ok{
+  &__ok {
     //font-weight: bold;
     font-size: 18px;
     padding-left: 8px;
@@ -146,5 +186,36 @@ details[open] {
 .tooltip-text {
   right: 0;
   top: 2.5rem;
+
+  &__left {
+    left: 0;
+    top: 2.5rem;
+    width: 360px;
+  }
 }
+
+.close-inverted {
+  font-size: 16px;
+  border-color: transparent;
+  color: red;
+
+  &:hover {
+    background-color: red;
+    color: $colorPrimary50;
+    & svg{
+      color: $colorPrimary50;
+    }
+  }
+}
+
+.save-inverted {
+  border-color: transparent;
+  color: $colorNeutral600;
+
+  &:hover {
+    background-color: $colorNeutral600;
+    color: $colorPrimary50;
+  }
+}
+
 </style>
