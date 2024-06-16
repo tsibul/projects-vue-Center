@@ -20,6 +20,7 @@ const hideImportForm = () => {
 
 <script>
 import {fetchData} from "@/components/services/fetchData.js";
+import { submitForm } from '@/components/services/submitForm.js'
 
 export default {
   name: 'OrderComponent',
@@ -40,7 +41,6 @@ export default {
       openFiles: false,
       filesId: null,
       openErrors: 0,
-      itemsForErrors: []
     }
   },
   created() {
@@ -132,14 +132,21 @@ export default {
     },
     handleCloseError(){
       this.openErrors = 0;
-      this.itemsForErrors = []
     },
-    handleSaveConfig(data){
-      const order = this.orderList.filter(el => el.id === this.openErrors)
-      order['items'] = data
-      order['to_check'] = false
-      this.openErrors = 0
-      this.itemsForErrors = []
+    handleSaveConfig(changes, data){
+      const formData =  changes
+      const url = `${this.appUrl}fix_order_errors`
+      submitForm(url, this.tokenName, formData).then(response => {
+        if(response){
+          const order = this.orderList.find(el => el.pk === this.openErrors)
+          order['items'] = data
+          order['items'].forEach(item => {
+            item.printsId = item.id
+          })
+          order['to_check'] = false
+          this.openErrors = 0
+        }
+      })
     },
     handleToCheck(id){
       this.openErrors = id
