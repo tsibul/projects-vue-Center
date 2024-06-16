@@ -53,7 +53,7 @@ export default {
   z-index: 15;
   //font-weight: 600;
   padding: 19px 8px;
-  left: calc((100vw - 1600px) / 2 - 72px);
+  left: calc((100vw - 1600px) / 2 - 79px);
   background-color: $colorSecondary400;
   //font-size: 38px;
   //padding: 6px 12px;

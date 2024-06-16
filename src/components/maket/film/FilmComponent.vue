@@ -141,7 +141,7 @@ export default {
   }
 
   &__list {
-    max-height: calc(100vh - 170px);
+    max-height: calc(100vh - 136px);
     overflow-y: auto;
   }
 
