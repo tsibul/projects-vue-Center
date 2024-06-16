@@ -15,7 +15,8 @@ export default {
   data() {
     return {
       currentItems: JSON.parse(JSON.stringify(this.items)),
-      draggedItem: null
+      draggedItem: null,
+      movedPrints: {},
     }
   },
   methods: {
@@ -23,20 +24,27 @@ export default {
       this.$emit('close-error')
     },
     saveConfig() {
-      this.$emit('save-config')
-      this.closeError()
+      const itemsMoved = {}
+      this.currentItems.forEach(el => {
+        itemsMoved[el.id] = el.printsId
+      })
+      this.$emit('save-config', itemsMoved, this.currentItems)
+      // this.closeError()
     },
     handleItemDrag(id){
       this.draggedItem = this.currentItems.find(el => el.id === id)
     },
     handleItemDrop(id){
       const replacedItem = this.currentItems.find(el => el.id === id)
+      const replacedPrintId = replacedItem['printsId']
+      replacedItem['printsId'] = this.draggedItem.printsId
+      this.draggedItem['printsId'] = replacedPrintId
       const movingData = this.draggedItem.prints
       this.draggedItem.prints = replacedItem.prints
       replacedItem.prints = JSON.parse(JSON.stringify(movingData))
       this.draggedItem = null
     },
-  }
+  },
 }
 </script>
 
